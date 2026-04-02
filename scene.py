@@ -132,8 +132,7 @@ class LoadingScene:
         
         if self.done:
             # Switch to the game scene after loading is complete
-            self.app.player = Player(self.app)
-            self.app.scene = Scene(self.app)
+            self.app.scene = MenuScene(self.app)
         else:
             # Simulate loading progress
             self.progress = self.app.done_counter / self.MAX * len( self.messages )
@@ -142,7 +141,7 @@ class LoadingScene:
 
     def draw(self):
         #self.app.screen.fill(BG_COLOR)
-        self.bg_img = pg.image.load('assets/images/splash.png')
+        self.bg_img = pg.image.load('assets/images/loading.png')
         self.bg_img = pg.transform.smoothscale( self.bg_img, self.app.screen.get_size())
         self.app.screen.blit(self.bg_img, self.bg_img.get_rect())
         screen_center_x = self.app.screen.get_width() // 2
@@ -151,7 +150,7 @@ class LoadingScene:
         # Display the current message based on progress
         current_message_index = min(int(self.progress), len(self.messages) - 1)
         msg = self.messages[current_message_index]
-        text = self.font.render(msg, True, (0, 0, 0))
+        text = self.font.render(msg, True, 'white')
         text_rect = text.get_rect(center=(screen_center_x, screen_center_y + 80))
         self.app.screen.blit(text, text_rect)
 
@@ -166,12 +165,59 @@ class LoadingScene:
         bar_rect.midleft = bar_bg_rect.midleft
         pg.draw.rect(self.app.screen, (221, 220, 79), bar_rect)
 
+class MenuScene:
+    def __init__(self, app):
+        self.app = app
+        self.bg_img = pg.image.load('assets/images/menu.png').convert()
+        self.bg_img = pg.transform.smoothscale(self.bg_img, self.app.screen.get_size())
 
+        self.start_img = pg.image.load('assets/buttons/start.png').convert_alpha()
+        self.quit_img = pg.image.load('assets/buttons/exit.png').convert_alpha()
 
+        self.start_hover_img = pg.image.load('assets/buttons/start_hover.png').convert_alpha()
+        self.quit_hover_img = pg.image.load('assets/buttons/exit_hover.png').convert_alpha()
 
+        self.start_img = pg.transform.scale(self.start_img, (250, 100))
+        self.quit_img = pg.transform.scale(self.quit_img, (250, 100))
 
+        self.start_hover_img = pg.transform.scale(self.start_hover_img, (250, 100))
+        self.quit_hover_img = pg.transform.scale(self.quit_hover_img, (250, 100))
+        
+        self.start_rect = self.start_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.6))
+        self.quit_rect = self.quit_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.6 + 150))
 
+    def update(self):
+        mouse_pos = pg.mouse.get_pos()
+        
+        for event in pg.event.get(): 
+            
+            if event.type == pg.QUIT:
+                pg.quit()
+                import sys
+                sys.exit()
+                
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if self.start_rect.collidepoint(mouse_pos):
+                        self.app.player = Player(self.app)
+                        self.app.scene = Scene(self.app)
+                        return 
 
+                    if self.quit_rect.collidepoint(mouse_pos):
+                        pg.quit()
+                        import sys
+                        sys.exit()
 
+    def draw(self):
+        self.app.screen.blit(self.bg_img, (0, 0))
+        mouse_pos = pg.mouse.get_pos()
 
+        if self.start_rect.collidepoint(mouse_pos):
+            self.app.screen.blit(self.start_hover_img, self.start_rect)
+        else:
+            self.app.screen.blit(self.start_img, self.start_rect)
 
+        if self.quit_rect.collidepoint(mouse_pos):
+            self.app.screen.blit(self.quit_hover_img, self.quit_rect)
+        else:
+            self.app.screen.blit(self.quit_img, self.quit_rect)

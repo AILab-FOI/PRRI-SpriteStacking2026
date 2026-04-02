@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 import sys
 import platform
 from settings import *
@@ -57,6 +54,8 @@ class App:
 
     def check_events(self):
         self.anim_trigger = False
+        if hasattr(self.scene, 'start_rect'): 
+            return
         for e in pg.event.get():
             if e.type == pg.QUIT or (e.type == pg.KEYDOWN and e.key == pg.K_ESCAPE):
                 pg.quit()
