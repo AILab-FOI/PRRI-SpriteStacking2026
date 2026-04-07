@@ -33,6 +33,13 @@ class Scene:
         self.load_scene()
         self.app.message.set_message( self.app.player.message )
         self.app.message.active = True
+        pg.mixer.init()
+        try:
+            pg.mixer.music.load('assets/bgm/Alchemists Oddities.mp3')
+            pg.mixer.music.set_volume(0.1)
+            pg.mixer.music.play(-1)
+        except pg.error as e:
+            print(f"Greška pri učitavanju glazbe: {e}")
 
     def load_scene(self):
         rand_rot = lambda: uniform(0, 360)
@@ -185,6 +192,14 @@ class MenuScene:
         
         self.start_rect = self.start_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.6))
         self.quit_rect = self.quit_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.6 + 150))
+
+        pg.mixer.init()
+        try:
+            pg.mixer.music.load('assets/bgm/Lumereth.mp3')
+            pg.mixer.music.set_volume(0.1)
+            pg.mixer.music.play(-1)
+        except pg.error as e:
+            print(f"Greška pri učitavanju glazbe: {e}")
 
     def update(self):
         mouse_pos = pg.mouse.get_pos()
