@@ -17,18 +17,39 @@ NUM_ANGLES = 72  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 # entity settings
 ENTITY_SPRITE_ATTRS = {
     'player': {
-        'path': 'assets/entities/player/player.png',
-        'mask_path': 'assets/entities/player/mask.png',
-        'num_layers': 7,
-        'scale': 0.35,
+        'path': 'assets/entities/player/glavni_lik.png',
+        #'mask_path': 'assets/entities/player/mask.png',
+        'num_layers': 3,
+        'scale': 1.3,
         'y_offset': 0,
     },
-    'kitty': {
-        'path': 'assets/entities/cats/kitty.png',
-        'num_layers': 8,
-        'scale': 0.8,
+    'albert_wisker': {
+        'path': 'assets/entities/albert_wisker/albert_wisker.png',
+        'num_layers': 3,
+        'scale': 1.3,
         'y_offset': -20,
-	'message':"""Hello! I'm a kitty cat! """
+	'message':"""7 minutes. 7 minutes is all I can spare to fish with you! """
+    },
+    'forest_guardian': {
+        'path': 'assets/entities/forest_guardian/forest_guardian.png',
+        'num_layers': 5,
+        'scale': 1.5,
+        'y_offset': -20,
+	'message':"""I am the guardian of this forest! """
+    },
+    'beetle': {
+        'path': 'assets/entities/beetle/jelenjak.png',
+        'num_layers': 3,
+        'scale': 1.5,
+        'y_offset': -20,
+	'message':"""Hello! """
+    },
+    'kosjenka': {
+        'path': 'assets/entities/kosjenka/kosjenka.png',
+        'num_layers': 3,
+        'scale': 1.5,
+        'y_offset': -20,
+	'message':"""Hello! """
     },
     'explosion': {
         'num_layers': 7,

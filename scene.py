@@ -6,19 +6,22 @@ from player import Player
 import threading
 
 P = 'player'
-K = 'kitty'  # entity
-A, B, C, D, E, F, G, H = 'van', 'tank', 'blue_tree', 'car', 'grass', 'crate', 'cup', 'pancake'
+W = 'albert_wisker'
+G = 'forest_guardian'
+J = 'beetle'
+K = 'kosjenka'
+A, B, C, D, E, F, T, H = 'van', 'tank', 'blue_tree', 'car', 'grass', 'crate', 'cup', 'pancake'
 S = 'sphere' # transform object
 
 MAP = [
     [0, E, 0, E, B, 0, E, 0, 0, E, 0, E, 0, E],
     [E, C, C, C, 0, C, C, 0, E, 0, C, C, C, 0],
-    [0, C, 0, 0, 0, 0, E, C, 0, C, 0, H, K, C],
-    [C, 0, 0, E, C, 0, 0, C, C, 0, 0, 0, 0, C],
-    [C, E, 0, 0, P, E, 0, E, 0, 0, F, E, 0, C],
+    [0, C, 0, 0, 0, 0, E, C, 0, C, 0, H, 0, C],
+    [C, 0, 0, E, C, W, 0, C, C, 0, 0, 0, 0, C],
+    [C, E, J, 0, P, E, G, E, 0, 0, F, E, 0, C],
     [C, 0, 0, A, E, D, E, S, 0, F, 0, 0, C, 0],
-    [0, C, E, 0, 0, 0, E, 0, E, 0, 0, B, C, E],
-    [0, C, C, 0, E, 0, C, C, 0, G, E, C, 0, 0],
+    [0, C, E, 0, K, 0, E, 0, E, 0, 0, B, C, E],
+    [0, C, C, 0, E, 0, C, C, 0, T, E, C, 0, 0],
     [E, 0, 0, C, C, C, C, 0, C, C, C, 0, E, 0],
 ]
 
@@ -50,7 +53,13 @@ class Scene:
                 pos = vec2(i, j) + vec2(0.5)
                 if name == 'player':
                     self.app.player.offset = pos * TILE_SIZE
-                elif name == 'kitty':
+                elif name == 'albert_wisker':
+                    Entity(self.app, name=name, pos=pos)
+                elif name == 'forest_guardian':
+                    Entity(self.app, name=name, pos=pos)
+                elif name == 'beetle':
+                    Entity(self.app, name=name, pos=pos)
+                elif name == 'kosjenka':
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
