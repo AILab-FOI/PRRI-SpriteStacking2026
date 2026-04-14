@@ -7,6 +7,7 @@ from scene import Scene, LoadingScene, PauseScene
 import asyncio
 from itertools import cycle
 from message import Message
+from farming import plant_mushroom
 
 class App:
     def __init__(self):
@@ -53,6 +54,11 @@ class App:
             if e.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
+
+            elif e.type == pg.KEYDOWN and e.key == pg.K_f:
+                from scene import Scene
+                if isinstance(self.scene, Scene):
+                    plant_mushroom(self, self.scene)
 
             elif e.type == pg.KEYDOWN and e.key == pg.K_ESCAPE:
                 from scene import Scene

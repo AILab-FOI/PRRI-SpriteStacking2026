@@ -10,7 +10,7 @@ W = 'albert_wisker'
 G = 'forest_guardian'
 J = 'beetle'
 K = 'kosjenka'
-T, A, R, F, B = 'blue_tree','grass', 'water', 'field', 'bridge'
+T, A, R, F, B, C = 'blue_tree','grass', 'water', 'field', 'bridge', 'grand_tree'
 S = 'sphere' # transform object
 
 MAP = [
@@ -19,7 +19,7 @@ MAP = [
     [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
     [T, T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T, T],
     [T, T, T, 0, J, 0, 0, 0, 0, 0, 0, 0, 0, K, 0, T, T, T],
-    [T, T, T, 0, 0, 0, 0, 0, P, G, 0, 0, 0, 0, 0, T, T, T],
+    [T, T, T, 0, 0, 0, 0, 0, P, G, C, 0, 0, 0, 0, T, T, T],
     [R, R, R, R, R, R, R, W, 0, 0, 0, 0, 0, 0, 0, T, T, T],
     [T, T, T, 0, 0, 0, R, R, R, B, R, 0, 0, 0, 0, T, T, T],
     [T, T, T, F, F, F, 0, 0, 0, 0, R, R, R, 0, 0, T, T, T],
@@ -67,6 +67,8 @@ class Scene:
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                elif name == 'grand_tree':
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'grass':
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(), collision=False)
                 elif name == 'water':

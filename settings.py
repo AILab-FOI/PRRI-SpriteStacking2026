@@ -18,7 +18,7 @@ NUM_ANGLES = 72  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 ENTITY_SPRITE_ATTRS = {
     'player': {
         'path': 'assets/entities/player/player_m.png',
-        #'mask_path': 'assets/entities/player/mask.png',
+        'mask_path': 'assets/entities/player/mask.png',
         'num_layers': 11,
         'scale': 0.3,
         'y_offset': 0,
@@ -26,7 +26,7 @@ ENTITY_SPRITE_ATTRS = {
     'albert_wisker': {
         'path': 'assets/entities/albert_wisker/albert_w.png',
         'num_layers': 12,
-        'scale': 0.33,
+        'scale': 0.3,
         'y_offset': -20,
 	'message':"""7 minutes. 7 minutes is all I can spare to fish with you! """
     },
@@ -93,6 +93,14 @@ STACKED_SPRITE_ATTRS = {
         'transparency': True,
         'mask_layer': 3,
     },
+    'grand_tree': {
+        'path': 'assets/stacked_sprites/trees/grand_tree.png',
+        'num_layers': 61,
+        'scale': 7,
+        'y_offset': -130,
+        'transparency': True,
+        'mask_layer': 2,
+    },
     'water':{
         'path': 'assets/stacked_sprites/terrain/water.png',
         'num_layers': 1,
@@ -114,10 +122,10 @@ STACKED_SPRITE_ATTRS = {
         'y_offset': 0,
         'outline': False,
     },
-    'mushroom': {
+    'mushroom1': {
         'path': 'assets/stacked_sprites/mushroom/mushroom1.png',
-        'num_layers': 13,
-        'scale': 1,
+        'num_layers': 14,
+        'scale': 4,
         'y_offset': 0,
         'mask_layer': 3,
         'transparency': False,
