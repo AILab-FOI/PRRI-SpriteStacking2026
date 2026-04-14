@@ -17,37 +17,37 @@ NUM_ANGLES = 72  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 # entity settings
 ENTITY_SPRITE_ATTRS = {
     'player': {
-        'path': 'assets/entities/player/glavni_lik.png',
+        'path': 'assets/entities/player/player_m.png',
         #'mask_path': 'assets/entities/player/mask.png',
-        'num_layers': 3,
-        'scale': 1.3,
+        'num_layers': 11,
+        'scale': 0.3,
         'y_offset': 0,
     },
     'albert_wisker': {
-        'path': 'assets/entities/albert_wisker/albert_wisker.png',
-        'num_layers': 3,
-        'scale': 1.3,
+        'path': 'assets/entities/albert_wisker/albert_w.png',
+        'num_layers': 12,
+        'scale': 0.33,
         'y_offset': -20,
 	'message':"""7 minutes. 7 minutes is all I can spare to fish with you! """
     },
     'forest_guardian': {
-        'path': 'assets/entities/forest_guardian/forest_guardian.png',
-        'num_layers': 5,
-        'scale': 1.5,
+        'path': 'assets/entities/forest_guardian/forest_guard.png',
+        'num_layers': 15,
+        'scale': 0.3,
         'y_offset': -20,
 	'message':"""I am the guardian of this forest! """
     },
     'beetle': {
-        'path': 'assets/entities/beetle/jelenjak.png',
-        'num_layers': 3,
-        'scale': 1.5,
+        'path': 'assets/entities/beetle/beetle.png',
+        'num_layers': 12,
+        'scale': 0.3,
         'y_offset': -20,
 	'message':"""Hello! """
     },
     'kosjenka': {
-        'path': 'assets/entities/kosjenka/kosjenka.png',
-        'num_layers': 3,
-        'scale': 1.5,
+        'path': 'assets/entities/kosjenka/fairy.png',
+        'num_layers': 12,
+        'scale': 0.3,
         'y_offset': -20,
 	'message':"""Hello! """
     },
