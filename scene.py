@@ -6,20 +6,27 @@ from player import Player
 import threading
 
 P = 'player'
-K = 'kitty'  # entity
-A, B, C, D, E, F, G, H = 'van', 'tank', 'blue_tree', 'car', 'grass', 'crate', 'cup', 'pancake'
+W = 'albert_wisker'
+G = 'forest_guardian'
+J = 'beetle'
+K = 'kosjenka'
+T, A, R, F, B = 'blue_tree','grass', 'water', 'field', 'bridge'
 S = 'sphere' # transform object
 
 MAP = [
-    [0, E, 0, E, B, 0, E, 0, 0, E, 0, E, 0, E],
-    [E, C, C, C, 0, C, C, 0, E, 0, C, C, C, 0],
-    [0, C, 0, 0, 0, 0, E, C, 0, C, 0, H, K, C],
-    [C, 0, 0, E, C, 0, 0, C, C, 0, 0, 0, 0, C],
-    [C, E, 0, 0, P, E, 0, E, 0, 0, F, E, 0, C],
-    [C, 0, 0, A, E, D, E, S, 0, F, 0, 0, C, 0],
-    [0, C, E, 0, 0, 0, E, 0, E, 0, 0, B, C, E],
-    [0, C, C, 0, E, 0, C, C, 0, G, E, C, 0, 0],
-    [E, 0, 0, C, C, C, C, 0, C, C, C, 0, E, 0],
+    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
+    [T, T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T, T],
+    [T, T, T, 0, J, 0, 0, 0, 0, 0, 0, 0, 0, K, 0, T, T, T],
+    [T, T, T, 0, 0, 0, 0, 0, P, G, 0, 0, 0, 0, 0, T, T, T],
+    [R, R, R, R, R, R, R, W, 0, 0, 0, 0, 0, 0, 0, T, T, T],
+    [T, T, T, 0, 0, 0, R, R, R, B, R, 0, 0, 0, 0, T, T, T],
+    [T, T, T, F, F, F, 0, 0, 0, 0, R, R, R, 0, 0, T, T, T],
+    [T, T, T, F, F, F, 0, 0, 0, 0, 0, 0, R, 0, 0, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
@@ -50,13 +57,24 @@ class Scene:
                 pos = vec2(i, j) + vec2(0.5)
                 if name == 'player':
                     self.app.player.offset = pos * TILE_SIZE
-                elif name == 'kitty':
+                elif name == 'albert_wisker':
+                    Entity(self.app, name=name, pos=pos)
+                elif name == 'forest_guardian':
+                    Entity(self.app, name=name, pos=pos)
+                elif name == 'beetle':
+                    Entity(self.app, name=name, pos=pos)
+                elif name == 'kosjenka':
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grass':
-                    StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(),
-                                  collision=False)
+                    StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(), collision=False)
+                elif name == 'water':
+                    StackedSprite(self.app, name=name, pos=pos, rot=0, collision=True)
+                elif name == 'field':
+                    StackedSprite(self.app, name=name, pos=pos, rot=0, collision=False)
+                elif name == 'bridge':
+                    StackedSprite(self.app, name=name, pos=pos, rot=0, collision=False)
                 elif name == 'sphere':
                     obj = StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                     self.transform_objects.append(obj)
@@ -71,6 +89,12 @@ class Scene:
     def transform(self):
         for obj in self.transform_objects:
             obj.rot = 30 * self.app.time
+
+    def draw(self):
+        self.app.screen.fill(BG_COLOR)
+        self.app.entity_group.draw(self.app.screen)
+        self.app.main_group.draw(self.app.screen)
+        self.app.message.draw()
 
     def update(self):
         self.get_closest_object_to_player()
@@ -236,3 +260,58 @@ class MenuScene:
             self.app.screen.blit(self.quit_hover_img, self.quit_rect)
         else:
             self.app.screen.blit(self.quit_img, self.quit_rect)
+
+class PauseScene:
+    def __init__(self, app, game_scene):
+        self.app = app
+        self.game_scene = game_scene
+        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 40)
+
+        self.resume_img = pg.transform.scale(pg.image.load('assets/buttons/continue.png').convert_alpha(), (250, 100))
+        self.exit_img = pg.transform.scale(pg.image.load('assets/buttons/exit.png').convert_alpha(), (250, 100))
+
+        self.resume_hover_img = pg.transform.scale(pg.image.load('assets/buttons/continue_hover.png').convert_alpha(), (250, 100))
+        self.exit_hover_img = pg.transform.scale(pg.image.load('assets/buttons/exit_hover.png').convert_alpha(), (250, 100))
+
+        self.resume_rect = self.resume_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.45))
+        self.exit_rect = self.exit_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.65))
+
+    def update(self):
+        mouse_pos = pg.mouse.get_pos()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.QUIT()
+                sys.exit()
+
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self.app.scene = self.game_scene
+
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if self.resume_rect.collidepoint(mouse_pos):
+                        self.app.scene = self.game_scene
+                    elif self.exit_rect.collidepoint(mouse_pos):
+                        pg.quit()
+                        sys.exit()
+
+    def draw(self):
+        self.game_scene.draw()
+
+        overlay = pg.Surface(RES, pg.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        self.app.screen.blit(overlay, (0, 0))
+
+        title = self.font.render("PAUSE", True, 'white')
+        self.app.screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT * 0.25)))
+        mouse_pos = pg.mouse.get_pos()
+
+        if self.resume_rect.collidepoint(mouse_pos):
+            self.app.screen.blit(self.resume_hover_img, self.resume_rect)
+        else:
+            self.app.screen.blit(self.resume_img, self.resume_rect)
+
+        if self.exit_rect.collidepoint(mouse_pos):
+            self.app.screen.blit(self.exit_hover_img, self.exit_rect)
+        else:
+            self.app.screen.blit(self.exit_img, self.exit_rect)

@@ -3,7 +3,7 @@ import platform
 from settings import *
 from cache import Cache
 from player import Player
-from scene import Scene, LoadingScene
+from scene import Scene, LoadingScene, PauseScene
 import asyncio
 from itertools import cycle
 from message import Message
@@ -41,29 +41,30 @@ class App:
         self.delta_time = self.clock.tick()
 
     def draw(self):
-        try:
-            self.scene.draw()
-        except:
-            self.screen.fill(BG_COLOR)
-            self.entity_group.draw(self.screen)
-            self.main_group.draw(self.screen)
-            self.message.draw()
-        
-        
+        self.scene.draw()
         pg.display.flip()
 
     def check_events(self):
         self.anim_trigger = False
-        if hasattr(self.scene, 'start_rect'): 
+        if hasattr(self.scene, 'start_rect') or hasattr(self.scene, 'resume_rect'): 
             return
+        
         for e in pg.event.get():
-            if e.type == pg.QUIT or (e.type == pg.KEYDOWN and e.key == pg.K_ESCAPE):
+            if e.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
+
+            elif e.type == pg.KEYDOWN and e.key == pg.K_ESCAPE:
+                from scene import Scene
+                if isinstance(self.scene, Scene):
+                    self.scene = PauseScene(self, self.scene)
+
             elif e.type == self.anim_event:
                 self.anim_trigger = True
+                
             elif e.type == pg.KEYDOWN:
-                self.player.single_fire(event=e)
+                if self.player:
+                    self.player.single_fire(event=e)
 
     def get_time(self):
         self.time = pg.time.get_ticks() * 0.001
