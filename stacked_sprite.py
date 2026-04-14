@@ -36,7 +36,10 @@ class StackedSprite(pg.sprite.Sprite):
             self.message = ''
 
     def change_layer(self):
-        self.group.change_layer(self, self.screen_pos.y)
+        if self.attrs.get('num_layers', 0) <= 1:
+            self.group.change_layer(self, -999)
+        else:
+            self.group.change_layer(self, self.screen_pos.y)
 
     def transform(self):
         pos = self.pos - self.player.offset

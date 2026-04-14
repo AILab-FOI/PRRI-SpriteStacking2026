@@ -55,11 +55,13 @@ class App:
                 sys.exit()
 
             elif e.type == pg.KEYDOWN and e.key == pg.K_ESCAPE:
+                from scene import Scene
                 if isinstance(self.scene, Scene):
                     self.scene = PauseScene(self, self.scene)
 
             elif e.type == self.anim_event:
                 self.anim_trigger = True
+                
             elif e.type == pg.KEYDOWN:
                 if self.player:
                     self.player.single_fire(event=e)

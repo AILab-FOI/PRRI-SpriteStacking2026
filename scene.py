@@ -10,19 +10,23 @@ W = 'albert_wisker'
 G = 'forest_guardian'
 J = 'beetle'
 K = 'kosjenka'
-A, B, C, D, E, F, T, H = 'van', 'tank', 'blue_tree', 'car', 'grass', 'crate', 'cup', 'pancake'
+T, A, R, F, B = 'blue_tree','grass', 'water', 'field', 'bridge'
 S = 'sphere' # transform object
 
 MAP = [
-    [0, E, 0, E, B, 0, E, 0, 0, E, 0, E, 0, E],
-    [E, C, C, C, 0, C, C, 0, E, 0, C, C, C, 0],
-    [0, C, 0, 0, 0, 0, E, C, 0, C, 0, H, 0, C],
-    [C, 0, 0, E, C, W, 0, C, C, 0, 0, 0, 0, C],
-    [C, E, J, 0, P, E, G, E, 0, 0, F, E, 0, C],
-    [C, 0, 0, A, E, D, E, S, 0, F, 0, 0, C, 0],
-    [0, C, E, 0, K, 0, E, 0, E, 0, 0, B, C, E],
-    [0, C, C, 0, E, 0, C, C, 0, T, E, C, 0, 0],
-    [E, 0, 0, C, C, C, C, 0, C, C, C, 0, E, 0],
+    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
+    [T, T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T, T],
+    [T, T, T, 0, J, 0, 0, 0, 0, 0, 0, 0, 0, K, 0, T, T, T],
+    [T, T, T, 0, 0, 0, 0, 0, P, G, 0, 0, 0, 0, 0, T, T, T],
+    [R, R, R, R, R, R, R, W, 0, 0, 0, 0, 0, 0, 0, T, T, T],
+    [T, T, T, 0, 0, 0, R, R, R, B, R, 0, 0, 0, 0, T, T, T],
+    [T, T, T, F, F, F, 0, 0, 0, 0, R, R, R, 0, 0, T, T, T],
+    [T, T, T, F, F, F, 0, 0, 0, 0, 0, 0, R, 0, 0, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
@@ -64,8 +68,13 @@ class Scene:
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grass':
-                    StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(),
-                                  collision=False)
+                    StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(), collision=False)
+                elif name == 'water':
+                    StackedSprite(self.app, name=name, pos=pos, rot=0, collision=True)
+                elif name == 'field':
+                    StackedSprite(self.app, name=name, pos=pos, rot=0, collision=False)
+                elif name == 'bridge':
+                    StackedSprite(self.app, name=name, pos=pos, rot=0, collision=False)
                 elif name == 'sphere':
                     obj = StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                     self.transform_objects.append(obj)
