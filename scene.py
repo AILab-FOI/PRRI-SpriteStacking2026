@@ -81,6 +81,12 @@ class Scene:
         for obj in self.transform_objects:
             obj.rot = 30 * self.app.time
 
+    def draw(self):
+        self.app.screen.fill(BG_COLOR)
+        self.app.entity_group.draw(self.app.screen)
+        self.app.main_group.draw(self.app.screen)
+        self.app.message.draw()
+
     def update(self):
         self.get_closest_object_to_player()
         self.transform()
@@ -245,3 +251,58 @@ class MenuScene:
             self.app.screen.blit(self.quit_hover_img, self.quit_rect)
         else:
             self.app.screen.blit(self.quit_img, self.quit_rect)
+
+class PauseScene:
+    def __init__(self, app, game_scene):
+        self.app = app
+        self.game_scene = game_scene
+        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 40)
+
+        self.resume_img = pg.transform.scale(pg.image.load('assets/buttons/continue.png').convert_alpha(), (250, 100))
+        self.exit_img = pg.transform.scale(pg.image.load('assets/buttons/exit.png').convert_alpha(), (250, 100))
+
+        self.resume_hover_img = pg.transform.scale(pg.image.load('assets/buttons/continue_hover.png').convert_alpha(), (250, 100))
+        self.exit_hover_img = pg.transform.scale(pg.image.load('assets/buttons/exit_hover.png').convert_alpha(), (250, 100))
+
+        self.resume_rect = self.resume_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.45))
+        self.exit_rect = self.exit_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.65))
+
+    def update(self):
+        mouse_pos = pg.mouse.get_pos()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.QUIT()
+                sys.exit()
+
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self.app.scene = self.game_scene
+
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if self.resume_rect.collidepoint(mouse_pos):
+                        self.app.scene = self.game_scene
+                    elif self.exit_rect.collidepoint(mouse_pos):
+                        pg.quit()
+                        sys.exit()
+
+    def draw(self):
+        self.game_scene.draw()
+
+        overlay = pg.Surface(RES, pg.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        self.app.screen.blit(overlay, (0, 0))
+
+        title = self.font.render("PAUSE", True, 'white')
+        self.app.screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT * 0.25)))
+        mouse_pos = pg.mouse.get_pos()
+
+        if self.resume_rect.collidepoint(mouse_pos):
+            self.app.screen.blit(self.resume_hover_img, self.resume_rect)
+        else:
+            self.app.screen.blit(self.resume_img, self.resume_rect)
+
+        if self.exit_rect.collidepoint(mouse_pos):
+            self.app.screen.blit(self.exit_hover_img, self.exit_rect)
+        else:
+            self.app.screen.blit(self.exit_img, self.exit_rect)
