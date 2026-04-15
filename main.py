@@ -33,6 +33,8 @@ class App:
         self.scene = LoadingScene( self )
         self.message = Message( self )
 
+        self.coins = 0
+        self.font_coins = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
 
     def update(self):
         self.scene.update()
@@ -41,8 +43,30 @@ class App:
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
         self.delta_time = self.clock.tick()
 
+    def draw_coins(self):
+        text = f"Coins: {self.coins}"
+        coin_surf = self.font_coins.render(text, True, 'yellow')
+        shadow_surf = self.font_coins.render(text, True, 'black')
+        
+        pos = (WIDTH - coin_surf.get_width() - 20, 20)
+        
+        self.screen.blit(shadow_surf, (pos[0] + 2, pos[1] + 2))
+        self.screen.blit(coin_surf, pos)
+
     def draw(self):
-        self.scene.draw()
+        try:
+            self.scene.draw()
+        except:
+            self.screen.fill(BG_COLOR)
+            self.entity_group.draw(self.screen)
+            self.main_group.draw(self.screen)
+            self.message.draw()
+
+        from scene import Scene, PauseScene
+        
+        if isinstance(self.scene, (Scene)):
+            self.draw_coins()
+        
         pg.display.flip()
 
     def check_events(self):

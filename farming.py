@@ -22,6 +22,7 @@ def plant_mushroom(app, scene):
 
             if existing_mushroom:
                 existing_mushroom.kill() 
+                app.coins += 10
             else:
                 pos = vec2(map_x, map_y) + vec2(0.5)
-                StackedSprite(app, name='mushroom1', pos=pos, rot=uniform(0, 360), collision=False)
+                StackedSprite(app, name='mushroom1', pos=pos, rot=uniform(0, 360), collision=True)
