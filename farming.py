@@ -22,8 +22,6 @@ def plant_mushroom(app, scene):
 
             if existing_mushroom:
                 existing_mushroom.kill() 
-                print(f"Gljiva uklonjena s polja {map_x}, {map_y}")
             else:
                 pos = vec2(map_x, map_y) + vec2(0.5)
                 StackedSprite(app, name='mushroom1', pos=pos, rot=uniform(0, 360), collision=False)
-                print(f"Gljiva posađena na polje {map_x}, {map_y}")

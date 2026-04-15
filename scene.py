@@ -10,17 +10,21 @@ W = 'albert_wisker'
 G = 'forest_guardian'
 J = 'beetle'
 K = 'kosjenka'
+R1 = 'rune1_off'
+R2 = 'rune2_off'
+R3 = 'rune3_off'
 T, A, R, F, B, C = 'blue_tree','grass', 'water', 'field', 'bridge', 'grand_tree'
-S = 'sphere' # transform object
+S = 'shop'
+SP = 'sphere'
 
 MAP = [
     [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
     [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
     [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
     [T, T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T, T],
-    [T, T, T, 0, J, 0, 0, 0, 0, 0, 0, 0, 0, K, 0, T, T, T],
-    [T, T, T, 0, 0, 0, 0, 0, P, G, C, 0, 0, 0, 0, T, T, T],
-    [R, R, R, R, R, R, R, W, 0, 0, 0, 0, 0, 0, 0, T, T, T],
+    [T, T, T, S, J, 0, 0, 0, 0, 0, R1, 0, 0, K, 0, T, T, T],
+    [T, T, T, 0, 0, 0, 0, 0, P, G, C, R2, 0, 0, 0, T, T, T],
+    [R, R, R, R, R, R, R, W, 0, 0, R3, 0, 0, 0, 0, T, T, T],
     [T, T, T, 0, 0, 0, R, R, R, B, R, 0, 0, 0, 0, T, T, T],
     [T, T, T, F, F, F, 0, 0, 0, 0, R, R, R, 0, 0, T, T, T],
     [T, T, T, F, F, F, 0, 0, 0, 0, 0, 0, R, 0, 0, T, T, T],
@@ -69,6 +73,14 @@ class Scene:
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grand_tree':
                     TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                elif name == 'rune1_off':
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                elif name == 'rune2_off':
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                elif name == 'rune3_off':
+                    TrnspStackedSprite(self.app, name=name, pos=(pos-vec2(0,0.4)), rot=0)
+                elif name == 'shop':
+                    StackedSprite(self.app, name=name, pos=(pos+vec2(0.3,0.5)), rot=215, collision=True)
                 elif name == 'grass':
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(), collision=False)
                 elif name == 'water':
