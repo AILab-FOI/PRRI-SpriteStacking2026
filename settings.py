@@ -122,6 +122,14 @@ STACKED_SPRITE_ATTRS = {
         'y_offset': 0,
         'outline': False,
     },
+    'mushroom1_small': {
+        'path': 'assets/stacked_sprites/mushroom/mushroom1.png',
+        'num_layers': 14,
+        'scale': 2,
+        'y_offset': 0,
+        'mask_layer': 3,
+        'transparency': True,
+    },
     'mushroom1': {
         'path': 'assets/stacked_sprites/mushroom/mushroom1.png',
         'num_layers': 14,

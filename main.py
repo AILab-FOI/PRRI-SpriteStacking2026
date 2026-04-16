@@ -8,6 +8,8 @@ import asyncio
 from itertools import cycle
 from message import Message
 from farming import plant_mushroom
+from stacked_sprite import StackedSprite
+from random import uniform
 
 class App:
     def __init__(self):
@@ -37,9 +39,23 @@ class App:
         self.font_coins = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
 
     def update(self):
+        rand_rot = lambda: uniform(0, 360)
         self.scene.update()
         self.entity_group.update()
         self.main_group.update()
+
+        curr_time = pg.time.get_ticks()
+        
+        for sprite in self.main_group:
+            if isinstance(sprite, StackedSprite) and sprite.name == 'mushroom1_small':
+                if hasattr(sprite, 'growth_time'):
+                    if curr_time - sprite.plant_time > sprite.growth_time:
+                        pos = sprite.pos / TILE_SIZE 
+                        rot = sprite.rot 
+                        sprite.kill() 
+                        
+                        StackedSprite(self, name='mushroom1', pos=pos, rot=rand_rot(), collision=False)
+
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
         self.delta_time = self.clock.tick()
 
@@ -61,8 +77,6 @@ class App:
             self.entity_group.draw(self.screen)
             self.main_group.draw(self.screen)
             self.message.draw()
-
-        from scene import Scene, PauseScene
         
         if isinstance(self.scene, (Scene)):
             self.draw_coins()
