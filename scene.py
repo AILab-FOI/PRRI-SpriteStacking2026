@@ -18,19 +18,23 @@ S = 'shop'
 SP = 'sphere'
 
 MAP = [
-    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
-    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
-    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
-    [T, T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T, T],
-    [T, T, T, S, J, 0, 0, 0, 0, 0, R1, 0, 0, K, 0, T, T, T],
-    [T, T, T, 0, 0, 0, 0, 0, P, G, C, R2, 0, 0, 0, T, T, T],
-    [R, R, R, R, R, R, R, W, 0, 0, R3, 0, 0, 0, 0, T, T, T],
-    [T, T, T, 0, 0, 0, R, R, R, B, R, 0, 0, 0, 0, T, T, T],
-    [T, T, T, F, F, F, 0, 0, 0, 0, R, R, R, 0, 0, T, T, T],
-    [T, T, T, F, F, F, 0, 0, 0, 0, 0, 0, R, 0, 0, T, T, T],
-    [T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
-    [T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
-    [T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
+    [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
+    [T, T, 0, 0, 0, 0, A, 0, 0, 0, A, 0, 0, 0, A, 0, 0, 0, 0, 0, T, T],
+    [T, T, 0, 0, S, J, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, K, 0, 0, T, T],
+    [T, T, 0, A, 0, 0, 0, 0, A, 0, 0, 0, R1, 0, 0, 0, 0, 0, 0, 0, T, T],
+    [T, T, 0, 0, 0, 0, 0, 0, 0, 0, P, G, C, R2, 0, 0, 0, A, 0, 0, T, T],
+    [T, T, 0, 0, A, 0, 0, 0, A, 0, 0, 0, R3, 0, 0, 0, A, 0, 0, 0, T, T],
+    [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
+    [R, R, R, R, R, R, R, R, R, R, 0, 0, 0, 0, A, 0, 0, A, 0, 0, T, T],
+    [T, T, 0, 0, 0, A, 0, 0, 0, R, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
+    [T, T, 0, F, F, F, F, 0, 0, R, R, B, R, R, 0, 0, 0, 0, A, 0, T, T],
+    [T, T, 0, F, F, F, F, 0, 0, 0, 0, 0, 0, R, R, R, R, 0, 0, 0, T, T],
+    [T, T, 0, F, F, F, F, 0, 0, 0, A, 0, 0, 0, 0, 0, R, 0, 0, 0, T, T],
+    [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, R, 0, 0, 0, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
+    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))

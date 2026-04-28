@@ -104,14 +104,14 @@ STACKED_SPRITE_ATTRS = {
     'water':{
         'path': 'assets/stacked_sprites/terrain/water.png',
         'num_layers': 1,
-        'scale': 1,
+        'scale': 1.02,
         'y_offset': 0,
         'outline': False,
     },
     'field':{
         'path': 'assets/stacked_sprites/terrain/field.png',
         'num_layers': 1,
-        'scale': 1,
+        'scale': 1.1,
         'y_offset': 0,
         'outline': False,
     },
