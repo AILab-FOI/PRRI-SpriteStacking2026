@@ -2,7 +2,7 @@ from settings import *
 from stacked_sprite import StackedSprite
 from random import uniform, randint
 import pygame as pg
-from scene import MAP, F 
+from scene import MAP, F1, F2, F3, F4, F5, F6, F7, F8, F9 
 
 def plant_mushroom(app, scene):
     rand_rot = lambda: uniform(0, 360)
@@ -10,7 +10,7 @@ def plant_mushroom(app, scene):
     map_x, map_y = int(grid_pos.x), int(grid_pos.y)
 
     if 0 <= map_y < len(MAP) and 0 <= map_x < len(MAP[0]):
-        if MAP[map_y][map_x] == F:
+        if MAP[map_y][map_x] in [F1, F2, F3, F4, F5, F6, F7, F8, F9]:
             existing_mush = None
             for sprite in app.main_group:
                 if isinstance(sprite, StackedSprite) and 'mushroom1' in sprite.name:

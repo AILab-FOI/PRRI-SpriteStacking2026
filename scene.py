@@ -13,7 +13,8 @@ K = 'kosjenka'
 R1 = 'rune1_off'
 R2 = 'rune2_off'
 R3 = 'rune3_off'
-T, A, R, F, B, C = 'blue_tree','grass', 'water', 'field', 'bridge', 'grand_tree'
+F1, F2, F3, F4, F5, F6, F7, F8, F9 = 'field_1', 'field_2', 'field_3', 'field_4', 'field_5', 'field_6', 'field_7', 'field_8', 'field_9',
+T, A, R, B, C = 'blue_tree','grass', 'water', 'bridge', 'grand_tree'
 S = 'shop'
 SP = 'sphere'
 
@@ -29,9 +30,9 @@ MAP = [
     [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
     [R, R, R, R, R, R, R, R, R, R, 0, 0, 0, 0, A, 0, 0, A, 0, 0, T, T],
     [T, T, 0, 0, 0, A, 0, 0, 0, R, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
-    [T, T, 0, F, F, F, F, 0, 0, R, R, B, R, R, 0, 0, 0, 0, A, 0, T, T],
-    [T, T, 0, F, F, F, F, 0, 0, 0, 0, 0, 0, R, R, R, R, 0, 0, 0, T, T],
-    [T, T, 0, F, F, F, F, 0, 0, 0, A, 0, 0, 0, 0, 0, R, 0, 0, 0, T, T],
+    [T, T, 0, F4, F8, F8, F5, 0, 0, R, R, B, R, R, 0, 0, 0, 0, A, 0, T, T],
+    [T, T, 0, F7, F1, F1, F9, 0, 0, 0, 0, 0, 0, R, R, R, R, 0, 0, 0, T, T],
+    [T, T, 0, F3, F6, F6, F2, 0, 0, 0, A, 0, 0, 0, 0, 0, R, 0, 0, 0, T, T],
     [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, R, 0, 0, 0, T, T],
     [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
     [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
@@ -89,7 +90,7 @@ class Scene:
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(), collision=False)
                 elif name == 'water':
                     StackedSprite(self.app, name=name, pos=pos, rot=0, collision=True)
-                elif name == 'field':
+                elif name in ['field_1', 'field_2', 'field_3', 'field_4', 'field_5', 'field_6', 'field_7', 'field_8', 'field_9']:
                     StackedSprite(self.app, name=name, pos=pos, rot=0, collision=False)
                 elif name == 'bridge':
                     StackedSprite(self.app, name=name, pos=pos, rot=0, collision=False)
