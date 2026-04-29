@@ -14,28 +14,28 @@ R1 = 'rune1_off'
 R2 = 'rune2_off'
 R3 = 'rune3_off'
 F1, F2, F3, F4, F5, F6, F7, F8, F9 = 'field_1', 'field_2', 'field_3', 'field_4', 'field_5', 'field_6', 'field_7', 'field_8', 'field_9',
-T, A, R, B, C = 'blue_tree','grass', 'water', 'bridge', 'grand_tree'
+T, A, R, B, C, BO, BM, TM, V, CK = 'blue_tree','grass', 'water', 'bridge', 'grand_tree', 'bonsai', 'mali_bonsai', 'malo_drvo', 'vrba', 'carobni_kristali'
 S = 'shop'
 SP = 'sphere'
 
 MAP = [
-    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
-    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T],
-    [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
-    [T, T, 0, 0, 0, 0, A, 0, 0, 0, A, 0, 0, 0, A, 0, 0, 0, 0, 0, T, T],
-    [T, T, 0, 0, S, J, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, K, 0, 0, T, T],
-    [T, T, 0, A, 0, 0, 0, 0, A, 0, 0, 0, R1, 0, 0, 0, 0, 0, 0, 0, T, T],
-    [T, T, 0, 0, 0, 0, 0, 0, 0, 0, P, G, C, R2, 0, 0, 0, A, 0, 0, T, T],
-    [T, T, 0, 0, A, 0, 0, 0, A, 0, 0, 0, R3, 0, 0, 0, A, 0, 0, 0, T, T],
-    [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
+    [T, T, T, T, T, T, T, V, T, T, T, T, T, V, T, T, T, T, T, T, T, T],
+    [V, T, T, T, T, V, T, T, T, T, V, T, T, T, T, T, V, T, T, T, T, T],
+    [T, T, 0, BM, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
+    [T, V, 0, 0, 0, 0, A, 0, BO, 0, A, 0, 0, 0, A, 0, CK, 0, 0, 0, T, T],
+    [T, T, 0, 0, S, J, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, K, 0, 0, T, V],
+    [V, T, 0, A, 0, 0, 0, 0, A, 0, 0, 0, R1, 0, 0, CK, 0, 0, CK, 0, T, T],
+    [T, T, 0, 0, 0, 0, BO, 0, 0, 0, P, G, C, R2, 0, 0, 0, A, 0, 0, V, T],
+    [T, V, 0, 0, A, 0, 0, 0, A, 0, 0, 0, R3, 0, 0, 0, A, 0, 0, 0, V, T],
+    [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, TM, 0, T, T],
     [R, R, R, R, R, R, R, R, R, R, 0, 0, 0, 0, A, 0, 0, A, 0, 0, T, T],
-    [T, T, 0, 0, 0, A, 0, 0, 0, R, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
-    [T, T, 0, F4, F8, F8, F5, 0, 0, R, R, B, R, R, 0, 0, 0, 0, A, 0, T, T],
+    [T, T, 0, 0, 0, A, 0, 0, 0, R, W, 0, 0, 0, 0, 0, 0, 0, BO, 0, T, T],
+    [T, V, 0, F4, F8, F8, F5, 0, 0, R, R, B, R, R, 0, 0, 0, 0, A, 0, T, T],
     [T, T, 0, F7, F1, F1, F9, 0, 0, 0, 0, 0, 0, R, R, R, R, 0, 0, 0, T, T],
-    [T, T, 0, F3, F6, F6, F2, 0, 0, 0, A, 0, 0, 0, 0, 0, R, 0, 0, 0, T, T],
-    [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, R, 0, 0, 0, T, T],
-    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
-    [T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, R, T, T, T, T, T],
+    [T, T, 0, F3, F6, F6, F2, 0, 0, 0, A, 0, 0, 0, TM, 0, R, 0, 0, 0, V, T],
+    [T, V, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, R, 0, 0, 0, T, T],
+    [T, T, T, T, V, T, T, T, T, T, T, V, T, V, T, T, R, T, V, T, V, T],
+    [T, T, T, T, T, T, V, T, V, T, T, T, T, T, T, T, R, T, T, T, T, T],
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
@@ -76,14 +76,24 @@ class Scene:
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
                     TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                elif name == 'bonsai':
+                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                elif name == 'mali_bonsai':
+                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                elif name == 'malo_drvo':
+                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                elif name == 'vrba':
+                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'grand_tree':
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                elif name == 'carobni_kristali':
                     TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'rune1_off':
                     TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'rune2_off':
                     TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'rune3_off':
-                    TrnspStackedSprite(self.app, name=name, pos=(pos-vec2(0,0.4)), rot=0)
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'shop':
                     StackedSprite(self.app, name=name, pos=(pos+vec2(0.3,0.5)), rot=215, collision=True)
                 elif name == 'grass':
