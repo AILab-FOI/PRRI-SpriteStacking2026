@@ -10,11 +10,12 @@ W = 'albert_wisker'
 G = 'forest_guardian'
 J = 'beetle'
 K = 'kosjenka'
-R1 = 'rune1_off'
-R2 = 'rune2_off'
-R3 = 'rune3_off'
+r1 = 'rune1_off'
+r2 = 'rune2_off'
+r3 = 'rune3_off'
 F1, F2, F3, F4, F5, F6, F7, F8, F9 = 'field_1', 'field_2', 'field_3', 'field_4', 'field_5', 'field_6', 'field_7', 'field_8', 'field_9',
-T, A, R, B, C, BO, BM, TM, V, CK = 'blue_tree','grass', 'water', 'bridge', 'grand_tree', 'bonsai', 'mali_bonsai', 'malo_drvo', 'vrba', 'carobni_kristali'
+T, A, B, C, BO, BM, TM, V, CK = 'blue_tree','grass', 'bridge', 'grand_tree', 'bonsai', 'mali_bonsai', 'malo_drvo', 'vrba', 'carobni_kristali'
+R1, R2, R3, R4 = 'water1', 'water2', 'water3', 'water4'
 S = 'shop'
 SP = 'sphere'
 
@@ -24,18 +25,18 @@ MAP = [
     [T, T, 0, BM, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
     [T, V, 0, 0, 0, 0, A, 0, BO, 0, A, 0, 0, 0, A, 0, CK, 0, 0, 0, T, T],
     [T, T, 0, 0, S, J, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, K, 0, 0, T, V],
-    [V, T, 0, A, 0, 0, 0, 0, A, 0, 0, 0, R1, 0, 0, CK, 0, 0, CK, 0, T, T],
-    [T, T, 0, 0, 0, 0, BO, 0, 0, 0, P, G, C, R2, 0, 0, 0, A, 0, 0, V, T],
-    [T, V, 0, 0, A, 0, 0, 0, A, 0, 0, 0, R3, 0, 0, 0, A, 0, 0, 0, V, T],
+    [V, T, 0, A, 0, 0, 0, 0, A, 0, 0, 0, r1, 0, 0, CK, 0, 0, CK, 0, T, T],
+    [T, T, 0, 0, 0, 0, BO, 0, 0, 0, P, G, C, r2, 0, 0, 0, A, 0, 0, V, T],
+    [T, V, 0, 0, A, 0, 0, 0, A, 0, 0, 0, r3, 0, 0, 0, A, 0, 0, 0, V, T],
     [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, TM, 0, T, T],
-    [R, R, R, R, R, R, R, R, R, R, 0, 0, 0, 0, A, 0, 0, A, 0, 0, T, T],
-    [T, T, 0, 0, 0, A, 0, 0, 0, R, W, 0, 0, 0, 0, 0, 0, 0, BO, 0, T, T],
-    [T, V, 0, F4, F8, F8, F5, 0, 0, R, R, B, R, R, 0, 0, 0, 0, A, 0, T, T],
-    [T, T, 0, F7, F1, F1, F9, 0, 0, 0, 0, 0, 0, R, R, R, R, 0, 0, 0, T, T],
-    [T, T, 0, F3, F6, F6, F2, 0, 0, 0, A, 0, 0, 0, TM, 0, R, 0, 0, 0, V, T],
-    [T, V, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, R, 0, 0, 0, T, T],
-    [T, T, T, T, V, T, T, T, T, T, T, V, T, V, T, T, R, T, V, T, V, T],
-    [T, T, T, T, T, T, V, T, V, T, T, T, T, T, T, T, R, T, T, T, T, T],
+    [R1, R1, R1, R1, R1, R1, R1, R1, R1, R4, 0, 0, 0, 0, A, 0, 0, A, 0, 0, T, T],
+    [T, T, 0, 0, 0, A, 0, 0, 0, R3, W, 0, 0, 0, 0, 0, 0, 0, BO, 0, T, T],
+    [T, V, 0, F4, F8, F8, F5, 0, 0, R2, R1, B, R1, R4, 0, 0, 0, 0, A, 0, T, T],
+    [T, T, 0, F7, F1, F1, F9, 0, 0, 0, 0, 0, 0, R2, R1, R1, R4, 0, 0, 0, T, T],
+    [T, T, 0, F3, F6, F6, F2, 0, 0, 0, A, 0, 0, 0, TM, 0, R3, 0, 0, 0, V, T],
+    [T, V, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, R3, 0, 0, 0, T, T],
+    [T, T, T, T, V, T, T, T, T, T, T, V, T, V, T, T, R3, T, V, T, V, T],
+    [T, T, T, T, T, T, V, T, V, T, T, T, T, T, T, T, R3, T, T, T, T, T],
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
@@ -69,7 +70,7 @@ class Scene:
                 elif name == 'albert_wisker':
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'forest_guardian':
-                    Entity(self.app, name=name, pos=pos)
+                    Entity(self.app, name=name, pos=(pos-vec2(0.2,0)))
                 elif name == 'beetle':
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'kosjenka':
@@ -95,10 +96,10 @@ class Scene:
                 elif name == 'rune3_off':
                     TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'shop':
-                    StackedSprite(self.app, name=name, pos=(pos+vec2(0.3,0.5)), rot=215, collision=True)
+                    StackedSprite(self.app, name=name, pos=(pos-vec2(0.3,0.5)), rot=215, collision=True)
                 elif name == 'grass':
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot(), collision=False)
-                elif name == 'water':
+                elif name in ['water1', 'water2', 'water3', 'water4']:
                     StackedSprite(self.app, name=name, pos=pos, rot=0, collision=True)
                 elif name in ['field_1', 'field_2', 'field_3', 'field_4', 'field_5', 'field_6', 'field_7', 'field_8', 'field_9']:
                     StackedSprite(self.app, name=name, pos=pos, rot=0, collision=False)
@@ -344,3 +345,94 @@ class PauseScene:
             self.app.screen.blit(self.exit_hover_img, self.exit_rect)
         else:
             self.app.screen.blit(self.exit_img, self.exit_rect)
+
+class ShopScene:
+    def __init__(self, app, previous_scene):
+        self.app = app
+        self.previous_scene = previous_scene
+
+        try:
+            self.bg_img = pg.image.load('assets/images/shop_inside.png').convert()
+            self.bg_img = pg.transform.smoothscale(self.bg_img, RES)
+        except Exception as e:
+            print(f"Greška pri učitavanju slike: {e}")
+            self.bg_img = pg.Surface(RES)
+            self.bg_img.fill((20, 20, 20))
+
+        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 20)
+        self.buttons_font = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
+        
+        self.items = [
+            {"name": "Gljiva 1", "price": 10, "id": "orange_mush"},
+            {"name": "Gljiva 2", "price": 15, "id": "blue_mush"},
+            {"name": "Runa 1", "price": 50, "id": "key1"},
+            {"name": "Runa 2", "price": 100, "id": "key2"},
+            {"name": "Runa 3", "price": 150, "id": "key3"},
+        ]
+        
+        self.shop_rect = pg.Rect(760, 110, 400, 450)
+    
+        self.exit_surf = self.buttons_font.render("EXIT", True, 'white')
+        self.exit_rect = self.exit_surf.get_rect(center=(WIDTH // 2, HEIGHT - 100))
+
+    def buy_item(self, item):
+        if item['id'] in self.app.inventory: return
+        if self.app.coins >= item['price']:
+            self.app.coins -= item['price']
+            self.app.inventory.add(item['id'])
+
+    def update(self):
+        mouse_pos = pg.mouse.get_pos()
+        
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+            
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if self.exit_rect.collidepoint(mouse_pos):
+                        self.app.scene = self.previous_scene
+                        return
+
+                    for i, item in enumerate(self.items):
+                        if item['id'] in self.app.inventory: continue
+                        
+                        item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 380, 60)
+                        if item_rect.collidepoint(mouse_pos):
+                            self.buy_item(item)
+
+    def draw(self):
+        self.app.screen.blit(self.bg_img, (0, 0))
+        
+        coin_surf = self.buttons_font.render(f"Coins: {self.app.coins}", True, 'yellow')
+        shadow_surf = self.buttons_font.render(f"Coins: {self.app.coins}", True, 'black')
+        Cpos = (WIDTH - coin_surf.get_width() - 20, 20)
+
+        self.app.screen.blit(shadow_surf, (Cpos[0] + 2, Cpos[1] + 2))
+        self.app.screen.blit(coin_surf, Cpos)
+
+        mouse_pos = pg.mouse.get_pos()
+        for i, item in enumerate(self.items):
+            item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 380, 60)
+            
+            bought = item['id'] in self.app.inventory
+            if bought:
+                bg_col, txt_col, status = (80, 0, 0), (255, 50, 50), "SOLD"
+            else:
+                is_hover = item_rect.collidepoint(mouse_pos)
+                bg_col = (60, 60, 60) if is_hover else (30, 30, 30)
+                txt_col, status = 'white', f"{item['price']} C"
+
+            pg.draw.rect(self.app.screen, bg_col, item_rect)
+            pg.draw.rect(self.app.screen, 'red' if bought else 'white', item_rect, 2)
+            
+            name_s = self.font.render(item['name'], True, txt_col)
+            stat_s = self.font.render(status, True, 'yellow' if not bought else txt_col)
+            
+            self.app.screen.blit(name_s, (item_rect.x + 15, item_rect.y + 20))
+            self.app.screen.blit(stat_s, (item_rect.right - stat_s.get_width() - 15, item_rect.y + 20))
+
+        exit_col = 'yellow' if self.exit_rect.collidepoint(mouse_pos) else 'white'
+        exit_s = self.buttons_font.render("EXIT", True, exit_col)
+        self.app.screen.blit(exit_s, self.exit_rect)
