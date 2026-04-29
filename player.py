@@ -1,7 +1,6 @@
 from settings import *
 import math
 from entity import BaseEntity
-from bullet import Bullet
 from itertools import cycle
 
 
@@ -70,8 +69,6 @@ How are you today?
             self.inc *= self.diag_move_corr
 
     def single_fire(self, event):
-        if event.key == pg.K_UP:
-            Bullet(app=self.app)
         if event.key == pg.K_SPACE:
             self.app.message.handle_input()
 
