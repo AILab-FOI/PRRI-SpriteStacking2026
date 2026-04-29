@@ -28,40 +28,32 @@ ENTITY_SPRITE_ATTRS = {
         'num_layers': 12,
         'scale': 0.3,
         'y_offset': -20,
-	'message':"""7 minutes. 7 minutes is all I can spare to fish with you! """
+	'message':"""ALBERT WISKER:
+7 minutes. 7 minutes is all I can spare to fish with you! Go to the bridge and try your luck, but be quick about it! """
     },
     'forest_guardian': {
         'path': 'assets/entities/forest_guardian/forest_guard.png',
         'num_layers': 15,
         'scale': 0.3,
         'y_offset': -20,
-	'message':"""I am the guardian of this forest! """
+	'message':"""FOREST GUARDIAN:
+I am the guardian of this forest! """
     },
     'beetle': {
         'path': 'assets/entities/beetle/beetle.png',
         'num_layers': 12,
         'scale': 0.3,
         'y_offset': -20,
-	'message':"""Hello! """
+	'message':"""SHOPKEEPER:
+Greetings, traveler! Welcome to my humble shop. Feel free to browse my wares and let me know if you have any questions. """
     },
     'kosjenka': {
         'path': 'assets/entities/kosjenka/fairy.png',
         'num_layers': 12,
         'scale': 0.3,
         'y_offset': -20,
-	'message':"""Hello! """
-    },
-    'explosion': {
-        'num_layers': 7,
-        'scale': 1.0,
-        'path': 'assets/entities/explosion/explosion.png',
-        'y_offset': 50,
-    },
-    'bullet': {
-        'num_layers': 1,
-        'scale': 0.4,
-        'path': 'assets/entities/bullet/bullet.png',
-        'y_offset': 50,
+	'message':"""KOSJENKA:
+Hello! """
     },
 }
 

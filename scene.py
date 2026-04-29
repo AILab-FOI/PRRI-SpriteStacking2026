@@ -1,5 +1,5 @@
 from stacked_sprite import *
-from random import uniform
+from random import randint, uniform
 from entity import Entity
 from cache import Cache
 from player import Player
@@ -436,3 +436,63 @@ class ShopScene:
         exit_col = 'yellow' if self.exit_rect.collidepoint(mouse_pos) else 'white'
         exit_s = self.buttons_font.render("EXIT", True, exit_col)
         self.app.screen.blit(exit_s, self.exit_rect)
+
+class FishingScene:
+    def __init__(self, app, previous_scene):
+        self.app = app
+        self.previous_scene = previous_scene
+        self.app.message.active = False
+        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 20)
+        
+        self.bar_rect = pg.Rect(WIDTH // 2 - 200, HEIGHT // 2, 400, 40)
+        self.green_zone = pg.Rect(WIDTH // 2 - 50, HEIGHT // 2, 100, 40)
+        
+        self.marker_pos = self.bar_rect.left
+        self.marker_speed = randint(3, 8)
+        self.direction = 1
+
+    def update(self):
+        self.marker_pos += self.marker_speed * self.direction
+        if self.marker_pos >= self.bar_rect.right:
+            self.marker_pos = self.bar_rect.right
+            self.direction = -1
+        elif self.marker_pos <= self.bar_rect.left:
+            self.marker_pos = self.bar_rect.left
+            self.direction = 1
+
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+            
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    if self.green_zone.left <= self.marker_pos <= self.green_zone.right:
+                        self.fish_reward = self.marker_speed * 2
+                        self.app.coins += self.fish_reward
+                        self.app.message.set_message(f"Caught! +{self.fish_reward} Coins")
+                    else:
+                        self.app.message.set_message("It got away...")
+                    
+                    self.app.message.active = True
+                    self.app.scene = self.previous_scene
+                
+                elif event.key == pg.K_ESCAPE:
+                    self.app.scene = self.previous_scene
+
+    def draw(self):
+        self.previous_scene.draw()
+        
+        overlay = pg.Surface(RES, pg.SRCALPHA)
+        overlay.fill((0, 0, 0, 150))
+        self.app.screen.blit(overlay, (0, 0))
+
+        pg.draw.rect(self.app.screen, 'red', self.bar_rect)
+        pg.draw.rect(self.app.screen, 'green', self.green_zone)
+        pg.draw.rect(self.app.screen, 'black', self.bar_rect, 3)
+        
+        pg.draw.line(self.app.screen, 'white', (self.marker_pos, self.bar_rect.top - 10), 
+                     (self.marker_pos, self.bar_rect.bottom + 10), 5)
+        
+        txt = self.font.render("Press SPACE in the green area!", True, 'white')
+        self.app.screen.blit(txt, txt.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50)))

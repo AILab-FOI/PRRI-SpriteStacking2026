@@ -77,19 +77,23 @@ class App:
             return
 
         for sprite in self.main_group:
-            if hasattr(sprite, 'name') and sprite.name == 'shop':
-                player_pos = self.player.offset
-                shop_pos = sprite.pos
-                dist = player_pos.distance_to(shop_pos)
-
-                if dist < 200:
-                    text = "Press 'E' to Enter Shop"
-                    msg_surf = self.font_coins.render(text, True, 'white')
-                    
-                    pos = msg_surf.get_rect(center=(WIDTH // 2, HEIGHT * 0.8))
-                    
-                    self.screen.blit(msg_surf, pos)
+            if hasattr(sprite, 'name') and hasattr(sprite, 'pos'):
+                dist = self.player.offset.distance_to(sprite.pos)
+                
+                if sprite.name == 'shop' and dist < 300:
+                    self._render_msg("Press 'E' to Enter Shop")
                     break
+
+                elif sprite.name == 'bridge' and dist < 200:
+                    self._render_msg("Press 'E' to Fish")
+                    break
+
+    def _render_msg(self, text):
+        msg_surf = self.font_coins.render(text, True, 'white')
+        msg_shadow = self.font_coins.render(text, True, 'black')
+        pos = msg_surf.get_rect(center=(WIDTH // 2, HEIGHT * 0.8))
+        self.screen.blit(msg_shadow, (pos.x + 2, pos.y + 2))
+        self.screen.blit(msg_surf, pos)
 
     def draw(self):
         try:
@@ -107,9 +111,9 @@ class App:
         pg.display.flip()
 
     def check_events(self):
-        from scene import ShopScene
-        if isinstance(self.scene, ShopScene):
-            self.scene.update()
+        from scene import ShopScene, FishingScene
+        if isinstance(self.scene, ShopScene) or isinstance(self.scene, FishingScene):
+            self.scene.update() 
             return
         
         self.anim_trigger = False
@@ -132,16 +136,19 @@ class App:
                     self.scene = PauseScene(self, self.scene)
 
             elif e.type == pg.KEYDOWN and e.key == pg.K_e:
-                from scene import Scene, ShopScene
+                from scene import Scene, ShopScene, FishingScene
                 if isinstance(self.scene, Scene):
                     for sprite in self.main_group:
-                        if hasattr(sprite, 'name') and sprite.name == 'shop':
-                            player_pos = self.player.offset
-                            shop_pos = sprite.pos
-                            dist = player_pos.distance_to(shop_pos)
+                        if hasattr(sprite, 'name') and hasattr(sprite, 'pos'):
                             
-                            if dist < 200:
+                            dist = self.player.offset.distance_to(sprite.pos)
+                            
+                            if sprite.name == 'shop' and dist < 300:
                                 self.scene = ShopScene(self, self.scene)
+                                break
+                                
+                            elif sprite.name == 'bridge' and dist < 200:
+                                self.scene = FishingScene(self, self.scene)
                                 break
 
             elif e.type == self.anim_event:
