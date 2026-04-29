@@ -9,23 +9,36 @@ def plant_mushroom(app, scene):
     grid_pos = app.player.offset / TILE_SIZE
     map_x, map_y = int(grid_pos.x), int(grid_pos.y)
 
+    plant_name = 'mushroom1_small'
+    reward = 10
+    
+    if 'blue_mush' in app.inventory:
+        plant_name = 'mushroom3_small'
+        reward = 25
+    elif 'orange_mush' in app.inventory:
+        plant_name = 'mushroom2_small'
+        reward = 18
+
     if 0 <= map_y < len(MAP) and 0 <= map_x < len(MAP[0]):
         if MAP[map_y][map_x] in [F1, F2, F3, F4, F5, F6, F7, F8, F9]:
             existing_mush = None
             for sprite in app.main_group:
-                if isinstance(sprite, StackedSprite) and 'mushroom1' in sprite.name:
+                if isinstance(sprite, StackedSprite) and 'mush' in sprite.name:
                     if int(sprite.pos.x / TILE_SIZE) == map_x and int(sprite.pos.y / TILE_SIZE) == map_y:
                         existing_mush = sprite
                         break
 
             if existing_mush:
-                if existing_mush.name == 'mushroom1':
+                if not existing_mush.name.endswith('_small'):
+                    current_reward = 10
+                    if 'mushroom3' in existing_mush.name: current_reward = 30
+                    elif 'mushroom2' in existing_mush.name: current_reward = 20
+                    
                     existing_mush.kill()
-                    app.coins += 10
+                    app.coins += current_reward
                 else:
-                    elapsed = pg.time.get_ticks() - existing_mush.plant_time
-                    remaining = max(0, int((existing_mush.growth_time - elapsed) / 1000))
+                    print("Gljiva još raste...")
             else:
-                m = StackedSprite(app, name='mushroom1_small', pos=vec2(map_x, map_y) + vec2(0.5), rot=rand_rot(), collision=False)
+                m = StackedSprite(app, name=plant_name, pos=vec2(map_x, map_y) + vec2(0.5), rot=rand_rot(), collision=False)
                 m.plant_time = pg.time.get_ticks() 
-                m.growth_time = randint(10000, 60000) 
+                m.growth_time = randint(5000, 15000)

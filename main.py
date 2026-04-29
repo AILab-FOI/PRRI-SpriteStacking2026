@@ -36,6 +36,8 @@ class App:
         self.message = Message( self )
 
         self.coins = 0
+        self.inventory = set()
+
         self.font_coins = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
 
     def update(self):
@@ -47,14 +49,14 @@ class App:
         curr_time = pg.time.get_ticks()
         
         for sprite in self.main_group:
-            if isinstance(sprite, StackedSprite) and sprite.name == 'mushroom1_small':
+            if isinstance(sprite, StackedSprite) and sprite.name.endswith('_small'):
                 if hasattr(sprite, 'growth_time'):
                     if curr_time - sprite.plant_time > sprite.growth_time:
                         pos = sprite.pos / TILE_SIZE 
-                        rot = sprite.rot 
+                        adult_name = sprite.name.replace('_small', '')
                         sprite.kill() 
                         
-                        StackedSprite(self, name='mushroom1', pos=pos, rot=rand_rot(), collision=False)
+                        StackedSprite(self, name=adult_name, pos=pos, rot=rand_rot(), collision=False)
 
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
         self.delta_time = self.clock.tick()
@@ -69,6 +71,26 @@ class App:
         self.screen.blit(shadow_surf, (pos[0] + 2, pos[1] + 2))
         self.screen.blit(coin_surf, pos)
 
+    def draw_interaction_msg(self):
+        from scene import Scene
+        if not isinstance(self.scene, Scene):
+            return
+
+        for sprite in self.main_group:
+            if hasattr(sprite, 'name') and sprite.name == 'shop':
+                player_pos = self.player.offset
+                shop_pos = sprite.pos
+                dist = player_pos.distance_to(shop_pos)
+
+                if dist < 200:
+                    text = "Press 'E' to Enter Shop"
+                    msg_surf = self.font_coins.render(text, True, 'white')
+                    
+                    pos = msg_surf.get_rect(center=(WIDTH // 2, HEIGHT * 0.8))
+                    
+                    self.screen.blit(msg_surf, pos)
+                    break
+
     def draw(self):
         try:
             self.scene.draw()
@@ -80,10 +102,16 @@ class App:
         
         if isinstance(self.scene, (Scene)):
             self.draw_coins()
+            self.draw_interaction_msg()
         
         pg.display.flip()
 
     def check_events(self):
+        from scene import ShopScene
+        if isinstance(self.scene, ShopScene):
+            self.scene.update()
+            return
+        
         self.anim_trigger = False
         if hasattr(self.scene, 'start_rect') or hasattr(self.scene, 'resume_rect'): 
             return
@@ -102,6 +130,19 @@ class App:
                 from scene import Scene
                 if isinstance(self.scene, Scene):
                     self.scene = PauseScene(self, self.scene)
+
+            elif e.type == pg.KEYDOWN and e.key == pg.K_e:
+                from scene import Scene, ShopScene
+                if isinstance(self.scene, Scene):
+                    for sprite in self.main_group:
+                        if hasattr(sprite, 'name') and sprite.name == 'shop':
+                            player_pos = self.player.offset
+                            shop_pos = sprite.pos
+                            dist = player_pos.distance_to(shop_pos)
+                            
+                            if dist < 200:
+                                self.scene = ShopScene(self, self.scene)
+                                break
 
             elif e.type == self.anim_event:
                 self.anim_trigger = True
@@ -130,7 +171,6 @@ if __name__ == '__main__':
             platform.document.body.style.background = '#000000'
         except:
             pass
-        #asyncio.run( flash_bcg() )
 
     app = App()
     asyncio.run( run( app ) )
