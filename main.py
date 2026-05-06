@@ -36,6 +36,7 @@ class App:
         self.message = Message( self )
 
         self.coins = 0
+        self.simon_says_difficulty = 0
         self.inventory = { 'orange_mush': 0, 'blue_mush': 0, 'key1': False, 'key2': False, 'key3': False}
         self.konami_code = [pg.K_UP, pg.K_UP, pg.K_DOWN, pg.K_DOWN, pg.K_LEFT, pg.K_RIGHT, pg.K_LEFT, pg.K_RIGHT, pg.K_b, pg.K_a]
         self.current_input = []

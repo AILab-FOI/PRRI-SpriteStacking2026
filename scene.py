@@ -516,7 +516,8 @@ class SimonSaysScene:
         self.app.message.active = False
         self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
 
-        self.sequence = [random.choice(['W', 'A', 'S', 'D']) for _ in range(5)]
+        self.current_difficulty = self.app.simon_says_difficulty
+        self.sequence = [random.choice(['W', 'A', 'S', 'D']) for _ in range(5 + self.current_difficulty)]
         self.player_input = []
         self.start_time = pg.time.get_ticks()
         self.show_duration = 4000 
@@ -556,7 +557,10 @@ class SimonSaysScene:
             elapsed = pg.time.get_ticks() - mush.plant_time
             remaining = mush.growth_time - elapsed
             mush.growth_time = elapsed + (remaining * 0)
-        
+
+        if self.app.simon_says_difficulty < 10:
+            self.app.simon_says_difficulty += 1
+
         self.app.message.set_message("MAGIC! Growth accelerated!")
 
     def fail_game(self):
