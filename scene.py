@@ -4,6 +4,7 @@ from entity import Entity
 from cache import Cache
 from player import Player
 import threading
+import random
 
 P = 'player'
 W = 'albert_wisker'
@@ -14,22 +15,25 @@ r1 = 'rune1_off'
 r2 = 'rune2_off'
 r3 = 'rune3_off'
 F1, F2, F3, F4, F5, F6, F7, F8, F9 = 'field_1', 'field_2', 'field_3', 'field_4', 'field_5', 'field_6', 'field_7', 'field_8', 'field_9',
-T, A, B, C, BO, BM, TM, V, CK = 'blue_tree','grass', 'bridge', 'grand_tree', 'bonsai', 'mali_bonsai', 'malo_drvo', 'vrba', 'carobni_kristali'
+T, A, B, C, BO, BM, TM, V, CK, GK = 'blue_tree','grass', 'bridge', 'grand_tree', 'bonsai', 'mali_bonsai', 'malo_drvo', 'vrba', 'carobni_kristali', 'grand_cristal'
 R1, R2, R3, R4 = 'water1', 'water2', 'water3', 'water4'
+M1 = 'mushroom1'
+M2 = 'mushroom2'
+M3 = 'mushroom3'
 S = 'shop'
 SP = 'sphere'
 
 MAP = [
     [T, T, T, T, T, T, T, V, T, T, T, T, T, V, T, T, T, T, T, T, T, T],
     [V, T, T, T, T, V, T, T, T, T, V, T, T, T, T, T, V, T, T, T, T, T],
-    [T, T, 0, BM, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
-    [T, V, 0, 0, 0, 0, A, 0, BO, 0, A, 0, 0, 0, A, 0, CK, 0, 0, 0, T, T],
+    [T, T, 0, BM, 0, 0, 0, 0, M2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
+    [T, V, 0, 0, 0, 0, A, 0, BO, 0, A, 0, 0, 0, A, 0, CK, 0, GK, 0, T, T],
     [T, T, 0, 0, S, J, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, K, 0, 0, T, V],
-    [V, T, 0, A, 0, 0, 0, 0, A, 0, 0, 0, r1, 0, 0, CK, 0, 0, CK, 0, T, T],
+    [V, T, 0, A, 0, 0, M1, 0, A, 0, 0, 0, r1, 0, 0, CK, 0, 0, CK, 0, T, T],
     [T, T, 0, 0, 0, 0, BO, 0, 0, 0, P, G, C, r2, 0, 0, 0, A, 0, 0, V, T],
     [T, V, 0, 0, A, 0, 0, 0, A, 0, 0, 0, r3, 0, 0, 0, A, 0, 0, 0, V, T],
     [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, TM, 0, T, T],
-    [R1, R1, R1, R1, R1, R1, R1, R1, R1, R4, 0, 0, 0, 0, A, 0, 0, A, 0, 0, T, T],
+    [R1, R1, R1, R1, R1, R1, R1, R1, R1, R4, 0, 0, 0, 0, A, 0, 0, A, M3, 0, T, T],
     [T, T, 0, 0, 0, A, 0, 0, 0, R3, W, 0, 0, 0, 0, 0, 0, 0, BO, 0, T, T],
     [T, V, 0, F4, F8, F8, F5, 0, 0, R2, R1, B, R1, R4, 0, 0, 0, 0, A, 0, T, T],
     [T, T, 0, F7, F1, F1, F9, 0, 0, 0, 0, 0, 0, R2, R1, R1, R4, 0, 0, 0, T, T],
@@ -89,12 +93,14 @@ class Scene:
                     TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'carobni_kristali':
                     TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                elif name == 'grand_cristal':
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'rune1_off':
-                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=180)
                 elif name == 'rune2_off':
-                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=180)
                 elif name == 'rune3_off':
-                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=180)
                 elif name == 'shop':
                     StackedSprite(self.app, name=name, pos=(pos-vec2(0.3,0.5)), rot=215, collision=True)
                 elif name == 'grass':
@@ -502,3 +508,80 @@ class FishingScene:
         
         txt = self.font.render("Press SPACE in the green area!", True, 'white')
         self.app.screen.blit(txt, txt.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50)))
+
+class SimonSaysScene:
+    def __init__(self, app, previous_scene):
+        self.app = app
+        self.previous_scene = previous_scene
+        self.app.message.active = False
+        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
+
+        self.sequence = [random.choice(['W', 'A', 'S', 'D']) for _ in range(5)]
+        self.player_input = []
+        self.start_time = pg.time.get_ticks()
+        self.show_duration = 4000 
+        self.input_phase = False
+        self.finished = False
+
+    def update(self):
+        curr_time = pg.time.get_ticks()
+        
+        if not self.input_phase and curr_time - self.start_time > self.show_duration:
+            self.input_phase = True
+
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+
+            if event.type == pg.KEYDOWN and self.input_phase and not self.finished:
+                key_name = pg.key.name(event.key).upper()
+                if key_name in ['W', 'A', 'S', 'D']:
+                    self.player_input.append(key_name)
+                    
+                    idx = len(self.player_input) - 1
+                    if self.player_input[idx] != self.sequence[idx]:
+                        self.fail_game()
+                        self.app.message.active = True
+                        self.app.scene = self.previous_scene
+
+                    elif len(self.player_input) == len(self.sequence):
+                        self.win_game()
+                        self.app.message.active = True
+                        self.app.scene = self.previous_scene
+
+    def win_game(self):
+        self.finished = True
+        for mush in self.app.growing_mushrooms:
+            elapsed = pg.time.get_ticks() - mush.plant_time
+            remaining = mush.growth_time - elapsed
+            mush.growth_time = elapsed + (remaining * 0)
+        
+        self.app.message.set_message("MAGIC! Growth accelerated!")
+
+    def fail_game(self):
+        self.finished = True
+        self.app.message.set_message("Sequence failed...")
+
+    def draw(self):
+        self.previous_scene.draw()
+        overlay = pg.Surface(RES, pg.SRCALPHA)
+        overlay.fill((0, 0, 0, 200))
+        self.app.screen.blit(overlay, (0, 0))
+
+        if not self.input_phase:
+            title = self.font.render("MEMORIZE THIS:", True, 'white')
+            seq_display = " ".join(self.sequence)
+            seq_surf = self.font.render(seq_display, True, 'yellow')
+            
+            timer = 4 - (pg.time.get_ticks() - self.start_time) // 1000
+            info = self.font.render(f"Starts in: {max(0, timer)}", True, 'red')
+        else:
+            title = self.font.render("YOUR TURN:", True, 'green')
+            seq_display = " ".join(self.player_input)
+            seq_surf = self.font.render(seq_display, True, 'white')
+            info = self.font.render("Repeat the pattern!", True, 'gray')
+
+        self.app.screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 100)))
+        self.app.screen.blit(seq_surf, seq_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
+        self.app.screen.blit(info, info.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 100)))

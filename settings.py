@@ -35,7 +35,7 @@ ENTITY_SPRITE_ATTRS = {
         'num_layers': 15,
         'scale': 0.3,
         'y_offset': -20,
-	'message':"""FOREST GUARDIAN:
+	'message':"""STRIBOR:
 I am the guardian of this forest! """
     },
     'beetle': {
@@ -52,7 +52,7 @@ Greetings, traveler! Welcome to my humble shop. Feel free to browse my wares and
         'scale': 0.3,
         'y_offset': -20,
 	'message':"""KOSJENKA:
-Hello! """
+Hello! I am Kosjenka, guardian fairy who protects these beautiful crystals! If you want to test your memory, visit the grand crystal. Good luck!"""
     },
 }
 
@@ -119,10 +119,18 @@ STACKED_SPRITE_ATTRS = {
     'carobni_kristali': {
         'path': 'assets/stacked_sprites/ss_carobni_kristali.png',
         'num_layers': 12,
-        'scale': 2,
+        'scale': 1.3,
         'y_offset': -10,
         'transparency': True,
-        'mask_layer': 3,
+        'mask_layer': 2,
+    },
+    'grand_cristal': {
+        'path': 'assets/stacked_sprites/ss_carobni_kristali.png',
+        'num_layers': 12,
+        'scale': 2.2,
+        'y_offset': -10,
+        'transparency': True,
+        'mask_layer': 2,
     },
     'grand_tree': {
         'path': 'assets/stacked_sprites/trees/carobno_stablo_spritestack-2.png',
@@ -296,6 +304,30 @@ STACKED_SPRITE_ATTRS = {
     },
     'rune3_off': {
         'path': 'assets/stacked_sprites/runes/rune3_off.png',
+        'num_layers': 16,
+        'scale': 4,
+        'y_offset': 20,
+        'mask_layer': 1,
+        'transparency': True,
+    },
+    'rune1_on': {
+        'path': 'assets/stacked_sprites/runes/rune1_on.png',
+        'num_layers': 16,
+        'scale': 4,
+        'y_offset': 20,
+        'mask_layer': 1,
+        'transparency': True,
+    },
+    'rune2_on': {
+        'path': 'assets/stacked_sprites/runes/rune2_on.png',
+        'num_layers': 16,
+        'scale': 4,
+        'y_offset': 20,
+        'mask_layer': 1,
+        'transparency': True,
+    },
+    'rune3_on': {
+        'path': 'assets/stacked_sprites/runes/rune3_on.png',
         'num_layers': 16,
         'scale': 4,
         'y_offset': 20,
