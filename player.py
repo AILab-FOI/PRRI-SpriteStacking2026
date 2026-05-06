@@ -7,6 +7,8 @@ from itertools import cycle
 class Player(BaseEntity):
     def __init__(self, app, name='player'):
         super().__init__(app, name)
+        base_layer = self.images[0]
+        self.mask = pg.mask.from_surface(base_layer)
         self.group.change_layer(self, CENTER.y)
 
         self.rect = self.image.get_rect(center=CENTER)
@@ -89,7 +91,13 @@ How are you today?
                 self.app.message.set_message( hitobst[ 0 ].message )
                 self.app.message.active = True
 
-                
+    def update_mask(self):
+        temp_surface = self.images[self.frame_index].copy()
+        collision_height = 20
+        clear_rect = pg.Rect(0, 0, temp_surface.get_width(), temp_surface.get_height() - collision_height)
+        temp_surface.fill((0, 0, 0, 0), clear_rect)
+        self.mask = pg.mask.from_surface(temp_surface)
+
     def animate(self):
         if self.app.anim_trigger:
             if self.direction == 'DOWN':
@@ -114,6 +122,7 @@ How are you today?
                     self.frame_index = self.right_ind[ 1 ]
 
             self.image = self.images[self.frame_index]
+            self.update_mask()
 
     def update(self):
         #super().update()

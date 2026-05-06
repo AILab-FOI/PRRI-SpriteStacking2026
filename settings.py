@@ -12,13 +12,12 @@ PLAYER_SPEED = 0.4
 PLAYER_ROT_SPEED = 0.0015
 
 BG_COLOR = 'olivedrab'  #
-NUM_ANGLES = 72  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
+NUM_ANGLES = 60  # multiple of 360 -> 24, 30, 36, 40, 45, 60, 72, 90, 120, 180
 
 # entity settings
 ENTITY_SPRITE_ATTRS = {
     'player': {
         'path': 'assets/entities/player/player_m.png',
-        'mask_path': 'assets/entities/player/mask.png',
         'num_layers': 11,
         'scale': 0.3,
         'y_offset': 0,

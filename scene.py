@@ -178,6 +178,8 @@ class LoadingScene:
         self.bar_height = int( HEIGHT / 56.33 )
         self.MAX = len( STACKED_SPRITE_ATTRS )
         self.done = False
+        raw_bg = pg.image.load('assets/images/loading.png').convert()
+        self.bg_img = pg.transform.smoothscale(raw_bg, self.app.screen.get_size())
         self.app.cache = Cache(self.app)
         self.app.cache.get_entity_sprite_cache()
         self.stacked_sprite_iterator = self.app.cache.get_stacked_sprite_cache()
@@ -202,9 +204,7 @@ class LoadingScene:
 
     def draw(self):
         #self.app.screen.fill(BG_COLOR)
-        self.bg_img = pg.image.load('assets/images/loading.png')
-        self.bg_img = pg.transform.smoothscale( self.bg_img, self.app.screen.get_size())
-        self.app.screen.blit(self.bg_img, self.bg_img.get_rect())
+        self.app.screen.blit(self.bg_img, (0, 0))
         screen_center_x = self.app.screen.get_width() // 2
         screen_center_y = self.app.screen.get_height() // 100 * 85
 
@@ -229,21 +229,14 @@ class LoadingScene:
 class MenuScene:
     def __init__(self, app):
         self.app = app
-        self.bg_img = pg.image.load('assets/images/menu.png').convert()
-        self.bg_img = pg.transform.smoothscale(self.bg_img, self.app.screen.get_size())
+        raw_bg = pg.image.load('assets/images/menu.png').convert()
+        self.bg_img = pg.transform.smoothscale(raw_bg, self.app.screen.get_size())
 
-        self.start_img = pg.image.load('assets/buttons/start.png').convert_alpha()
-        self.quit_img = pg.image.load('assets/buttons/exit.png').convert_alpha()
-
-        self.start_hover_img = pg.image.load('assets/buttons/start_hover.png').convert_alpha()
-        self.quit_hover_img = pg.image.load('assets/buttons/exit_hover.png').convert_alpha()
-
-        self.start_img = pg.transform.scale(self.start_img, (250, 100))
-        self.quit_img = pg.transform.scale(self.quit_img, (250, 100))
-
-        self.start_hover_img = pg.transform.scale(self.start_hover_img, (250, 100))
-        self.quit_hover_img = pg.transform.scale(self.quit_hover_img, (250, 100))
-        
+        btn_size = (250, 100)
+        self.start_img = pg.transform.scale(pg.image.load('assets/buttons/start.png').convert_alpha(), btn_size)
+        self.quit_img = pg.transform.scale(pg.image.load('assets/buttons/exit.png').convert_alpha(), btn_size)
+        self.start_hover_img = pg.transform.scale(pg.image.load('assets/buttons/start_hover.png').convert_alpha(), btn_size)
+        self.quit_hover_img = pg.transform.scale(pg.image.load('assets/buttons/exit_hover.png').convert_alpha(), btn_size)
         self.start_rect = self.start_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.6))
         self.quit_rect = self.quit_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.6 + 150))
 
@@ -376,10 +369,13 @@ class ShopScene:
         self.exit_rect = self.exit_surf.get_rect(center=(WIDTH // 2, HEIGHT - 100))
 
     def buy_item(self, item):
-        if item['id'] in self.app.inventory: return
         if self.app.coins >= item['price']:
-            self.app.coins -= item['price']
-            self.app.inventory.add(item['id'])
+            if item['id'] in ['orange_mush', 'blue_mush']:
+                self.app.coins -= item['price']
+                self.app.inventory[item['id']] += 1
+            elif not self.app.inventory.get(item['id']):
+                self.app.coins -= item['price']
+                self.app.inventory[item['id']] = True
 
     def update(self):
         mouse_pos = pg.mouse.get_pos()
@@ -396,7 +392,9 @@ class ShopScene:
                         return
 
                     for i, item in enumerate(self.items):
-                        if item['id'] in self.app.inventory: continue
+                        item_id = item['id']
+                        if item_id.startswith('key') and self.app.inventory.get(item_id):
+                            continue
                         
                         item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 380, 60)
                         if item_rect.collidepoint(mouse_pos):
@@ -405,37 +403,45 @@ class ShopScene:
     def draw(self):
         self.app.screen.blit(self.bg_img, (0, 0))
         
-        coin_surf = self.buttons_font.render(f"Coins: {self.app.coins}", True, 'yellow')
-        shadow_surf = self.buttons_font.render(f"Coins: {self.app.coins}", True, 'black')
-        Cpos = (WIDTH - coin_surf.get_width() - 20, 20)
-
-        self.app.screen.blit(shadow_surf, (Cpos[0] + 2, Cpos[1] + 2))
-        self.app.screen.blit(coin_surf, Cpos)
+        coin_text = f"Coins: {self.app.coins}"
+        coin_surf = self.buttons_font.render(coin_text, True, 'yellow')
+        coin_shadow = self.buttons_font.render(coin_text, True, 'black')
+        self.app.screen.blit(coin_shadow, (WIDTH - coin_surf.get_width() - 18, 22))
+        self.app.screen.blit(coin_surf, (WIDTH - coin_surf.get_width() - 20, 20))
 
         mouse_pos = pg.mouse.get_pos()
         for i, item in enumerate(self.items):
             item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 380, 60)
-            
-            bought = item['id'] in self.app.inventory
-            if bought:
+            item_id = item['id']
+
+            is_key = item_id.startswith('key')
+            already_has_key = is_key and self.app.inventory.get(item_id, False)
+
+            if already_has_key:
                 bg_col, txt_col, status = (80, 0, 0), (255, 50, 50), "SOLD"
             else:
                 is_hover = item_rect.collidepoint(mouse_pos)
                 bg_col = (60, 60, 60) if is_hover else (30, 30, 30)
-                txt_col, status = 'white', f"{item['price']} C"
+                txt_col = 'white'
+
+                if not is_key:
+                    count = self.app.inventory.get(item_id, 0)
+                    status = f"{item['price']} C ({count})"
+                else:
+                    status = f"{item['price']} C"
 
             pg.draw.rect(self.app.screen, bg_col, item_rect)
-            pg.draw.rect(self.app.screen, 'red' if bought else 'white', item_rect, 2)
+            pg.draw.rect(self.app.screen, 'red' if already_has_key else 'white', item_rect, 2)
             
-            name_s = self.font.render(item['name'], True, txt_col)
-            stat_s = self.font.render(status, True, 'yellow' if not bought else txt_col)
+            name_surf = self.font.render(item['name'], True, txt_col)
+            stat_surf = self.font.render(status, True, 'yellow' if not already_has_key else txt_col)
             
-            self.app.screen.blit(name_s, (item_rect.x + 15, item_rect.y + 20))
-            self.app.screen.blit(stat_s, (item_rect.right - stat_s.get_width() - 15, item_rect.y + 20))
+            self.app.screen.blit(name_surf, (item_rect.x + 15, item_rect.y + 20))
+            self.app.screen.blit(stat_surf, (item_rect.right - stat_surf.get_width() - 15, item_rect.y + 20))
 
         exit_col = 'yellow' if self.exit_rect.collidepoint(mouse_pos) else 'white'
-        exit_s = self.buttons_font.render("EXIT", True, exit_col)
-        self.app.screen.blit(exit_s, self.exit_rect)
+        exit_surf = self.buttons_font.render("EXIT", True, exit_col)
+        self.app.screen.blit(exit_surf, self.exit_rect)
 
 class FishingScene:
     def __init__(self, app, previous_scene):

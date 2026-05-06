@@ -36,7 +36,11 @@ class App:
         self.message = Message( self )
 
         self.coins = 0
-        self.inventory = set()
+        self.inventory = { 'orange_mush': 0, 'blue_mush': 0, 'key1': False, 'key2': False, 'key3': False}
+        self.konami_code = [pg.K_UP, pg.K_UP, pg.K_DOWN, pg.K_DOWN, pg.K_LEFT, pg.K_RIGHT, pg.K_LEFT, pg.K_RIGHT, pg.K_b, pg.K_a]
+        self.current_input = []
+
+        self.growing_mushrooms = []
 
         self.font_coins = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
 
@@ -48,15 +52,13 @@ class App:
 
         curr_time = pg.time.get_ticks()
         
-        for sprite in self.main_group:
-            if isinstance(sprite, StackedSprite) and sprite.name.endswith('_small'):
-                if hasattr(sprite, 'growth_time'):
-                    if curr_time - sprite.plant_time > sprite.growth_time:
-                        pos = sprite.pos / TILE_SIZE 
-                        adult_name = sprite.name.replace('_small', '')
-                        sprite.kill() 
-                        
-                        StackedSprite(self, name=adult_name, pos=pos, rot=rand_rot(), collision=False)
+        for sprite in self.growing_mushrooms[:]:
+            if curr_time - sprite.plant_time > sprite.growth_time:
+                pos = sprite.pos / TILE_SIZE 
+                adult_name = sprite.name.replace('_small', '')
+                sprite.kill() 
+                self.growing_mushrooms.remove(sprite)
+                StackedSprite(self, name=adult_name, pos=pos, rot=uniform(0, 360), collision=False)
 
         pg.display.set_caption(f'{self.clock.get_fps(): .1f}')
         self.delta_time = self.clock.tick()
@@ -86,6 +88,10 @@ class App:
 
                 elif sprite.name == 'bridge' and dist < 200:
                     self._render_msg("Press 'E' to Fish")
+                    break
+
+                elif sprite.name.startswith('field_') and dist < 150:
+                    self._render_msg("Press 'F' to plant/harvest mushroom")
                     break
 
     def _render_msg(self, text):
@@ -125,36 +131,43 @@ class App:
                 pg.quit()
                 sys.exit()
 
-            elif e.type == pg.KEYDOWN and e.key == pg.K_f:
-                from scene import Scene
-                if isinstance(self.scene, Scene):
-                    plant_mushroom(self, self.scene)
-
-            elif e.type == pg.KEYDOWN and e.key == pg.K_ESCAPE:
-                from scene import Scene
-                if isinstance(self.scene, Scene):
-                    self.scene = PauseScene(self, self.scene)
-
-            elif e.type == pg.KEYDOWN and e.key == pg.K_e:
-                from scene import Scene, ShopScene, FishingScene
-                if isinstance(self.scene, Scene):
-                    for sprite in self.main_group:
-                        if hasattr(sprite, 'name') and hasattr(sprite, 'pos'):
-                            
-                            dist = self.player.offset.distance_to(sprite.pos)
-                            
-                            if sprite.name == 'shop' and dist < 300:
-                                self.scene = ShopScene(self, self.scene)
-                                break
-                                
-                            elif sprite.name == 'bridge' and dist < 200:
-                                self.scene = FishingScene(self, self.scene)
-                                break
-
             elif e.type == self.anim_event:
                 self.anim_trigger = True
-                
+
             elif e.type == pg.KEYDOWN:
+                self.current_input.append(e.key)
+                if len(self.current_input) > len(self.konami_code):
+                    self.current_input.pop(0)
+                
+                if self.current_input == self.konami_code:
+                    self.coins += 1000
+                    self.message.set_message("CHEAT ENABLED: +1000 COINS")
+                    self.message.active = True
+                    self.current_input = []
+
+                if e.key == pg.K_f:
+                    from scene import Scene
+                    if isinstance(self.scene, Scene):
+                        plant_mushroom(self, self.scene)
+
+                elif e.key == pg.K_ESCAPE:
+                    from scene import Scene
+                    if isinstance(self.scene, Scene):
+                        self.scene = PauseScene(self, self.scene)
+
+                elif e.key == pg.K_e:
+                    from scene import Scene, ShopScene, FishingScene
+                    if isinstance(self.scene, Scene):
+                        for sprite in self.main_group:
+                            if hasattr(sprite, 'name') and hasattr(sprite, 'pos'):
+                                dist = self.player.offset.distance_to(sprite.pos)
+                                if sprite.name == 'shop' and dist < 300:
+                                    self.scene = ShopScene(self, self.scene)
+                                    break
+                                elif sprite.name == 'bridge' and dist < 200:
+                                    self.scene = FishingScene(self, self.scene)
+                                    break
+                
                 if self.player:
                     self.player.single_fire(event=e)
 
