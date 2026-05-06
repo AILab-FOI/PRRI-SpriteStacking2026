@@ -31,9 +31,9 @@ class Player(BaseEntity):
         self.direction = 'DOWN'
         self.moving = False
 
-        self.message = """Welcome to the Game.
+        self.message = """Welcome to the magical Forest.
 
-How are you today?
+Are you ready for the grand adventure?
 
 """
 

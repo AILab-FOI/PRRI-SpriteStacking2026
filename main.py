@@ -45,10 +45,12 @@ class App:
         self.font_coins = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
 
     def update(self):
-        rand_rot = lambda: uniform(0, 360)
-        self.scene.update()
-        self.entity_group.update()
-        self.main_group.update()
+        from scene import Scene
+        if isinstance(self.scene, Scene):
+            self.entity_group.update()
+            self.main_group.update()
+        else:
+            self.scene.update()
 
         curr_time = pg.time.get_ticks()
         
@@ -90,8 +92,56 @@ class App:
                     self._render_msg("Press 'E' to Fish")
                     break
 
-                elif sprite.name.startswith('field_') and dist < 150:
-                    self._render_msg("Press 'F' to plant/harvest mushroom")
+                elif sprite.name == 'mushroom1' and dist < 150:
+                    self._render_msg("Press 'F' to Harvest")
+                    break
+
+                elif sprite.name == 'mushroom2' and dist < 150:
+                    self._render_msg("Press 'F' to Harvest")
+                    break
+
+                elif sprite.name == 'mushroom3' and dist < 150:
+                    self._render_msg("Press 'F' to Harvest")
+                    break
+
+                if 'field' in sprite.name and dist < 150:
+                    grid_pos_x = int(sprite.pos.x / TILE_SIZE)
+                    grid_pos_y = int(sprite.pos.y / TILE_SIZE)
+                    
+                    has_mushroom = False
+                    is_ready = False
+                    
+                    for s in self.main_group:
+                        if isinstance(s, StackedSprite) and 'mush' in s.name:
+                            if int(s.pos.x / TILE_SIZE) == grid_pos_x and int(s.pos.y / TILE_SIZE) == grid_pos_y:
+                                has_mushroom = True
+                                if not s.name.endswith('_small'):
+                                    is_ready = True
+                                break
+                    
+                    if has_mushroom:
+                        if is_ready:
+                            self._render_msg("Press 'F' to Harvest")
+                        else:
+                            self._render_msg("Mushroom is growing...")
+                    else:
+                        self._render_msg("Press 'F' to Plant")
+                    return
+
+                elif sprite.name == 'grand_cristal' and dist < 200:
+                    self._render_msg("Press 'E' to Start the magic")
+                    break
+
+                elif sprite.name == 'rune1_off' and dist < 200:
+                    self._render_msg("Press 'E' to Activate")
+                    break
+
+                elif sprite.name == 'rune2_off' and dist < 200:
+                    self._render_msg("Press 'E' to Activate")
+                    break
+
+                elif sprite.name == 'rune3_off' and dist < 200:
+                    self._render_msg("Press 'E' to Activate")
                     break
 
     def _render_msg(self, text):
@@ -117,9 +167,10 @@ class App:
         pg.display.flip()
 
     def check_events(self):
-        from scene import ShopScene, FishingScene
-        if isinstance(self.scene, ShopScene) or isinstance(self.scene, FishingScene):
-            self.scene.update() 
+        from scene import ShopScene, FishingScene, SimonSaysScene, Scene
+        
+        if isinstance(self.scene, (ShopScene, FishingScene, SimonSaysScene)):
+            self.scene.update()
             return
         
         self.anim_trigger = False
@@ -138,7 +189,6 @@ class App:
                 self.current_input.append(e.key)
                 if len(self.current_input) > len(self.konami_code):
                     self.current_input.pop(0)
-                
                 if self.current_input == self.konami_code:
                     self.coins += 1000
                     self.message.set_message("CHEAT ENABLED: +1000 COINS")
@@ -166,6 +216,39 @@ class App:
                                     break
                                 elif sprite.name == 'bridge' and dist < 200:
                                     self.scene = FishingScene(self, self.scene)
+                                    break
+                                elif sprite.name == 'grand_cristal' and dist < 200:
+                                    self.scene = SimonSaysScene(self, self.scene)
+                                    return
+                                elif sprite.name in ['rune1_off', 'rune2_off', 'rune3_off'] and dist < 200:
+                                    rune_data = {
+                                        'rune1_off': {'key': 'key1', 'on': 'rune1_on'},
+                                        'rune2_off': {'key': 'key2', 'on': 'rune2_on'},
+                                        'rune3_off': {'key': 'key3', 'on': 'rune3_on'}
+                                    }
+    
+                                    current_rune = rune_data[sprite.name]
+    
+                                    if self.inventory.get(current_rune['key']):
+                                        from stacked_sprite import StackedSprite
+                                        StackedSprite(self, name=current_rune['on'], pos=sprite.pos / TILE_SIZE, rot=180)
+        
+                                        sprite.kill()
+        
+                                        self.message.set_message(f"Rune activated! The magick is returning.")
+                                        self.message.active = True
+
+                                        active_runes = 0
+                                        for s in self.main_group:
+                                            if hasattr(s, 'name') and s.name in ['rune1_on', 'rune2_on', 'rune3_on']:
+                                                active_runes += 1
+        
+                                        if active_runes == 3:
+                                            self.message.set_message("STRIBOR:\n You returned the magic to the forest!")
+                                            self.message.active = True
+                                    else:
+                                        self.message.set_message(f"I need a key to activate this rune.")
+                                        self.message.active = True
                                     break
                 
                 if self.player:
