@@ -5,6 +5,7 @@ from cache import Cache
 from player import Player
 import threading
 import random
+import os
 
 P = 'player'
 W = 'albert_wisker'
@@ -240,11 +241,16 @@ class MenuScene:
 
         btn_size = (250, 100)
         self.start_img = pg.transform.scale(pg.image.load('assets/buttons/start.png').convert_alpha(), btn_size)
+        self.new_game_img = pg.transform.scale(pg.image.load('assets/buttons/reset.png').convert_alpha(), btn_size)
         self.quit_img = pg.transform.scale(pg.image.load('assets/buttons/exit.png').convert_alpha(), btn_size)
+        
         self.start_hover_img = pg.transform.scale(pg.image.load('assets/buttons/start_hover.png').convert_alpha(), btn_size)
+        self.new_hover_img = pg.transform.scale(pg.image.load('assets/buttons/reset_hover.png').convert_alpha(), btn_size)
         self.quit_hover_img = pg.transform.scale(pg.image.load('assets/buttons/exit_hover.png').convert_alpha(), btn_size)
-        self.start_rect = self.start_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.6))
-        self.quit_rect = self.quit_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.6 + 150))
+
+        self.start_rect = self.start_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.5))
+        self.new_game_rect = self.new_game_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.5 + 120))
+        self.quit_rect = self.quit_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.5 + 240))
 
         pg.mixer.init()
         try:
@@ -271,6 +277,12 @@ class MenuScene:
                         self.app.scene = Scene(self.app)
                         return 
 
+                    if self.new_game_rect.collidepoint(mouse_pos):
+                        self.app.reset_for_new_game()
+                        self.app.player = Player(self.app) 
+                        self.app.scene = Scene(self.app)
+                        return
+
                     if self.quit_rect.collidepoint(mouse_pos):
                         pg.quit()
                         import sys
@@ -284,6 +296,11 @@ class MenuScene:
             self.app.screen.blit(self.start_hover_img, self.start_rect)
         else:
             self.app.screen.blit(self.start_img, self.start_rect)
+
+        if self.new_game_rect.collidepoint(mouse_pos):
+            self.app.screen.blit(self.new_hover_img, self.new_game_rect)
+        else:
+            self.app.screen.blit(self.new_game_img, self.new_game_rect)
 
         if self.quit_rect.collidepoint(mouse_pos):
             self.app.screen.blit(self.quit_hover_img, self.quit_rect)
@@ -309,8 +326,7 @@ class PauseScene:
         mouse_pos = pg.mouse.get_pos()
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                pg.QUIT()
-                sys.exit()
+                self.app.exit_game()
 
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
@@ -321,8 +337,7 @@ class PauseScene:
                     if self.resume_rect.collidepoint(mouse_pos):
                         self.app.scene = self.game_scene
                     elif self.exit_rect.collidepoint(mouse_pos):
-                        pg.quit()
-                        sys.exit()
+                        self.app.exit_game()
 
     def draw(self):
         self.game_scene.draw()

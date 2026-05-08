@@ -39,6 +39,6 @@ def plant_mushroom(app, scene):
                     app.inventory['orange_mush'] -= 1
                 
                 m = StackedSprite(app, name=plant_name, pos=vec2(map_x, map_y) + vec2(0.5), rot=rand_rot(), collision=False)
-                m.plant_time = pg.time.get_ticks()
+                m.plant_time = app.curr_time
                 m.growth_time = randint(300000, 900000)
                 app.growing_mushrooms.append(m)

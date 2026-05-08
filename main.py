@@ -10,6 +10,7 @@ from message import Message
 from farming import plant_mushroom
 from stacked_sprite import StackedSprite
 from random import uniform
+import json
 
 class App:
     def __init__(self):
@@ -35,6 +36,8 @@ class App:
         self.scene = LoadingScene( self )
         self.message = Message( self )
 
+        self.curr_time = 0
+        self.play_time = 0
         self.coins = 0
         self.simon_says_difficulty = 0
         self.inventory = { 'orange_mush': 0, 'blue_mush': 0, 'key1': False, 'key2': False, 'key3': False}
@@ -45,6 +48,92 @@ class App:
 
         self.font_coins = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
 
+        self.load_game()
+
+    def save_game(self):
+        try:
+            from scene import MAP, F1, F2, F3, F4, F5, F6, F7, F8, F9
+            farming_fields = [F1, F2, F3, F4, F5, F6, F7, F8, F9]
+            
+            mushrooms_on_fields = []
+            active_runes = []
+            
+            for sprite in self.main_group:
+                if hasattr(sprite, 'name'):
+                    if 'mush' in sprite.name:
+                        map_x = int(sprite.pos.x / TILE_SIZE)
+                        map_y = int(sprite.pos.y / TILE_SIZE)
+                        
+                        if 0 <= map_y < len(MAP) and 0 <= map_x < len(MAP[0]):
+                            if MAP[map_y][map_x] in farming_fields:
+                                mushrooms_on_fields.append({
+                                    'name': sprite.name,
+                                    'pos': [map_x, map_y],
+                                    'rot': getattr(sprite, 'rot', 0),
+                                    'growth_time': getattr(sprite, 'growth_time', 0),
+                                    'plant_time': getattr(sprite, 'plant_time', 0)
+                                })
+
+                    elif sprite.name in ['rune1_on', 'rune2_on', 'rune3_on']:
+                        active_runes.append({
+                            'name': sprite.name,
+                        })
+
+            save_data = {
+                'play_time': self.curr_time,
+                'coins': self.coins,
+                'inventory': self.inventory,
+                'simon_says_difficulty': self.simon_says_difficulty,
+                'player_pos': [self.player.offset.x, self.player.offset.y] if self.player else [0, 0],
+                'mushrooms': mushrooms_on_fields,
+                'active_runes': active_runes
+            }
+
+            with open('savegame.json', 'w') as f:
+                json.dump(save_data, f, indent=4)
+            print("Igra spremljena")
+        except Exception as e:
+            print(f"Greška pri spremanju: {e}")
+
+    def load_game(self):
+        import os
+        if not os.path.exists('savegame.json'): return
+
+        try:
+            with open('savegame.json', 'r') as f:
+                save_data = json.load(f)
+                self.play_time = save_data.get('play_time', 0)
+                self.coins = save_data.get('coins', 0)
+                self.inventory = save_data.get('inventory', self.inventory)
+                self.simon_says_difficulty = save_data.get('simon_says_difficulty', 0)
+                self.saved_player_pos = save_data.get('player_pos', None)
+                self.saved_mushrooms = save_data.get('mushrooms', [])
+                self.saved_runes = save_data.get('active_runes', [])
+
+            print("Sustav: Podaci uspješno učitani.")
+        except Exception as e:
+            print(f"Greška pri učitavanju: {e}")
+
+    def reset_for_new_game(self):
+        import os
+        if os.path.exists('savegame.json'):
+            os.remove('savegame.json')
+    
+        self.play_time = 0
+        self.coins = 0
+        self.inventory = { 'orange_mush': 0, 'blue_mush': 0, 'key1': False, 'key2': False, 'key3': False}
+        self.simon_says_difficulty = 0
+        self.saved_player_pos = None
+        self.saved_mushrooms = []
+        self.saved_runes = []
+        self.growing_mushrooms = []
+
+    def exit_game(self):
+        print("Spremanje i izlaz...")
+        self.save_game()
+        pg.quit()
+        sys.exit()
+
     def update(self):
         from scene import Scene
         if isinstance(self.scene, Scene):
@@ -53,10 +142,36 @@ class App:
         else:
             self.scene.update()
 
-        curr_time = pg.time.get_ticks()
+            if hasattr(self, 'saved_player_pos') and self.saved_player_pos and self.player:
+                self.player.offset = pg.math.Vector2(self.saved_player_pos[0], self.saved_player_pos[1])
+                self.saved_player_pos = None
+
+            if hasattr(self, 'saved_mushrooms') and self.saved_mushrooms and self.player:
+                for m in self.saved_mushrooms:
+                    new_mush = StackedSprite(self, name=m['name'], pos=vec2(m['pos'][0] + 0.5, m['pos'][1] + 0.5), collision = False)
+                    if 'growth_time' and 'plant_time' in m:
+                        new_mush.growth_time = m['growth_time']
+                        new_mush.plant_time = m['plant_time']
+                    self.growing_mushrooms.append(new_mush)
+                self.saved_mushrooms = []
+
+            if hasattr(self, 'saved_runes') and self.saved_runes:
+                if len(self.main_group) > 0:
+                    for r in self.saved_runes:
+                        for sprite in list(self.main_group):
+                            if hasattr(sprite, 'name') and 'rune' in sprite.name:
+                                r_base = r['name'].split('_')[0]
+                                s_base = sprite.name.split('_')[0]
+                
+                                if r_base == s_base:
+                                    StackedSprite(self, name=r['name'], pos=sprite.pos / TILE_SIZE, rot=180)
+                                    sprite.kill()
+                    self.saved_runes = []
+
+        self.curr_time = self.play_time + pg.time.get_ticks()
         
         for sprite in self.growing_mushrooms[:]:
-            if curr_time - sprite.plant_time > sprite.growth_time:
+            if self.curr_time - sprite.plant_time > sprite.growth_time:
                 pos = sprite.pos / TILE_SIZE 
                 adult_name = sprite.name.replace('_small', '')
                 sprite.kill() 
@@ -180,8 +295,7 @@ class App:
         
         for e in pg.event.get():
             if e.type == pg.QUIT:
-                pg.quit()
-                sys.exit()
+                self.exit_game()
 
             elif e.type == self.anim_event:
                 self.anim_trigger = True
