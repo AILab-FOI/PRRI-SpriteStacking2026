@@ -245,8 +245,18 @@ class App:
                     return
 
                 elif sprite.name == 'grand_cristal' and dist < 200:
-                    self._render_msg("Press 'E' to Start the magic")
-                    break
+                    growing_mush = False
+                    for s in self.main_group:
+                        if isinstance(s, StackedSprite) and 'mush' in s.name:
+                            if s.name.endswith('small'):
+                                growing_mush = True
+                                break
+                    if growing_mush:
+                        self._render_msg("Press 'E' to Start the magic")
+                        break
+                    else:
+                        self._render_msg("There are no growing mushrooms")
+                        break
 
                 elif sprite.name == 'rune1_off' and dist < 200:
                     self._render_msg("Press 'E' to Activate")
@@ -333,8 +343,16 @@ class App:
                                     self.scene = FishingScene(self, self.scene)
                                     break
                                 elif sprite.name == 'grand_cristal' and dist < 200:
-                                    self.scene = SimonSaysScene(self, self.scene)
-                                    return
+                                    growing_mush = False
+                                    for s in self.main_group:
+                                        from stacked_sprite import StackedSprite
+                                        if isinstance(s, StackedSprite) and 'mush' in s.name:
+                                            if s.name.endswith('small'):
+                                                growing_mush = True
+                                                break
+                                    if growing_mush:
+                                        self.scene = SimonSaysScene(self, self.scene)
+                                        return
                                 elif sprite.name in ['rune1_off', 'rune2_off', 'rune3_off'] and dist < 200:
                                     rune_data = {
                                         'rune1_off': {'key': 'key1', 'on': 'rune1_on'},
