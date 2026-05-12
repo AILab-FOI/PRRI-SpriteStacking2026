@@ -19,10 +19,16 @@ def plant_mushroom(app, scene):
     if existing_mush:
         if not existing_mush.name.endswith('_small'):
             current_reward = 10
-            if 'mushroom3' in existing_mush.name: current_reward = 30
-            elif 'mushroom2' in existing_mush.name: current_reward = 20
+            if 'mushroom3' in existing_mush.name: current_reward = 250
+            elif 'mushroom2' in existing_mush.name: current_reward = 75
             
             existing_mush.kill()
+            pg.mixer.init()
+            try:
+                collect_sfx = pg.mixer.Sound('assets/sfx/Mushroom_Collect_SFX.mp3')
+                collect_sfx.play(loops=0, maxtime=0, fade_ms=0)
+            except pg.error as e:
+                print(f"Greška pri učitavanju glazbe: {e}")
             app.coins += current_reward
             return
 

@@ -92,11 +92,14 @@ Are you ready for the grand adventure?
                 self.app.message.active = True
 
     def update_mask(self):
-        temp_surface = self.images[self.frame_index].copy()
+        full_image = self.images[self.frame_index]
+        mask_surf = pg.Surface(full_image.get_size(), pg.SRCALPHA)
         collision_height = 20
-        clear_rect = pg.Rect(0, 0, temp_surface.get_width(), temp_surface.get_height() - collision_height)
-        temp_surface.fill((0, 0, 0, 0), clear_rect)
-        self.mask = pg.mask.from_surface(temp_surface)
+        rect_noge = pg.Rect(0, full_image.get_height() - collision_height, full_image.get_width(), collision_height)
+        mask_surf.blit(full_image, (0, full_image.get_height() - collision_height), rect_noge)
+        self.mask = pg.mask.from_surface(mask_surf)
+        self.image = full_image 
+        self.rect = self.image.get_rect(center=CENTER)
 
     def animate(self):
         if self.app.anim_trigger:

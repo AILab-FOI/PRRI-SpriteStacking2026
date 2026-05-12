@@ -139,6 +139,8 @@ class App:
         if isinstance(self.scene, Scene):
             self.entity_group.update()
             self.main_group.update()
+            for obj in self.transparent_objects:
+                obj.alpha_trigger = True
         else:
             self.scene.update()
 
@@ -258,15 +260,15 @@ class App:
                         self._render_msg("There are no growing mushrooms")
                         break
 
-                elif sprite.name == 'rune1_off' and dist < 200:
+                elif sprite.name == 'rune1_off' and dist < 150:
                     self._render_msg("Press 'E' to Activate")
                     break
 
-                elif sprite.name == 'rune2_off' and dist < 200:
+                elif sprite.name == 'rune2_off' and dist < 150:
                     self._render_msg("Press 'E' to Activate")
                     break
 
-                elif sprite.name == 'rune3_off' and dist < 200:
+                elif sprite.name == 'rune3_off' and dist < 150:
                     self._render_msg("Press 'E' to Activate")
                     break
 
@@ -315,8 +317,8 @@ class App:
                 if len(self.current_input) > len(self.konami_code):
                     self.current_input.pop(0)
                 if self.current_input == self.konami_code:
-                    self.coins += 1000
-                    self.message.set_message("CHEAT ENABLED: +1000 COINS")
+                    self.coins += 1000000
+                    self.message.set_message("CHEAT ENABLED: + One milli!")
                     self.message.active = True
                     self.current_input = []
 
@@ -353,7 +355,7 @@ class App:
                                     if growing_mush:
                                         self.scene = SimonSaysScene(self, self.scene)
                                         return
-                                elif sprite.name in ['rune1_off', 'rune2_off', 'rune3_off'] and dist < 200:
+                                elif sprite.name in ['rune1_off', 'rune2_off', 'rune3_off'] and dist < 150:
                                     rune_data = {
                                         'rune1_off': {'key': 'key1', 'on': 'rune1_on'},
                                         'rune2_off': {'key': 'key2', 'on': 'rune2_on'},
@@ -368,8 +370,14 @@ class App:
         
                                         sprite.kill()
         
-                                        self.message.set_message(f"Rune activated! The magick is returning.")
+                                        self.message.set_message(f"The forest grows brighter for a moment. Something deep beneath the roots has awakened.")
                                         self.message.active = True
+                                        pg.mixer.init()
+                                        try:
+                                            rune_sfx = pg.mixer.Sound('assets/sfx/Rune_Activate_SFX.mp3')
+                                            rune_sfx.play(loops=0, maxtime=0, fade_ms=0)
+                                        except pg.error as e:
+                                            print(f"Greška pri učitavanju glazbe: {e}")
 
                                         active_runes = 0
                                         for s in self.main_group:
@@ -377,10 +385,16 @@ class App:
                                                 active_runes += 1
         
                                         if active_runes == 3:
-                                            self.message.set_message("STRIBOR:\n You returned the magic to the forest!")
+                                            self.message.set_message("STRIBOR:\nAt last… The magic has returned to the forest. You gave this land hope again.")
                                             self.message.active = True
+                                            pg.mixer.init()
+                                            try:
+                                                rune_sfx = pg.mixer.Sound('assets/sfx/Rune_Activate_SFX.mp3')
+                                                rune_sfx.play(loops=0, maxtime=0, fade_ms=0)
+                                            except pg.error as e:
+                                                print(f"Greška pri učitavanju glazbe: {e}")
                                     else:
-                                        self.message.set_message(f"I need a key to activate this rune.")
+                                        self.message.set_message(f"Nothing happens. Perhaps a special key could awaken it.")
                                         self.message.active = True
                                     break
                 

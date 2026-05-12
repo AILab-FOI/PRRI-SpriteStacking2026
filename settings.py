@@ -3,8 +3,8 @@ import sys
 
 vec2 = pg.math.Vector2
 
+#RES = WIDTH, HEIGHT = vec2(1920, 1080)
 RES = WIDTH, HEIGHT = vec2(1600, 900)
-# RES = WIDTH, HEIGHT = vec2(1920, 1080)
 CENTER = H_WIDTH, H_HEIGHT = RES // 2
 TILE_SIZE = 250  #
 
@@ -36,15 +36,15 @@ ENTITY_SPRITE_ATTRS = {
         'scale': 0.3,
         'y_offset': -20,
 	'message':"""STRIBOR:
-I am the guardian of this forest! """
+Welcome traveler, I am the guardian of this forest! If you wish to help this land, seek the ancient runes and return them to the Great Tree. """
     },
     'beetle': {
         'path': 'assets/entities/beetle/beetle.png',
         'num_layers': 12,
         'scale': 0.3,
         'y_offset': -20,
-	'message':"""SHOPKEEPER:
-Greetings, traveler! Welcome to my humble shop. Feel free to browse my wares and let me know if you have any questions. """
+	'message':"""LESIJ:
+Ah! A new customer! Welcome to the finest mushroom shop in the entire forest. """
     },
     'kosjenka': {
         'path': 'assets/entities/kosjenka/fairy.png',
@@ -52,7 +52,7 @@ Greetings, traveler! Welcome to my humble shop. Feel free to browse my wares and
         'scale': 0.3,
         'y_offset': -20,
 	'message':"""KOSJENKA:
-Hello! I am Kosjenka, guardian fairy who protects these beautiful crystals! If you want to test your memory, visit the grand crystal. Good luck!"""
+Hello! I am the guardian fairy who protects these beautiful crystals! If you want to test your memory, visit the grand crystal. Good luck!"""
     },
 }
 
@@ -62,13 +62,6 @@ and is also cached for all angles of the object, set manually or by default
 equal to num_layer // 2'''
 
 STACKED_SPRITE_ATTRS = {
-    'sphere': {
-        'path': 'assets/stacked_sprites/sphere.png',
-        'num_layers': 13,
-        'scale': 10,
-        'y_offset': 0,
-        'mask_layer': 4,
-    },
     'grass': {
         'path': 'assets/stacked_sprites/grass/grass.png',
         'num_layers': 11,
@@ -117,7 +110,7 @@ STACKED_SPRITE_ATTRS = {
         'mask_layer': 3,
     },
     'carobni_kristali': {
-        'path': 'assets/stacked_sprites/ss_carobni_kristali.png',
+        'path': 'assets/stacked_sprites/magic_crystal/ss_carobni_kristali.png',
         'num_layers': 12,
         'scale': 1.3,
         'y_offset': -10,
@@ -125,7 +118,7 @@ STACKED_SPRITE_ATTRS = {
         'mask_layer': 2,
     },
     'grand_cristal': {
-        'path': 'assets/stacked_sprites/ss_carobni_kristali.png',
+        'path': 'assets/stacked_sprites/magic_crystal/ss_carobni_kristali.png',
         'num_layers': 12,
         'scale': 2.2,
         'y_offset': -10,
@@ -257,7 +250,7 @@ STACKED_SPRITE_ATTRS = {
     'mushroom2_small': {
         'path': 'assets/stacked_sprites/mushroom/mushroom2.png',
         'num_layers': 19,
-        'scale': 2,
+        'scale': 1,
         'y_offset': 0,
         'mask_layer': 3,
         'transparency': True,
@@ -265,7 +258,7 @@ STACKED_SPRITE_ATTRS = {
     'mushroom2': {
         'path': 'assets/stacked_sprites/mushroom/mushroom2.png',
         'num_layers': 19,
-        'scale': 4,
+        'scale': 2,
         'y_offset': 0,
         'mask_layer': 3,
         'transparency': True,
@@ -273,7 +266,7 @@ STACKED_SPRITE_ATTRS = {
     'mushroom3_small': {
         'path': 'assets/stacked_sprites/mushroom/mushroom3.png',
         'num_layers': 19,
-        'scale': 2,
+        'scale': 1,
         'y_offset': 0,
         'mask_layer': 3,
         'transparency': True,
@@ -281,7 +274,7 @@ STACKED_SPRITE_ATTRS = {
     'mushroom3': {
         'path': 'assets/stacked_sprites/mushroom/mushroom3.png',
         'num_layers': 19,
-        'scale': 4,
+        'scale': 2,
         'y_offset': 0,
         'mask_layer': 3,
         'transparency': True,
@@ -335,7 +328,7 @@ STACKED_SPRITE_ATTRS = {
         'transparency': True,
     },
     'shop': {
-        'path': 'assets/stacked_sprites/shop/shop_new.png',
+        'path': 'assets/stacked_sprites/shop/shop.png',
         'num_layers': 106,
         'scale': 2,
         'y_offset': -30,

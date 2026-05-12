@@ -22,26 +22,25 @@ M1 = 'mushroom1'
 M2 = 'mushroom2'
 M3 = 'mushroom3'
 S = 'shop'
-SP = 'sphere'
 
 MAP = [
-    [T, T, T, T, T, T, T, V, T, T, T, T, T, V, T, T, T, T, T, T, T, T],
-    [V, T, T, T, T, V, T, T, T, T, V, T, T, T, T, T, V, T, T, T, T, T],
-    [T, T, 0, BM, 0, 0, 0, 0, M2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, T, T],
-    [T, V, 0, 0, 0, 0, A, 0, BO, 0, A, 0, 0, 0, A, 0, CK, 0, GK, 0, T, T],
-    [T, T, 0, 0, S, J, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, K, 0, 0, T, V],
-    [V, T, 0, A, 0, 0, M1, 0, A, 0, 0, 0, r1, 0, 0, CK, 0, 0, CK, 0, T, T],
-    [T, T, 0, 0, 0, 0, BO, 0, 0, 0, P, G, C, r2, 0, 0, 0, A, 0, 0, V, T],
-    [T, V, 0, 0, A, 0, 0, 0, A, 0, 0, 0, r3, 0, 0, 0, A, 0, 0, 0, V, T],
-    [T, T, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, TM, 0, T, T],
-    [R1, R1, R1, R1, R1, R1, R1, R1, R1, R4, 0, 0, 0, 0, A, 0, 0, A, M3, 0, T, T],
-    [T, T, 0, 0, 0, A, 0, 0, 0, R3, W, 0, 0, 0, 0, 0, 0, 0, BO, 0, T, T],
-    [T, V, 0, F4, F8, F8, F5, 0, 0, R2, R1, B, R1, R4, 0, 0, 0, 0, A, 0, T, T],
-    [T, T, 0, F7, F1, F1, F9, 0, 0, 0, 0, 0, 0, R2, R1, R1, R4, 0, 0, 0, T, T],
-    [T, T, 0, F3, F6, F6, F2, 0, 0, 0, A, 0, 0, 0, TM, 0, R3, 0, 0, 0, V, T],
-    [T, V, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, A, 0, 0, R3, 0, 0, 0, T, T],
-    [T, T, T, T, V, T, T, T, T, T, T, V, T, V, T, T, R3, T, V, T, V, T],
-    [T, T, T, T, T, T, V, T, V, T, T, T, T, T, T, T, R3, T, T, T, T, T],
+    [T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T, T],
+    [T , T , TM, TM, T , TM, T , T , TM, TM, T , TM, TM, TM, T , TM, T , T , T , TM, T, T],
+    [T , T , M2, BM , A , BO , 0 , 0 , A , 0 , A , 0 , BM, 0 , BO , 0 , A , 0 , A , BM, T, T],
+    [T , TM, A , 0 , 0 , 0 , A , BM , 0 , BO , 0 , A , 0 , A , 0 , BM, CK, 0 , GK, A , TM, T],
+    [T , T , BM, A , S , J , 0 , A , 0 , A , 0 , A , 0 , M1 , 0 , A , 0 , K , 0 , A , TM, T],
+    [T , TM, A , 0 , 0 , 0 , 0 , 0 , A , 0 , A , 0 , r1, 0 , A , CK, 0 , 0 , CK, 0 , T, T],
+    [T , TM, A , BO , A , 0 , A , 0 , 0 , 0 , P , G , C , r2, 0 , 0 , A , BM, 0 , A , T, T],
+    [T , T , 0 , A , 0 ,BM , 0 , A , 0 , A , 0 , A , r3, 0 , A , 0 , BM, 0 , A , 0 , TM, T],
+    [V , V , A , V , V , 0 , 0 , V , 0 , 0 , A , 0 , A , 0 , 0 , A , 0 , A , 0 , BO, TM, T],
+    [R1, R1, R1, R1, R1, R1, R1, R1, R1, R4, 0 , 0 , 0 , 0 , BO , 0 , A , BO, A , 0 , T, T],
+    [V , V , M1, A , A , V , 0 , A , V , R3, W , 0 , V , 0 , 0 , A , 0 , 0 , A , M1 , T, T],
+    [T , T , BO, F4, F8, F8, F5, 0 , A , R2, R1, B , R1, R4, 0 , 0 , V , BM, 0 , 0 , T, T],
+    [T , TM, 0 , F7, F1, F1, F9, 0 , 0 , 0 , BO, 0 , 0 , R2, R1, R1, R4, 0 , BO, A , TM, T],
+    [T , TM, A , F3, F6, F6, F2, 0 , BM, A , 0 , 0 , A , V , A , M2, R3, V , 0 , 0 , TM, T],
+    [T , T , 0 , BM, 0 , A , BO, 0 , A , 0 , A , 0 , BO, 0 , 0 , V , R3, 0 , A , M3, TM, T],
+    [T , TM, TM, T , TM, T , TM, T , TM, T , TM, T , TM, TM, BO, V , R3, V , TM, TM, T, T],
+    [T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , V , R3, V , T , T , T, T],
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
@@ -58,7 +57,7 @@ class Scene:
         pg.mixer.init()
         try:
             pg.mixer.music.load('assets/bgm/Alchemists Oddities.mp3')
-            pg.mixer.music.set_volume(0.1)
+            pg.mixer.music.set_volume(0.2)
             pg.mixer.music.play(-1)
         except pg.error as e:
             print(f"Greška pri učitavanju glazbe: {e}")
@@ -81,27 +80,27 @@ class Scene:
                 elif name == 'kosjenka':
                     Entity(self.app, name=name, pos=pos)
                 elif name == 'blue_tree':
-                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                    StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'bonsai':
-                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                    StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'mali_bonsai':
-                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                    StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'malo_drvo':
-                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                    StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
                 elif name == 'vrba':
-                    TrnspStackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
+                    StackedSprite(self.app, name=name, pos=pos, rot=rand_rot())
                 elif name == 'grand_tree':
-                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                    StackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'carobni_kristali':
-                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                    StackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'grand_cristal':
-                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=0)
+                    StackedSprite(self.app, name=name, pos=pos, rot=0)
                 elif name == 'rune1_off':
-                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=180)
+                    StackedSprite(self.app, name=name, pos=pos, rot=180)
                 elif name == 'rune2_off':
-                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=180)
+                    StackedSprite(self.app, name=name, pos=pos, rot=180)
                 elif name == 'rune3_off':
-                    TrnspStackedSprite(self.app, name=name, pos=pos, rot=180)
+                    StackedSprite(self.app, name=name, pos=pos, rot=180)
                 elif name == 'shop':
                     StackedSprite(self.app, name=name, pos=(pos-vec2(0.3,0.5)), rot=215, collision=True)
                 elif name == 'grass':
@@ -112,9 +111,6 @@ class Scene:
                     StackedSprite(self.app, name=name, pos=pos, rot=0, collision=False)
                 elif name == 'bridge':
                     StackedSprite(self.app, name=name, pos=pos, rot=0, collision=False)
-                elif name == 'sphere':
-                    obj = StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
-                    self.transform_objects.append(obj)
                 elif name:
                     StackedSprite(self.app, name=name, pos=rand_pos(pos), rot=rand_rot())
 
@@ -255,7 +251,7 @@ class MenuScene:
         pg.mixer.init()
         try:
             pg.mixer.music.load('assets/bgm/Lumereth.mp3')
-            pg.mixer.music.set_volume(0.1)
+            pg.mixer.music.set_volume(0.2)
             pg.mixer.music.play(-1)
         except pg.error as e:
             print(f"Greška pri učitavanju glazbe: {e}")
@@ -373,18 +369,18 @@ class ShopScene:
             self.bg_img = pg.Surface(RES)
             self.bg_img.fill((20, 20, 20))
 
-        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 20)
+        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 15)
         self.buttons_font = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
         
         self.items = [
-            {"name": "Gljiva 1", "price": 10, "id": "orange_mush"},
-            {"name": "Gljiva 2", "price": 15, "id": "blue_mush"},
-            {"name": "Runa 1", "price": 50, "id": "key1"},
-            {"name": "Runa 2", "price": 100, "id": "key2"},
-            {"name": "Runa 3", "price": 150, "id": "key3"},
+            {"name": "Sunshroom", "price": 50, "id": "orange_mush"},
+            {"name": "Moonshroom", "price": 200, "id": "blue_mush"},
+            {"name": "Moon key", "price": 5000, "id": "key1"},
+            {"name": "Nature key", "price": 7000, "id": "key2"},
+            {"name": "Water key", "price": 10000, "id": "key3"},
         ]
         
-        self.shop_rect = pg.Rect(760, 110, 400, 450)
+        self.shop_rect = pg.Rect(750, 110, 420, 450)
     
         self.exit_surf = self.buttons_font.render("EXIT", True, 'white')
         self.exit_rect = self.exit_surf.get_rect(center=(WIDTH // 2, HEIGHT - 100))
@@ -417,7 +413,7 @@ class ShopScene:
                         if item_id.startswith('key') and self.app.inventory.get(item_id):
                             continue
                         
-                        item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 380, 60)
+                        item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 400, 60)
                         if item_rect.collidepoint(mouse_pos):
                             self.buy_item(item)
 
@@ -432,7 +428,7 @@ class ShopScene:
 
         mouse_pos = pg.mouse.get_pos()
         for i, item in enumerate(self.items):
-            item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 380, 60)
+            item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 400, 60)
             item_id = item['id']
 
             is_key = item_id.startswith('key')
@@ -447,9 +443,9 @@ class ShopScene:
 
                 if not is_key:
                     count = self.app.inventory.get(item_id, 0)
-                    status = f"{item['price']} C ({count})"
+                    status = f"{item['price']}C ({count})"
                 else:
-                    status = f"{item['price']} C"
+                    status = f"{item['price']}C"
 
             pg.draw.rect(self.app.screen, bg_col, item_rect)
             pg.draw.rect(self.app.screen, 'red' if already_has_key else 'white', item_rect, 2)
@@ -477,6 +473,7 @@ class FishingScene:
         self.marker_pos = self.bar_rect.left
         self.marker_speed = randint(3, 8)
         self.direction = 1
+        pg.mixer.init()
 
     def update(self):
         self.marker_pos += self.marker_speed * self.direction
@@ -497,9 +494,19 @@ class FishingScene:
                     if self.green_zone.left <= self.marker_pos <= self.green_zone.right:
                         self.fish_reward = self.marker_speed * 2
                         self.app.coins += self.fish_reward
-                        self.app.message.set_message(f"Caught! +{self.fish_reward} Coins")
+                        self.app.message.set_message(f"ALBERT WISKER: \nNow THAT’S a catch! You’ve got quicker hands than most travelers. + {self.fish_reward} Coins")
+                        try:
+                            success_sfx = pg.mixer.Sound('assets/sfx/Minigame_Success_SFX.mp3')
+                            success_sfx.play(loops=0, maxtime=0, fade_ms=0)
+                        except pg.error as e:
+                            print(f"Greška pri učitavanju glazbe: {e}")
                     else:
-                        self.app.message.set_message("It got away...")
+                        self.app.message.set_message("ALBERT WISKER: \nPoor perofomance indeed! ")
+                        try:
+                            fail_sfx = pg.mixer.Sound('assets/sfx/Minigame_Fail_SFX.mp3')
+                            fail_sfx.play(loops=0, maxtime=0, fade_ms=0)
+                        except pg.error as e:
+                            print(f"Greška pri učitavanju glazbe: {e}")
                     
                     self.app.message.active = True
                     self.app.scene = self.previous_scene
@@ -539,6 +546,8 @@ class SimonSaysScene:
         self.input_phase = False
         self.finished = False
 
+        pg.mixer.init()
+
     def update(self):
         curr_time = pg.time.get_ticks()
         
@@ -576,11 +585,21 @@ class SimonSaysScene:
         if self.app.simon_says_difficulty < 10:
             self.app.simon_says_difficulty += 1
 
-        self.app.message.set_message("MAGIC! Growth accelerated!")
+        self.app.message.set_message("KOSJENKA: \nImpressive focus. Your memory grows stronger and so do your mushrooms!")
+        try:
+            success_sfx = pg.mixer.Sound('assets/sfx/Minigame_Success_SFX.mp3')
+            success_sfx.play(loops=0, maxtime=0, fade_ms=0)
+        except pg.error as e:
+            print(f"Greška pri učitavanju glazbe: {e}")
 
     def fail_game(self):
         self.finished = True
-        self.app.message.set_message("Sequence failed...")
+        self.app.message.set_message("KOSJENKA: \nThe sequence faded from your mind.")
+        try:
+            fail_sfx = pg.mixer.Sound('assets/sfx/Minigame_Fail_SFX.mp3')
+            fail_sfx.play(loops=0, maxtime=0, fade_ms=0)
+        except pg.error as e:
+            print(f"Greška pri učitavanju glazbe: {e}")
 
     def draw(self):
         self.previous_scene.draw()

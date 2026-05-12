@@ -86,7 +86,7 @@ class TrnspStackedSprite(StackedSprite):
     def get_alpha_image(self):
         if self.alpha_trigger:
             if self.rect.centery > self.player.rect.top:
-                if self.rect.contains(self.player.rect):
+                if self.rect.colliderect(self.player.rect):
                     self.image = self.alpha_objects[self.angle]
                     self.alpha_trigger = False
 
