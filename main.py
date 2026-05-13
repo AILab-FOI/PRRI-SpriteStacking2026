@@ -193,6 +193,42 @@ class App:
         self.screen.blit(shadow_surf, (pos[0] + 2, pos[1] + 2))
         self.screen.blit(coin_surf, pos)
 
+    def draw_mushrooms(self):
+        orange_count = self.inventory.get('orange_mush', 0)
+        blue_count = self.inventory.get('blue_mush', 0)
+        
+        orange_surf = self.font_coins.render(f"Sunshrooms: {orange_count}", True, 'white')
+        blue_surf = self.font_coins.render(f"Moonshrooms: {blue_count}", True, 'white')
+        
+        orange_shadow = self.font_coins.render(f"Sunshrooms: {orange_count}", True, 'black')
+        blue_shadow = self.font_coins.render(f"Moonshrooms: {blue_count}", True, 'black')
+        
+        blue_pos = (20, HEIGHT - blue_surf.get_height() - 20)
+        orange_pos = (20, blue_pos[1] - orange_surf.get_height() - 10)
+        
+        self.screen.blit(orange_shadow, (orange_pos[0] + 2, orange_pos[1] + 2))
+        self.screen.blit(blue_shadow, (blue_pos[0] + 2, blue_pos[1] + 2))
+        
+        self.screen.blit(orange_surf, orange_pos)
+        self.screen.blit(blue_surf, blue_pos)
+
+    def draw_task(self):
+        active_runes = 0
+        for s in self.main_group:
+            if hasattr(s, 'name') and s.name in ['rune1_on', 'rune2_on', 'rune3_on']:
+                active_runes += 1
+
+        if active_runes < 3:
+            task_text = "Task: Activate all the runes"
+            
+            task_surf = self.font_coins.render(task_text, True, 'white')
+            task_shadow = self.font_coins.render(task_text, True, 'black')
+            
+            pos = (20, 20)
+            
+            self.screen.blit(task_shadow, (pos[0] + 2, pos[1] + 2))
+            self.screen.blit(task_surf, pos)
+
     def draw_interaction_msg(self):
         from scene import Scene
         if not isinstance(self.scene, Scene):
@@ -290,6 +326,8 @@ class App:
         
         if isinstance(self.scene, (Scene)):
             self.draw_coins()
+            self.draw_mushrooms()
+            self.draw_task()
             self.draw_interaction_msg()
         
         pg.display.flip()

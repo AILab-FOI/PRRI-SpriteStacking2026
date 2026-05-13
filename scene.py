@@ -401,6 +401,10 @@ class ShopScene:
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
+
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self.app.scene = self.previous_scene
             
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
