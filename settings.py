@@ -3,8 +3,8 @@ import sys
 
 vec2 = pg.math.Vector2
 
-#RES = WIDTH, HEIGHT = vec2(1920, 1080)
-RES = WIDTH, HEIGHT = vec2(1600, 900)
+RES = WIDTH, HEIGHT = vec2(1920, 1080)
+#RES = WIDTH, HEIGHT = vec2(1600, 900)
 CENTER = H_WIDTH, H_HEIGHT = RES // 2
 TILE_SIZE = 250  #
 
@@ -130,6 +130,14 @@ STACKED_SPRITE_ATTRS = {
         'num_layers': 75,
         'scale': 7,
         'y_offset': -200,
+        'transparency': True,
+        'mask_layer': 1,
+    },
+    'grand_tree_grown': {
+        'path': 'assets/stacked_sprites/trees/magic_tree_grown.png',
+        'num_layers': 130,
+        'scale': 3,
+        'y_offset': -140,
         'transparency': True,
         'mask_layer': 1,
     },

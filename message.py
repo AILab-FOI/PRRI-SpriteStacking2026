@@ -31,7 +31,7 @@ To contribute to the project contact Cody "CodeMan38" Boisclair."""
         self.text_index = 0
         self.max_lines = 0
         self.line_height = self.font.get_height() + 10
-        self.max_lines = self.inner_surface.get_height() // self.line_height
+        self.max_lines = (self.inner_surface.get_height() // self.line_height) - 1
 
     def empty_surface( self ):
         s = pg.Surface(
@@ -83,7 +83,12 @@ To contribute to the project contact Cody "CodeMan38" Boisclair."""
             text_rect.top = i * self.line_height
             self.inner_surface.blit(text, text_rect)
 
-        self.overlay_surface.blit(self.inner_surface, (self.inner_border, self.inner_border))
+            prompt_font = pg.font.Font("assets/PressStart2P-Regular.ttf", 20) # Manji font za uputu
+            prompt_surf = prompt_font.render("Press SPACE to continue", True, (200, 200, 200))
+            prompt_rect = prompt_surf.get_rect(midbottom=(self.inner_surface.get_width() // 2, self.inner_surface.get_height()))
+            
+            self.inner_surface.blit(prompt_surf, prompt_rect)
+            self.overlay_surface.blit(self.inner_surface, (self.inner_border, self.inner_border))
 
     def draw(self):
         if self.active:

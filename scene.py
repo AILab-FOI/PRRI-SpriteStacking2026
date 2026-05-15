@@ -378,9 +378,10 @@ class ShopScene:
             {"name": "Moon key", "price": 5000, "id": "key1"},
             {"name": "Nature key", "price": 7000, "id": "key2"},
             {"name": "Water key", "price": 10000, "id": "key3"},
+            {"name": "Old book", "price": 15000, "id": "old_book"},
         ]
         
-        self.shop_rect = pg.Rect(750, 110, 420, 450)
+        self.shop_rect = pg.Rect(894, 120, 520, 450)
     
         self.exit_surf = self.buttons_font.render("EXIT", True, 'white')
         self.exit_rect = self.exit_surf.get_rect(center=(WIDTH // 2, HEIGHT - 100))
@@ -417,8 +418,10 @@ class ShopScene:
                         if item_id.startswith('key') and self.app.inventory.get(item_id):
                             continue
                         
-                        item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 400, 60)
+                        item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 500, 60)
                         if item_rect.collidepoint(mouse_pos):
+                            if item_id == 'old_book' and not self.app.all_runes_active:
+                                continue
                             self.buy_item(item)
 
     def draw(self):
@@ -432,30 +435,32 @@ class ShopScene:
 
         mouse_pos = pg.mouse.get_pos()
         for i, item in enumerate(self.items):
-            item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 400, 60)
+            item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 500, 60)
             item_id = item['id']
 
             is_key = item_id.startswith('key')
-            already_has_key = is_key and self.app.inventory.get(item_id, False)
+            already_owned = self.app.inventory.get(item_id, False)
+            is_book = item_id == 'old_book'
+            is_locked = is_book and not self.app.all_runes_active
 
-            if already_has_key:
+            if already_owned or is_locked:
                 bg_col, txt_col, status = (80, 0, 0), (255, 50, 50), "SOLD"
             else:
                 is_hover = item_rect.collidepoint(mouse_pos)
                 bg_col = (60, 60, 60) if is_hover else (30, 30, 30)
                 txt_col = 'white'
 
-                if not is_key:
+                if not is_key and not is_book:
                     count = self.app.inventory.get(item_id, 0)
                     status = f"{item['price']}C ({count})"
                 else:
                     status = f"{item['price']}C"
 
             pg.draw.rect(self.app.screen, bg_col, item_rect)
-            pg.draw.rect(self.app.screen, 'red' if already_has_key else 'white', item_rect, 2)
+            pg.draw.rect(self.app.screen, 'red' if (already_owned or is_locked) else 'white', item_rect, 2)
             
             name_surf = self.font.render(item['name'], True, txt_col)
-            stat_surf = self.font.render(status, True, 'yellow' if not already_has_key else txt_col)
+            stat_surf = self.font.render(status, True, 'yellow' if not (already_owned or is_locked) else txt_col)
             
             self.app.screen.blit(name_surf, (item_rect.x + 15, item_rect.y + 20))
             self.app.screen.blit(stat_surf, (item_rect.right - stat_surf.get_width() - 15, item_rect.y + 20))

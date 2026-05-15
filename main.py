@@ -9,7 +9,9 @@ from itertools import cycle
 from message import Message
 from farming import plant_mushroom
 from stacked_sprite import StackedSprite
-from random import uniform
+from random import choice, uniform, random, randint
+import random
+import math
 import json
 
 class App:
@@ -40,11 +42,33 @@ class App:
         self.play_time = 0
         self.coins = 0
         self.simon_says_difficulty = 0
-        self.inventory = { 'orange_mush': 0, 'blue_mush': 0, 'key1': False, 'key2': False, 'key3': False}
+        self.all_runes_active = False
+        self.inventory = { 'orange_mush': 0, 'blue_mush': 0, 'key1': False, 'key2': False, 'key3': False, 'old_book': False,}
         self.konami_code = [pg.K_UP, pg.K_UP, pg.K_DOWN, pg.K_DOWN, pg.K_LEFT, pg.K_RIGHT, pg.K_LEFT, pg.K_RIGHT, pg.K_b, pg.K_a]
         self.current_input = []
 
         self.growing_mushrooms = []
+
+        self.stars = []
+
+        for _ in range(60):
+            w_int = int(WIDTH)
+            h_int = int(HEIGHT)
+
+            margin = 150
+    
+            if random.random() > 0.5:
+                x = random.choice([random.randint(0, margin), random.randint(w_int - margin, w_int)])
+                y = random.randint(0, h_int)
+            else:
+                x = random.randint(0, w_int)
+                y = random.choice([random.randint(0, margin), random.randint(h_int - margin, h_int)])
+    
+            self.stars.append({
+                'pos': [x, y],
+                'size': random.randint(3, 5),
+                'speed': random.uniform(0.003, 0.006)
+            })
 
         self.font_coins = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
 
@@ -57,6 +81,7 @@ class App:
             
             mushrooms_on_fields = []
             active_runes = []
+            grown_tree = []
             
             for sprite in self.main_group:
                 if hasattr(sprite, 'name'):
@@ -76,7 +101,12 @@ class App:
 
                     elif sprite.name in ['rune1_on', 'rune2_on', 'rune3_on']:
                         active_runes.append({
-                            'name': sprite.name,
+                            'name': sprite.name
+                        })
+
+                    elif sprite.name == 'grand_tree_grown':
+                        grown_tree.append({
+                            'name': sprite.name
                         })
 
             save_data = {
@@ -86,7 +116,9 @@ class App:
                 'simon_says_difficulty': self.simon_says_difficulty,
                 'player_pos': [self.player.offset.x, self.player.offset.y] if self.player else [0, 0],
                 'mushrooms': mushrooms_on_fields,
-                'active_runes': active_runes
+                'active_runes': active_runes,
+                'grown_tree': grown_tree,
+                'all_runes_active': self.all_runes_active
             }
 
             with open('savegame.json', 'w') as f:
@@ -109,6 +141,8 @@ class App:
                 self.saved_player_pos = save_data.get('player_pos', None)
                 self.saved_mushrooms = save_data.get('mushrooms', [])
                 self.saved_runes = save_data.get('active_runes', [])
+                self.grown_tree = save_data.get('grown_tree', [])
+                self.all_runes_active = save_data.get('all_runes_active', None)
 
             print("Sustav: Podaci uspješno učitani.")
         except Exception as e:
@@ -121,12 +155,14 @@ class App:
     
         self.play_time = 0
         self.coins = 0
-        self.inventory = { 'orange_mush': 0, 'blue_mush': 0, 'key1': False, 'key2': False, 'key3': False}
+        self.all_runes_active = False
+        self.inventory = { 'orange_mush': 0, 'blue_mush': 0, 'key1': False, 'key2': False, 'key3': False, 'old_book': False}
         self.simon_says_difficulty = 0
         self.saved_player_pos = None
         self.saved_mushrooms = []
         self.saved_runes = []
         self.growing_mushrooms = []
+        self.grown_tree = []
 
     def exit_game(self):
         print("Spremanje i izlaz...")
@@ -169,6 +205,15 @@ class App:
                                     StackedSprite(self, name=r['name'], pos=sprite.pos / TILE_SIZE, rot=180)
                                     sprite.kill()
                     self.saved_runes = []
+
+            if hasattr(self, 'grown_tree') and self.grown_tree:
+                if len(self.main_group) > 0:
+                    for g in self.grown_tree:
+                        for sprite in list(self.main_group):
+                            if hasattr(sprite, 'name') and sprite.name == 'grand_tree':
+                                StackedSprite(self, name=g['name'], pos=sprite.pos / TILE_SIZE, rot=sprite.rot)
+                                sprite.kill()
+                    self.grown_tree = []
 
         self.curr_time = self.play_time + pg.time.get_ticks()
         
@@ -228,6 +273,17 @@ class App:
             
             self.screen.blit(task_shadow, (pos[0] + 2, pos[1] + 2))
             self.screen.blit(task_surf, pos)
+
+    def draw_stars(self):
+        if self.all_runes_active:
+            star_surf = pg.Surface(RES, pg.SRCALPHA)
+            for s in self.stars:
+                glow = 210 + 45 * math.sin(pg.time.get_ticks() * s['speed'])
+            
+                pg.draw.circle(star_surf, (180, 230, 255, int(glow)), s['pos'], s['size'])
+                pg.draw.circle(star_surf, (100, 200, 255, int(glow // 2)), s['pos'], s['size'] + 1)
+            
+            self.screen.blit(star_surf, (0, 0))
 
     def draw_interaction_msg(self):
         from scene import Scene
@@ -326,10 +382,12 @@ class App:
         
         if isinstance(self.scene, (Scene)):
             self.draw_coins()
-            self.draw_mushrooms()
+            if not self.message.active:
+                self.draw_mushrooms()
             self.draw_task()
             self.draw_interaction_msg()
-        
+            self.draw_stars()
+
         pg.display.flip()
 
     def check_events(self):
@@ -423,6 +481,14 @@ class App:
                                                 active_runes += 1
         
                                         if active_runes == 3:
+                                            self.all_runes_active = True
+                                            for s in self.main_group:
+                                                if hasattr(s, 'name') and s.name == 'grand_tree':
+                                                    tree_pos = s.pos / TILE_SIZE
+                                                    tree_rot = s.rot
+                                                    s.kill()
+                                                    StackedSprite(self, name='grand_tree_grown', pos=tree_pos, rot=tree_rot)
+                                                    break
                                             self.message.set_message("STRIBOR:\nAt last… The magic has returned to the forest. You gave this land hope again.")
                                             self.message.active = True
                                             pg.mixer.init()
