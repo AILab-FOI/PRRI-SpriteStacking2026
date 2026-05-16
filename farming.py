@@ -29,6 +29,10 @@ def plant_mushroom(app, scene):
                 collect_sfx.play(loops=0, maxtime=0, fade_ms=0)
             except pg.error as e:
                 print(f"Greška pri učitavanju glazbe: {e}")
+            if hasattr(app, 'tutorial_stage') and app.tutorial_stage == 3:
+                app.tutorial_stage = 4
+                app.message.set_message("STRIBOR: \nThere are different types of mushrooms, some are worth more then others. The purple mushrooms give you the least amount of coins, but you can plant them as much as you want.")
+                app.message.active = True
             app.coins += current_reward
             return
 
@@ -36,6 +40,10 @@ def plant_mushroom(app, scene):
         if MAP[map_y][map_x] in [F1, F2, F3, F4, F5, F6, F7, F8, F9]:
 
             if not existing_mush:
+                if hasattr(app, 'tutorial_stage') and app.tutorial_stage == 1:
+                    app.tutorial_stage = 2
+                    app.message.set_message("STRIBOR: \nMushrooms are your main source of income, but they take time to grow. Find Kosjenka, maybe her magic can help speed thing up.")
+                    app.message.active = True
                 plant_name = 'mushroom1_small'
                 if app.inventory.get('blue_mush', 0) > 0:
                     plant_name = 'mushroom3_small'
@@ -43,7 +51,6 @@ def plant_mushroom(app, scene):
                 elif app.inventory.get('orange_mush', 0) > 0:
                     plant_name = 'mushroom2_small'
                     app.inventory['orange_mush'] -= 1
-                
                 m = StackedSprite(app, name=plant_name, pos=vec2(map_x, map_y) + vec2(0.5), rot=rand_rot(), collision=False)
                 m.plant_time = app.curr_time
                 m.growth_time = randint(300000, 900000)

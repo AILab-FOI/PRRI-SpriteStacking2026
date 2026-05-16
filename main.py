@@ -47,6 +47,21 @@ class App:
         self.konami_code = [pg.K_UP, pg.K_UP, pg.K_DOWN, pg.K_DOWN, pg.K_LEFT, pg.K_RIGHT, pg.K_LEFT, pg.K_RIGHT, pg.K_b, pg.K_a]
         self.current_input = []
 
+        self.tutorial_stage = 0
+        self.tasks = [
+            "Talk to Stribor",
+            "Go to the field and plant some mushrooms",
+            "Find Kosjenka and complete the memory game",
+            "Harvest the mushrooms",
+            "Collect 100 coins",
+            "Find Lesij's shop and buy new mushrooms",
+            "Collect 1000 coins",
+            "Buy the Moon key from Lesij",
+            "Activate the ancient run",
+            "Activate rest of the runes (1/3)",
+            "Activate rest of the runes (2/3)"
+        ]
+
         self.growing_mushrooms = []
 
         self.stars = []
@@ -111,6 +126,7 @@ class App:
 
             save_data = {
                 'play_time': self.curr_time,
+                'tutorial_stage': self.tutorial_stage,
                 'coins': self.coins,
                 'inventory': self.inventory,
                 'simon_says_difficulty': self.simon_says_difficulty,
@@ -135,6 +151,7 @@ class App:
             with open('savegame.json', 'r') as f:
                 save_data = json.load(f)
                 self.play_time = save_data.get('play_time', 0)
+                self.tutorial_stage = save_data.get('tutorial_stage', 0)
                 self.coins = save_data.get('coins', 0)
                 self.inventory = save_data.get('inventory', self.inventory)
                 self.simon_says_difficulty = save_data.get('simon_says_difficulty', 0)
@@ -154,6 +171,7 @@ class App:
             os.remove('savegame.json')
     
         self.play_time = 0
+        self.tutorial_stage = 0
         self.coins = 0
         self.all_runes_active = False
         self.inventory = { 'orange_mush': 0, 'blue_mush': 0, 'key1': False, 'key2': False, 'key3': False, 'old_book': False}
@@ -177,6 +195,15 @@ class App:
             self.main_group.update()
             for obj in self.transparent_objects:
                 obj.alpha_trigger = True
+            if hasattr(self, 'tutorial_stage'):
+                if self.tutorial_stage == 4 and self.coins >= 100:
+                    self.tutorial_stage = 5
+                    app.message.set_message("STRIBOR: \nNow that you have some coins, visit Lesij's shop and buy some new mushrooms to plant.")
+                    app.message.active = True
+                elif self.tutorial_stage == 6 and self.coins >= 1000:
+                    self.tutorial_stage = 7
+                    app.message.set_message("STRIBOR: \nGreat job! You should now have enough coins to buy the Moon key and activate your first rune.")
+                    app.message.active = True
         else:
             self.scene.update()
 
@@ -258,21 +285,12 @@ class App:
         self.screen.blit(blue_surf, blue_pos)
 
     def draw_task(self):
-        active_runes = 0
-        for s in self.main_group:
-            if hasattr(s, 'name') and s.name in ['rune1_on', 'rune2_on', 'rune3_on']:
-                active_runes += 1
-
-        if active_runes < 3:
-            task_text = "Task: Activate all the runes"
-            
-            task_surf = self.font_coins.render(task_text, True, 'white')
-            task_shadow = self.font_coins.render(task_text, True, 'black')
-            
-            pos = (20, 20)
-            
-            self.screen.blit(task_shadow, (pos[0] + 2, pos[1] + 2))
-            self.screen.blit(task_surf, pos)
+        if self.tutorial_stage < len(self.tasks):
+            task_text = f"TASK: {self.tasks[self.tutorial_stage]}"
+            shadow = self.font_coins.render(task_text, True, 'black')
+            text = self.font_coins.render(task_text, True, 'white')
+            self.screen.blit(shadow, (22, 22))
+            self.screen.blit(text, (20, 20))
 
     def draw_stars(self):
         if self.all_runes_active:
@@ -289,12 +307,35 @@ class App:
         from scene import Scene
         if not isinstance(self.scene, Scene):
             return
+        
+        if self.message.active:
+            return
+        
+        for sprite in self.entity_group:
+            if hasattr(sprite, 'name') and hasattr(sprite, 'pos'):
+                dist = self.player.offset.distance_to(sprite.pos)
+                
+                if sprite.name == 'forest_guardian' and dist < 150:
+                    self._render_msg("Press 'E' to Talk to Stribor")
+                    break
+
+                elif sprite.name == 'albert_wisker' and dist < 150:
+                    self._render_msg("Press 'E' to Talk to Albert Wisker")
+                    break
+
+                elif sprite.name == 'kosjenka' and dist < 150:
+                    self._render_msg("Press 'E' to Talk to Kosjenka")
+                    break
+
+                elif sprite.name == 'beetle' and dist < 150:
+                    self._render_msg("Press 'E' to Talk to Lesij")
+                    break
 
         for sprite in self.main_group:
             if hasattr(sprite, 'name') and hasattr(sprite, 'pos'):
                 dist = self.player.offset.distance_to(sprite.pos)
                 
-                if sprite.name == 'shop' and dist < 300:
+                if sprite.name == 'shop' and dist < 200:
                     self._render_msg("Press 'E' to Enter Shop")
                     break
 
@@ -353,15 +394,15 @@ class App:
                         break
 
                 elif sprite.name == 'rune1_off' and dist < 150:
-                    self._render_msg("Press 'E' to Activate")
+                    self._render_msg("Press 'E' to Activate the Moon rune")
                     break
 
                 elif sprite.name == 'rune2_off' and dist < 150:
-                    self._render_msg("Press 'E' to Activate")
+                    self._render_msg("Press 'E' to Activate the Nature rune")
                     break
 
                 elif sprite.name == 'rune3_off' and dist < 150:
-                    self._render_msg("Press 'E' to Activate")
+                    self._render_msg("Press 'E' to Activate the Water rune")
                     break
 
     def _render_msg(self, text):
@@ -391,9 +432,9 @@ class App:
         pg.display.flip()
 
     def check_events(self):
-        from scene import ShopScene, FishingScene, SimonSaysScene, Scene
+        from scene import ShopScene, FishingScene, SimonSaysScene, Scene, ControlsScene
         
-        if isinstance(self.scene, (ShopScene, FishingScene, SimonSaysScene)):
+        if isinstance(self.scene, (ShopScene, FishingScene, SimonSaysScene, ControlsScene)):
             self.scene.update()
             return
         
@@ -431,10 +472,19 @@ class App:
                 elif e.key == pg.K_e:
                     from scene import Scene, ShopScene, FishingScene
                     if isinstance(self.scene, Scene):
+                        for sprite in self.entity_group:
+                            if sprite.name != 'player':
+                                dist = (self.player.offset - sprite.pos).length()
+                                if dist < 150:
+                                    if hasattr(sprite, 'message'):
+                                        self.message.set_message(sprite.message)
+                                        self.message.active = True
+                                        break
+
                         for sprite in self.main_group:
                             if hasattr(sprite, 'name') and hasattr(sprite, 'pos'):
                                 dist = self.player.offset.distance_to(sprite.pos)
-                                if sprite.name == 'shop' and dist < 300:
+                                if sprite.name == 'shop' and dist < 200:
                                     self.scene = ShopScene(self, self.scene)
                                     break
                                 elif sprite.name == 'bridge' and dist < 200:
@@ -475,11 +525,15 @@ class App:
                                         except pg.error as e:
                                             print(f"Greška pri učitavanju glazbe: {e}")
 
+                                        if hasattr(self, 'tutorial_stage'):
+                                            if self.tutorial_stage in [8, 9, 10]:
+                                                self.tutorial_stage += 1
+
                                         active_runes = 0
                                         for s in self.main_group:
                                             if hasattr(s, 'name') and s.name in ['rune1_on', 'rune2_on', 'rune3_on']:
                                                 active_runes += 1
-        
+
                                         if active_runes == 3:
                                             self.all_runes_active = True
                                             for s in self.main_group:

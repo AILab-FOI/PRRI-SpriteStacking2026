@@ -28,7 +28,7 @@ ENTITY_SPRITE_ATTRS = {
         'scale': 0.3,
         'y_offset': -20,
 	'message':"""ALBERT WISKER:
-7 minutes. 7 minutes is all I can spare to fish with you! Go to the bridge and try your luck, but be quick about it! """
+7 minutes. 7 minutes is all I can spare to fish with you! Fishing is another way for you to make some coin. Now go to the bridge and try your luck, but be quick about it!"""
     },
     'forest_guardian': {
         'path': 'assets/entities/forest_guardian/forest_guard.png',
@@ -266,7 +266,7 @@ STACKED_SPRITE_ATTRS = {
     'mushroom2': {
         'path': 'assets/stacked_sprites/mushroom/mushroom2.png',
         'num_layers': 19,
-        'scale': 2,
+        'scale': 3,
         'y_offset': 0,
         'mask_layer': 3,
         'transparency': True,
@@ -282,7 +282,7 @@ STACKED_SPRITE_ATTRS = {
     'mushroom3': {
         'path': 'assets/stacked_sprites/mushroom/mushroom3.png',
         'num_layers': 19,
-        'scale': 2,
+        'scale': 3,
         'y_offset': 0,
         'mask_layer': 3,
         'transparency': True,

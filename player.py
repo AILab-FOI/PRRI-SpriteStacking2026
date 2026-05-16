@@ -72,24 +72,22 @@ Are you ready for the grand adventure?
 
     def single_fire(self, event):
         if event.key == pg.K_SPACE:
-            self.app.message.handle_input()
+            if self.app.message.active:
+                if hasattr(self.app, 'tutorial_stage') and self.app.tutorial_stage == 0:
+                    current_text = "".join(self.app.message.wrapped_text).upper()
+                    if "STRIBOR" in current_text or "FOREST GUARDIAN" in current_text:
+                        self.app.tutorial_stage = 1
+                self.app.message.handle_input()
 
     def check_collision(self):
-        hitobst = pg.sprite.spritecollide(self, self.app.collision_group,
-                                      dokill=False, collided=pg.sprite.collide_mask)
-        hit = pg.sprite.spritecollide(self, self.app.entity_group,
-                                      dokill=False, collided=pg.sprite.collide_mask)
+        hitobst = pg.sprite.spritecollide(self, self.app.collision_group, dokill=False, collided=pg.sprite.collide_mask)
+        hit = pg.sprite.spritecollide(self, self.app.entity_group, dokill=False, collided=pg.sprite.collide_mask)
+        
         if not hitobst and not hit:
             if self.inc.x or self.inc.y:
                 self.prev_inc = self.inc
         else:
             self.inc = -self.prev_inc
-            if hit:
-                self.app.message.set_message( hit[ 0 ].message )
-                self.app.message.active = True
-            if hitobst and hitobst[ 0 ].message != '':
-                self.app.message.set_message( hitobst[ 0 ].message )
-                self.app.message.active = True
 
     def update_mask(self):
         full_image = self.images[self.frame_index]
@@ -128,6 +126,12 @@ Are you ready for the grand adventure?
             self.update_mask()
 
     def update(self):
+        if self.app.message.active:
+            self.moving = False
+            self.inc = vec2(0)  # Zaustavi kretanje vectorski
+            self.animate()      # Pokreni animaciju stajanja (ovo radi jer smo unutar Player klase!)
+            return
+        
         #super().update()
         self.animate()
         self.control()

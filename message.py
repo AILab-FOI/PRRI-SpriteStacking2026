@@ -41,7 +41,7 @@ To contribute to the project contact Cody "CodeMan38" Boisclair."""
             ),
             pg.SRCALPHA
         )
-        s.fill((0, 0, 0, 0))  # Clear the inner surface
+        s.fill((0, 0, 0, 0))
         return s
         
     def draw_border(self):

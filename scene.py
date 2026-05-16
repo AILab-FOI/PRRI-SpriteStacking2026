@@ -29,9 +29,9 @@ MAP = [
     [T , T , M2, BM , A , BO , 0 , 0 , A , 0 , A , 0 , BM, 0 , BO , 0 , A , 0 , A , BM, T, T],
     [T , TM, A , 0 , 0 , 0 , A , BM , 0 , BO , 0 , A , 0 , A , 0 , BM, CK, 0 , GK, A , TM, T],
     [T , T , BM, A , S , J , 0 , A , 0 , A , 0 , A , 0 , M1 , 0 , A , 0 , K , 0 , A , TM, T],
-    [T , TM, A , 0 , 0 , 0 , 0 , 0 , A , 0 , A , 0 , r1, 0 , A , CK, 0 , 0 , CK, 0 , T, T],
+    [T , TM, A , 0 , 0 , 0 , 0 , 0 , A , 0 , A , 0 , r3, 0 , A , CK, 0 , 0 , CK, 0 , T, T],
     [T , TM, A , BO , A , 0 , A , 0 , 0 , 0 , P , G , C , r2, 0 , 0 , A , BM, 0 , A , T, T],
-    [T , T , 0 , A , 0 ,BM , 0 , A , 0 , A , 0 , A , r3, 0 , A , 0 , BM, 0 , A , 0 , TM, T],
+    [T , T , 0 , A , 0 ,BM , 0 , A , 0 , A , 0 , A , r1, 0 , A , 0 , BM, 0 , A , 0 , TM, T],
     [V , V , A , V , V , 0 , 0 , V , 0 , 0 , A , 0 , A , 0 , 0 , A , 0 , A , 0 , BO, TM, T],
     [R1, R1, R1, R1, R1, R1, R1, R1, R1, R4, 0 , 0 , 0 , 0 , BO , 0 , A , BO, A , 0 , T, T],
     [V , V , M1, A , A , V , 0 , A , V , R3, W , 0 , V , 0 , 0 , A , 0 , 0 , A , M1 , T, T],
@@ -310,13 +310,16 @@ class PauseScene:
         self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 40)
 
         self.resume_img = pg.transform.scale(pg.image.load('assets/buttons/continue.png').convert_alpha(), (250, 100))
+        self.help_img = pg.transform.scale(pg.image.load('assets/buttons/help.png').convert_alpha(), (250, 100))
         self.exit_img = pg.transform.scale(pg.image.load('assets/buttons/exit.png').convert_alpha(), (250, 100))
 
         self.resume_hover_img = pg.transform.scale(pg.image.load('assets/buttons/continue_hover.png').convert_alpha(), (250, 100))
+        self.help_hover_img = pg.transform.scale(pg.image.load('assets/buttons/help_hover.png').convert_alpha(), (250, 100))
         self.exit_hover_img = pg.transform.scale(pg.image.load('assets/buttons/exit_hover.png').convert_alpha(), (250, 100))
 
-        self.resume_rect = self.resume_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.45))
-        self.exit_rect = self.exit_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.65))
+        self.resume_rect = self.resume_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.40))
+        self.help_rect = self.resume_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.55))
+        self.exit_rect = self.exit_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.70))
 
     def update(self):
         mouse_pos = pg.mouse.get_pos()
@@ -332,6 +335,8 @@ class PauseScene:
                 if event.button == 1:
                     if self.resume_rect.collidepoint(mouse_pos):
                         self.app.scene = self.game_scene
+                    elif self.help_rect.collidepoint(mouse_pos):
+                        self.app.scene = ControlsScene(self.app, self)
                     elif self.exit_rect.collidepoint(mouse_pos):
                         self.app.exit_game()
 
@@ -351,10 +356,71 @@ class PauseScene:
         else:
             self.app.screen.blit(self.resume_img, self.resume_rect)
 
+        if self.help_rect.collidepoint(mouse_pos):
+            self.app.screen.blit(self.help_hover_img, self.help_rect)
+        else:
+            self.app.screen.blit(self.help_img, self.help_rect)
+
         if self.exit_rect.collidepoint(mouse_pos):
             self.app.screen.blit(self.exit_hover_img, self.exit_rect)
         else:
             self.app.screen.blit(self.exit_img, self.exit_rect)
+
+class ControlsScene:
+    def __init__(self, app, pause_scene):
+        self.app = app
+        self.pause_scene = pause_scene
+        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 25)
+        self.title_font = pg.font.Font("assets/PressStart2P-Regular.ttf", 40)
+
+        try:
+            self.bg_image = pg.image.load('assets/images/controls.png').convert()
+            self.bg_image = pg.transform.scale(self.bg_image, RES)
+        except:
+            self.bg_image = pg.Surface(RES)
+            self.bg_image.fill(BG_COLOR)
+        
+        self.back_surf = self.font.render("BACK", True, 'white')
+        self.back_rect = self.back_surf.get_rect(center=(WIDTH // 2, HEIGHT - 100))
+        
+        self.controls = [
+            "WASD - Movement",
+            "<> - Rotate Camera",
+            "E - Interact",
+            "F - Plant / Harvest",
+            "B - ???"
+        ]
+
+    def update(self):
+        mouse_pos = pg.mouse.get_pos()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                self.app.exit_game()
+
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self.app.scene = self.pause_scene
+
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if self.back_rect.collidepoint(mouse_pos):
+                        self.app.scene = self.pause_scene
+
+    def draw(self):
+        self.app.screen.blit(self.bg_image, (0, 0))
+        
+        title = self.title_font.render("CONTROLS", True, 'white')
+        self.app.screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT * 0.10)))
+        
+        for i, line in enumerate(self.controls):
+            text_surf = self.font.render(line, True, 'white')
+            text_rect = text_surf.get_rect(center=(WIDTH // 2, HEIGHT * 0.35 + i * 60))
+            self.app.screen.blit(text_surf, text_rect)
+            
+        mouse_pos = pg.mouse.get_pos()
+        color = 'yellow' if self.back_rect.collidepoint(mouse_pos) else 'white'
+        back_surf = self.font.render("BACK", True, color)
+        self.app.screen.blit(back_surf, self.back_rect)
 
 class ShopScene:
     def __init__(self, app, previous_scene):
@@ -375,10 +441,10 @@ class ShopScene:
         self.items = [
             {"name": "Sunshroom", "price": 50, "id": "orange_mush"},
             {"name": "Moonshroom", "price": 200, "id": "blue_mush"},
-            {"name": "Moon key", "price": 5000, "id": "key1"},
-            {"name": "Nature key", "price": 7000, "id": "key2"},
-            {"name": "Water key", "price": 10000, "id": "key3"},
-            {"name": "Old book", "price": 15000, "id": "old_book"},
+            {"name": "Moon key", "price": 1000, "id": "key1"},
+            {"name": "Nature key", "price": 5000, "id": "key2"},
+            {"name": "Water key", "price": 7000, "id": "key3"},
+            {"name": "Old book", "price": 10000, "id": "old_book"},
         ]
         
         self.shop_rect = pg.Rect(894, 120, 520, 450)
@@ -391,9 +457,13 @@ class ShopScene:
             if item['id'] in ['orange_mush', 'blue_mush']:
                 self.app.coins -= item['price']
                 self.app.inventory[item['id']] += 1
+                if hasattr(self.app, 'tutorial_stage') and self.app.tutorial_stage == 5:
+                    self.app.tutorial_stage = 6
             elif not self.app.inventory.get(item['id']):
                 self.app.coins -= item['price']
                 self.app.inventory[item['id']] = True
+                if hasattr(self.app, 'tutorial_stage') and self.app.tutorial_stage == 7:
+                    self.app.tutorial_stage = 8
 
     def update(self):
         mouse_pos = pg.mouse.get_pos()
@@ -439,8 +509,8 @@ class ShopScene:
             item_id = item['id']
 
             is_key = item_id.startswith('key')
-            already_owned = self.app.inventory.get(item_id, False)
             is_book = item_id == 'old_book'
+            already_owned = (is_key or is_book) and self.app.inventory.get(item_id, False)
             is_locked = is_book and not self.app.all_runes_active
 
             if already_owned or is_locked:
@@ -480,7 +550,7 @@ class FishingScene:
         self.green_zone = pg.Rect(WIDTH // 2 - 50, HEIGHT // 2, 100, 40)
         
         self.marker_pos = self.bar_rect.left
-        self.marker_speed = randint(3, 8)
+        self.marker_speed = randint(2, 8)
         self.direction = 1
         pg.mixer.init()
 
@@ -585,6 +655,8 @@ class SimonSaysScene:
                         self.app.scene = self.previous_scene
 
     def win_game(self):
+        if hasattr(self.app, 'tutorial_stage') and self.app.tutorial_stage == 2:
+            self.app.tutorial_stage = 3
         self.finished = True
         for mush in self.app.growing_mushrooms:
             elapsed = pg.time.get_ticks() - mush.plant_time
