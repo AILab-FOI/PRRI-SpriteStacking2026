@@ -244,6 +244,10 @@ class MenuScene:
         self.new_hover_img = pg.transform.scale(pg.image.load('assets/buttons/reset_hover.png').convert_alpha(), btn_size)
         self.quit_hover_img = pg.transform.scale(pg.image.load('assets/buttons/exit_hover.png').convert_alpha(), btn_size)
 
+        self.new_disabled_img = pg.transform.scale(pg.image.load('assets/buttons/reset_disabled.png').convert_alpha(), btn_size)
+
+        self.save_exists = os.path.exists('savegame.json')
+
         self.start_rect = self.start_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.5))
         self.new_game_rect = self.new_game_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.5 + 120))
         self.quit_rect = self.quit_img.get_rect(center=(WIDTH // 2, HEIGHT * 0.5 + 240))
@@ -273,7 +277,7 @@ class MenuScene:
                         self.app.scene = Scene(self.app)
                         return 
 
-                    if self.new_game_rect.collidepoint(mouse_pos):
+                    if self.new_game_rect.collidepoint(mouse_pos) and self.save_exists:
                         self.app.reset_for_new_game()
                         self.app.player = Player(self.app) 
                         self.app.scene = Scene(self.app)
@@ -293,10 +297,13 @@ class MenuScene:
         else:
             self.app.screen.blit(self.start_img, self.start_rect)
 
-        if self.new_game_rect.collidepoint(mouse_pos):
-            self.app.screen.blit(self.new_hover_img, self.new_game_rect)
+        if self.save_exists:
+            if self.new_game_rect.collidepoint(mouse_pos):
+                self.app.screen.blit(self.new_hover_img, self.new_game_rect)
+            else:
+                self.app.screen.blit(self.new_game_img, self.new_game_rect)
         else:
-            self.app.screen.blit(self.new_game_img, self.new_game_rect)
+            self.app.screen.blit(self.new_disabled_img, self.new_game_rect)
 
         if self.quit_rect.collidepoint(mouse_pos):
             self.app.screen.blit(self.quit_hover_img, self.quit_rect)
