@@ -28,7 +28,7 @@ ENTITY_SPRITE_ATTRS = {
         'scale': 0.3,
         'y_offset': -20,
 	'message':"""ALBERT WISKER:
-7 minutes. 7 minutes is all I can spare to fish with you! Fishing is another way for you to make some coin. Now go to the bridge and try your luck, but be quick about it!"""
+7 minutes. 7 minutes is all I can spare to fish with you! Fishing is another way for you to make some coin. Go to the bridge and try your luck, but be quick about it!"""
     },
     'forest_guardian': {
         'path': 'assets/entities/forest_guardian/forest_guard.png',
@@ -52,7 +52,15 @@ Ah! A new customer! Welcome to the finest mushroom shop in the entire forest. ""
         'scale': 0.3,
         'y_offset': -20,
 	'message':"""KOSJENKA:
-Hello! I am the guardian fairy who protects these beautiful crystals! If you want to test your memory, visit the grand crystal. Good luck!"""
+Hello! I am the guardian fairy who protects these beautiful crystals! If you want to test your memory, visit the grand crystal behind me. Good luck!"""
+    },
+    'kosjenka_hair': {
+        'path': 'assets/entities/kosjenka/kosjenka_hair.png',
+        'num_layers': 11,
+        'scale': 0.3,
+        'y_offset': -20,
+	'message':"""KOSJENKA:
+My hair is back! Thank you"""
     },
 }
 

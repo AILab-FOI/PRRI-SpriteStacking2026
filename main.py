@@ -9,6 +9,7 @@ from itertools import cycle
 from message import Message
 from farming import plant_mushroom
 from stacked_sprite import StackedSprite
+from entity import Entity
 from random import choice, uniform, random, randint
 import random
 import math
@@ -243,6 +244,12 @@ class App:
                     self.grown_tree = []
 
         self.curr_time = self.play_time + pg.time.get_ticks()
+
+        if self.all_runes_active:
+            for sprite in self.entity_group:
+                if hasattr(sprite, 'name') and sprite.name == 'kosjenka':
+                    Entity(self, name='kosjenka_hair', pos=sprite.pos / TILE_SIZE)
+                    sprite.kill()
         
         for sprite in self.growing_mushrooms[:]:
             if self.curr_time - sprite.plant_time > sprite.growth_time:
@@ -323,7 +330,7 @@ class App:
                     self._render_msg("Press 'E' to Talk to Albert Wisker")
                     break
 
-                elif sprite.name == 'kosjenka' and dist < 150:
+                elif sprite.name in ('kosjenka', 'kosjenka_hair') and dist < 150:
                     self._render_msg("Press 'E' to Talk to Kosjenka")
                     break
 
@@ -432,9 +439,9 @@ class App:
         pg.display.flip()
 
     def check_events(self):
-        from scene import ShopScene, FishingScene, SimonSaysScene, Scene, ControlsScene
+        from scene import ShopScene, FishingScene, SimonSaysScene, Scene, ControlsScene, BookScene
         
-        if isinstance(self.scene, (ShopScene, FishingScene, SimonSaysScene, ControlsScene)):
+        if isinstance(self.scene, (ShopScene, FishingScene, SimonSaysScene, ControlsScene, BookScene)):
             self.scene.update()
             return
         
@@ -463,6 +470,12 @@ class App:
                     from scene import Scene
                     if isinstance(self.scene, Scene):
                         plant_mushroom(self, self.scene)
+
+                if e.key == pg.K_b:
+                    from scene import Scene, BookScene
+                    if isinstance(self.scene, Scene):
+                        if self.inventory.get('old_book'):
+                            self.scene = BookScene(self, self.scene)
 
                 elif e.key == pg.K_ESCAPE:
                     from scene import Scene

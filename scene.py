@@ -24,23 +24,25 @@ M3 = 'mushroom3'
 S = 'shop'
 
 MAP = [
-    [T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T, T],
-    [T , T , TM, TM, T , TM, T , T , TM, TM, T , TM, TM, TM, T , TM, T , T , T , TM, T, T],
-    [T , T , M2, BM , A , BO , 0 , 0 , A , 0 , A , 0 , BM, 0 , BO , 0 , A , 0 , A , BM, T, T],
-    [T , TM, A , 0 , 0 , 0 , A , BM , 0 , BO , 0 , A , 0 , A , 0 , BM, CK, 0 , GK, A , TM, T],
-    [T , T , BM, A , S , J , 0 , A , 0 , A , 0 , A , 0 , M1 , 0 , A , 0 , K , 0 , A , TM, T],
-    [T , TM, A , 0 , 0 , 0 , 0 , 0 , A , 0 , A , 0 , r3, 0 , A , CK, 0 , 0 , CK, 0 , T, T],
-    [T , TM, A , BO , A , 0 , A , 0 , 0 , 0 , P , G , C , r2, 0 , 0 , A , BM, 0 , A , T, T],
-    [T , T , 0 , A , 0 ,BM , 0 , A , 0 , A , 0 , A , r1, 0 , A , 0 , BM, 0 , A , 0 , TM, T],
-    [V , V , A , V , V , 0 , 0 , V , 0 , 0 , A , 0 , A , 0 , 0 , A , 0 , A , 0 , BO, TM, T],
-    [R1, R1, R1, R1, R1, R1, R1, R1, R1, R4, 0 , 0 , 0 , 0 , BO , 0 , A , BO, A , 0 , T, T],
-    [V , V , M1, A , A , V , 0 , A , V , R3, W , 0 , V , 0 , 0 , A , 0 , 0 , A , M1 , T, T],
-    [T , T , BO, F4, F8, F8, F5, 0 , A , R2, R1, B , R1, R4, 0 , 0 , V , BM, 0 , 0 , T, T],
-    [T , TM, 0 , F7, F1, F1, F9, 0 , 0 , 0 , BO, 0 , 0 , R2, R1, R1, R4, 0 , BO, A , TM, T],
-    [T , TM, A , F3, F6, F6, F2, 0 , BM, A , 0 , 0 , A , V , A , M2, R3, V , 0 , 0 , TM, T],
-    [T , T , 0 , BM, 0 , A , BO, 0 , A , 0 , A , 0 , BO, 0 , 0 , V , R3, 0 , A , M3, TM, T],
-    [T , TM, TM, T , TM, T , TM, T , TM, T , TM, T , TM, TM, BO, V , R3, V , TM, TM, T, T],
-    [T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , V , R3, V , T , T , T, T],
+    [T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T],
+    [T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T],
+    [T , T , T , TM, TM, T , TM, T , T , TM, TM, T , TM, TM, TM, T , TM, T , T , T , TM, T , T , T],
+    [T , T , T , M2, BM, A , BO, 0 , 0 , A , 0 , A , 0 , BM, 0 , BO, 0 , A , 0 , A , BM, T , T , T],
+    [T , T , TM, A , 0 , 0 , 0 , A , BM, 0 , BO, 0 , A , 0 , A , 0 , BM, CK, 0 , GK, A , TM, T , T],
+    [T , T , T , BM, A , S , J , 0 , A , 0 , A , 0 , A , 0 , M1, 0 , A , 0 , K , 0 , A , TM, T , T],
+    [T , T , TM, A , 0 , 0 , 0 , 0 , 0 , A , 0 , A , 0 , r3, 0 , A , CK, 0 , 0 , CK, 0 , T , T , T],
+    [T , T , TM, A , BO, A , 0 , A , 0 , 0 , 0 , P , G , C , r2, 0 , 0 , A , BM, 0 , A , T , T , T],
+    [T , T , T , 0 , A , 0 , BM, 0 , A , 0 , A , 0 , A , r1, 0 , A , 0 , BM, 0 , A , 0 , TM, T , T],
+    [V , V , V , A , V , V , 0 , 0 , V , 0 , 0 , A , 0 , A , 0 , 0 , A , 0 , A , 0 , BO, TM, T , T],
+    [R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R4, 0 , 0 , 0 , 0 , BO, 0 , A , BO, A , 0 , T , T , T],
+    [V , V , V , M1, A , A , V , 0 , A , V , R3, W , 0 , V , 0 , 0 , A , 0 , 0 , A , M1, T , T , T],
+    [T , T , T , BO, F4, F8, F8, F5, 0 , A , R2, R1, B , R1, R4, 0 , 0 , V , BM, 0 , 0 , T , T , T],
+    [T , T , TM, 0 , F7, F1, F1, F9, 0 , 0 , 0 , BO, 0 , 0 , R2, R1, R1, R4, 0 , BO, A , TM, T , T],
+    [T , T , TM, A , F3, F6, F6, F2, 0 , BM, A , 0 , 0 , A , V , A , M2, R3, V , 0 , 0 , TM, T , T],
+    [T , T , T , 0 , BM, 0 , A , BO, 0 , A , 0 , A , 0 , BO, 0 , 0 , V , R3, 0 , A , M3, TM, T , T],
+    [T , T , TM, TM, T , TM, T , TM, T , TM, T , TM, T , TM, TM, BO, V , R3, V , TM, TM, T , T , T],
+    [T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , V , R3, V , T , T , T , T , T],
+    [T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , T , V , R3, V , T , T , T , T , T],
 ]
 
 MAP_SIZE = MAP_WIDTH, MAP_HEIGHT = vec2(len(MAP), len(MAP[0]))
@@ -442,7 +444,7 @@ class ShopScene:
             self.bg_img = pg.Surface(RES)
             self.bg_img.fill((20, 20, 20))
 
-        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 15)
+        self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 17)
         self.buttons_font = pg.font.Font("assets/PressStart2P-Regular.ttf", 30)
         
         self.items = [
@@ -454,7 +456,7 @@ class ShopScene:
             {"name": "Old book", "price": 10000, "id": "old_book"},
         ]
         
-        self.shop_rect = pg.Rect(894, 120, 520, 450)
+        self.shop_rect = pg.Rect(894, 122, 520, 470)
     
         self.exit_surf = self.buttons_font.render("EXIT", True, 'white')
         self.exit_rect = self.exit_surf.get_rect(center=(WIDTH // 2, HEIGHT - 100))
@@ -495,7 +497,7 @@ class ShopScene:
                         if item_id.startswith('key') and self.app.inventory.get(item_id):
                             continue
                         
-                        item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 500, 60)
+                        item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 75, 500, 70)
                         if item_rect.collidepoint(mouse_pos):
                             if item_id == 'old_book' and not self.app.all_runes_active:
                                 continue
@@ -512,7 +514,7 @@ class ShopScene:
 
         mouse_pos = pg.mouse.get_pos()
         for i, item in enumerate(self.items):
-            item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 70, 500, 60)
+            item_rect = pg.Rect(self.shop_rect.x + 10, self.shop_rect.y + 60 + i * 75, 500, 70)
             item_id = item['id']
 
             is_key = item_id.startswith('key')
@@ -539,8 +541,8 @@ class ShopScene:
             name_surf = self.font.render(item['name'], True, txt_col)
             stat_surf = self.font.render(status, True, 'yellow' if not (already_owned or is_locked) else txt_col)
             
-            self.app.screen.blit(name_surf, (item_rect.x + 15, item_rect.y + 20))
-            self.app.screen.blit(stat_surf, (item_rect.right - stat_surf.get_width() - 15, item_rect.y + 20))
+            self.app.screen.blit(name_surf, (item_rect.x + 15, item_rect.y + 25))
+            self.app.screen.blit(stat_surf, (item_rect.right - stat_surf.get_width() - 15, item_rect.y + 25))
 
         exit_col = 'yellow' if self.exit_rect.collidepoint(mouse_pos) else 'white'
         exit_surf = self.buttons_font.render("EXIT", True, exit_col)
@@ -553,7 +555,7 @@ class FishingScene:
         self.app.message.active = False
         self.font = pg.font.Font("assets/PressStart2P-Regular.ttf", 20)
         
-        self.bar_rect = pg.Rect(WIDTH // 2 - 200, HEIGHT // 2, 400, 40)
+        self.bar_rect = pg.Rect(WIDTH // 2 - 300, HEIGHT // 2, 600, 40)
         self.green_zone = pg.Rect(WIDTH // 2 - 50, HEIGHT // 2, 100, 40)
         
         self.marker_pos = self.bar_rect.left
@@ -670,7 +672,7 @@ class SimonSaysScene:
             remaining = mush.growth_time - elapsed
             mush.growth_time = elapsed + (remaining * 0)
 
-        if self.app.simon_says_difficulty < 10:
+        if self.app.simon_says_difficulty < 8:
             self.app.simon_says_difficulty += 1
 
         self.app.message.set_message("KOSJENKA: \nImpressive focus. Your memory grows stronger and so do your mushrooms!")
@@ -711,3 +713,38 @@ class SimonSaysScene:
         self.app.screen.blit(title, title.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 100)))
         self.app.screen.blit(seq_surf, seq_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
         self.app.screen.blit(info, info.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 100)))
+
+class BookScene:
+    def __init__(self, app, previous_scene):
+        self.app = app
+        self.previous_scene = previous_scene
+        
+        try:
+            self.book_img = pg.image.load('assets/images/book.png').convert_alpha()
+            self.book_rect = self.book_img.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        except Exception as e:
+            print(f"Greška pri učitavanju slike knjige: {e}")
+            self.book_img = None
+
+    def update(self):
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                self.app.exit_game()
+                
+            if event.type == pg.KEYDOWN:
+                if event.key in [pg.K_ESCAPE, pg.K_b]:
+                    self.app.scene = self.previous_scene
+
+    def draw(self):
+        self.previous_scene.draw()
+        
+        overlay = pg.Surface(RES, pg.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        self.app.screen.blit(overlay, (0, 0))
+        
+        if self.book_img:
+            self.app.screen.blit(self.book_img, self.book_rect)
+        else:
+            font = pg.font.Font("assets/PressStart2P-Regular.ttf", 20)
+            error_surf = font.render("[ Slika book.png nije pronađena ]", True, 'white')
+            self.app.screen.blit(error_surf, error_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
