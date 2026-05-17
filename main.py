@@ -250,6 +250,15 @@ class App:
                 if hasattr(sprite, 'name') and sprite.name == 'kosjenka':
                     Entity(self, name='kosjenka_hair', pos=sprite.pos / TILE_SIZE)
                     sprite.kill()
+                elif hasattr(sprite, 'name') and sprite.name == 'forest_guardian':
+                    Entity(self, name='forest_guardian_end', pos=sprite.pos / TILE_SIZE)
+                    sprite.kill()
+                elif hasattr(sprite, 'name') and sprite.name == 'albert_wisker':
+                    Entity(self, name='albert_wisker_end', pos=sprite.pos / TILE_SIZE)
+                    sprite.kill()
+                elif hasattr(sprite, 'name') and sprite.name == 'beetle':
+                    Entity(self, name='beetle_end', pos=sprite.pos / TILE_SIZE)
+                    sprite.kill()
         
         for sprite in self.growing_mushrooms[:]:
             if self.curr_time - sprite.plant_time > sprite.growth_time:
@@ -322,11 +331,11 @@ class App:
             if hasattr(sprite, 'name') and hasattr(sprite, 'pos'):
                 dist = self.player.offset.distance_to(sprite.pos)
                 
-                if sprite.name == 'forest_guardian' and dist < 150:
+                if sprite.name in ('forest_guardian', 'forest_guardian_end') and dist < 150:
                     self._render_msg("Press 'E' to Talk to Stribor")
                     break
 
-                elif sprite.name == 'albert_wisker' and dist < 150:
+                elif sprite.name in ('albert_wisker', 'albert_wisker_end') and dist < 150:
                     self._render_msg("Press 'E' to Talk to Albert Wisker")
                     break
 
@@ -334,7 +343,7 @@ class App:
                     self._render_msg("Press 'E' to Talk to Kosjenka")
                     break
 
-                elif sprite.name == 'beetle' and dist < 150:
+                elif sprite.name in ('beetle', 'beetle_end') and dist < 150:
                     self._render_msg("Press 'E' to Talk to Lesij")
                     break
 

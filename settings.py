@@ -30,6 +30,14 @@ ENTITY_SPRITE_ATTRS = {
 	'message':"""ALBERT WISKER:
 7 minutes. 7 minutes is all I can spare to fish with you! Fishing is another way for you to make some coin. Go to the bridge and try your luck, but be quick about it!"""
     },
+    'albert_wisker_end': {
+        'path': 'assets/entities/albert_wisker/albert_w.png',
+        'num_layers': 12,
+        'scale': 0.3,
+        'y_offset': -20,
+	'message':"""ALBERT WISKER:
+The river hasn’t felt this peaceful in years. Thank you. """
+    },
     'forest_guardian': {
         'path': 'assets/entities/forest_guardian/forest_guard.png',
         'num_layers': 15,
@@ -38,6 +46,14 @@ ENTITY_SPRITE_ATTRS = {
 	'message':"""STRIBOR:
 Welcome traveler, I am the guardian of this forest! If you wish to help this land, seek the ancient runes and return them to the Great Tree. """
     },
+    'forest_guardian_end': {
+        'path': 'assets/entities/forest_guardian/forest_guard.png',
+        'num_layers': 15,
+        'scale': 0.3,
+        'y_offset': -20,
+	'message':"""STRIBOR:
+You have done more than restore magic… you reminded this forest how to live again. For that, I thank you. """
+    },
     'beetle': {
         'path': 'assets/entities/beetle/beetle.png',
         'num_layers': 12,
@@ -45,6 +61,14 @@ Welcome traveler, I am the guardian of this forest! If you wish to help this lan
         'y_offset': -20,
 	'message':"""LESIJ:
 Ah! A new customer! Welcome to the finest mushroom shop in the entire forest. """
+    },
+    'beetle_end': {
+        'path': 'assets/entities/beetle/beetle.png',
+        'num_layers': 12,
+        'scale': 0.3,
+        'y_offset': -20,
+	'message':"""LESIJ:
+I can’t believe it… the forest is alive again AND I made a fortune. Best. Day. Ever. """
     },
     'kosjenka': {
         'path': 'assets/entities/kosjenka/fairy.png',
@@ -60,7 +84,7 @@ Hello! I am the guardian fairy who protects these beautiful crystals! If you wan
         'scale': 0.3,
         'y_offset': -20,
 	'message':"""KOSJENKA:
-My hair is back! Thank you"""
+My light returned… and so did my hair. I had almost forgotten how it felt to shine again. """
     },
 }
 

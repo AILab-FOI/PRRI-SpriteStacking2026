@@ -31,11 +31,7 @@ class Player(BaseEntity):
         self.direction = 'DOWN'
         self.moving = False
 
-        self.message = """Welcome to the magical Forest.
-
-Are you ready for the grand adventure?
-
-"""
+        self.message = "Welcome to the magical Forest. \nAre you ready for the grand adventure? \nNote: \nTo view the controls visit the Help section in the Pause menu (esc)"
 
     def control(self):
         self.moving = False
