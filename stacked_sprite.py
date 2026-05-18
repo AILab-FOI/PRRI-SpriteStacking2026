@@ -24,6 +24,7 @@ class StackedSprite(pg.sprite.Sprite):
         self.angle = 0
         self.screen_pos = vec2(0)
         self.rot = (rot % 360) // self.viewing_angle
+        self.create_time = pg.time.get_ticks()
 
         self.image = self.rotated_sprites[self.angle]
         self.mask = self.collision_masks[self.angle]
@@ -85,7 +86,7 @@ class TrnspStackedSprite(StackedSprite):
     def get_alpha_image(self):
         if self.alpha_trigger:
             if self.rect.centery > self.player.rect.top:
-                if self.rect.contains(self.player.rect):
+                if self.rect.colliderect(self.player.rect):
                     self.image = self.alpha_objects[self.angle]
                     self.alpha_trigger = False
 

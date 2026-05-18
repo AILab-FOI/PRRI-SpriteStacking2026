@@ -30,8 +30,8 @@ To contribute to the project contact Cody "CodeMan38" Boisclair."""
         self.set_message( self.message )
         self.text_index = 0
         self.max_lines = 0
-        self.line_height = self.font.get_height()
-        self.max_lines = self.inner_surface.get_height() // self.line_height
+        self.line_height = self.font.get_height() + 10
+        self.max_lines = (self.inner_surface.get_height() // self.line_height) - 1
 
     def empty_surface( self ):
         s = pg.Surface(
@@ -41,17 +41,24 @@ To contribute to the project contact Cody "CodeMan38" Boisclair."""
             ),
             pg.SRCALPHA
         )
-        s.fill((0, 0, 0, 0))  # Clear the inner surface
+        s.fill((0, 0, 0, 0))
         return s
         
     def draw_border(self):
         border_rect = pg.Rect(0, 0, self.x - 2 * self.border, self.y - 2 * self.border)
         pg.draw.rect(self.overlay_surface, self.border_color, border_rect, border_radius=self.border_radius, width=10)
 
-    def set_message( self, msg ):
-        self.message = msg
-        t = [ textwrap.wrap( m, width=39 ) for m in self.message.split( '\n' ) ]
-        self.wrapped_text = list( chain( *t ) )  # Adjust the width based on your preference
+    def set_message( self, message ):
+        self.active = True
+        self.text_index = 0
+
+        paragraphs = message.split('\n')
+        
+        wrapped_lines = []
+        for paragraph in paragraphs:
+            wrapped_lines.extend(textwrap.wrap(paragraph, width=35))
+        
+        self.wrapped_text = wrapped_lines
         
     def draw_message(self):
         self.show_text = self.wrapped_text[self.text_index:self.text_index + self.max_lines]
@@ -62,17 +69,26 @@ To contribute to the project contact Cody "CodeMan38" Boisclair."""
             return
 
         self.shown = True
-        
         self.overlay_surface.fill((0, 0, 0, self.alpha))
         self.inner_surface = self.empty_surface()
 
         for i, line in enumerate(self.show_text):
-            text = self.font.render(line, True, (255, 255, 255))
+            if ':' in line:
+                color = (255, 255, 0)
+            else: 
+                color = (255, 255, 255)
+            
+            text = self.font.render(line, True, color)
             text_rect = text.get_rect()
             text_rect.top = i * self.line_height
             self.inner_surface.blit(text, text_rect)
 
-        self.overlay_surface.blit(self.inner_surface, (self.inner_border, self.inner_border))
+            prompt_font = pg.font.Font("assets/PressStart2P-Regular.ttf", 20) # Manji font za uputu
+            prompt_surf = prompt_font.render("Press SPACE to continue", True, (200, 200, 200))
+            prompt_rect = prompt_surf.get_rect(midbottom=(self.inner_surface.get_width() // 2, self.inner_surface.get_height()))
+            
+            self.inner_surface.blit(prompt_surf, prompt_rect)
+            self.overlay_surface.blit(self.inner_surface, (self.inner_border, self.inner_border))
 
     def draw(self):
         if self.active:

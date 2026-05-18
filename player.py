@@ -1,13 +1,14 @@
 from settings import *
 import math
 from entity import BaseEntity
-from bullet import Bullet
 from itertools import cycle
 
 
 class Player(BaseEntity):
     def __init__(self, app, name='player'):
         super().__init__(app, name)
+        base_layer = self.images[0]
+        self.mask = pg.mask.from_surface(base_layer)
         self.group.change_layer(self, CENTER.y)
 
         self.rect = self.image.get_rect(center=CENTER)
@@ -30,11 +31,7 @@ class Player(BaseEntity):
         self.direction = 'DOWN'
         self.moving = False
 
-        self.message = """Welcome to the Game.
-
-How are you today?
-
-"""
+        self.message = "Welcome to the magical Forest. \nAre you ready for the grand adventure? \nNote: \nTo view the controls visit the Help section in the Pause menu (esc)"
 
     def control(self):
         self.moving = False
@@ -70,29 +67,34 @@ How are you today?
             self.inc *= self.diag_move_corr
 
     def single_fire(self, event):
-        if event.key == pg.K_UP:
-            Bullet(app=self.app)
         if event.key == pg.K_SPACE:
-            self.app.message.handle_input()
+            if self.app.message.active:
+                if hasattr(self.app, 'tutorial_stage') and self.app.tutorial_stage == 0:
+                    current_text = "".join(self.app.message.wrapped_text).upper()
+                    if "STRIBOR" in current_text or "FOREST GUARDIAN" in current_text:
+                        self.app.tutorial_stage = 1
+                self.app.message.handle_input()
 
     def check_collision(self):
-        hitobst = pg.sprite.spritecollide(self, self.app.collision_group,
-                                      dokill=False, collided=pg.sprite.collide_mask)
-        hit = pg.sprite.spritecollide(self, self.app.entity_group,
-                                      dokill=False, collided=pg.sprite.collide_mask)
+        hitobst = pg.sprite.spritecollide(self, self.app.collision_group, dokill=False, collided=pg.sprite.collide_mask)
+        hit = pg.sprite.spritecollide(self, self.app.entity_group, dokill=False, collided=pg.sprite.collide_mask)
+        
         if not hitobst and not hit:
             if self.inc.x or self.inc.y:
                 self.prev_inc = self.inc
         else:
             self.inc = -self.prev_inc
-            if hit:
-                self.app.message.set_message( hit[ 0 ].message )
-                self.app.message.active = True
-            if hitobst and hitobst[ 0 ].message != '':
-                self.app.message.set_message( hitobst[ 0 ].message )
-                self.app.message.active = True
 
-                
+    def update_mask(self):
+        full_image = self.images[self.frame_index]
+        mask_surf = pg.Surface(full_image.get_size(), pg.SRCALPHA)
+        collision_height = 20
+        rect_noge = pg.Rect(0, full_image.get_height() - collision_height, full_image.get_width(), collision_height)
+        mask_surf.blit(full_image, (0, full_image.get_height() - collision_height), rect_noge)
+        self.mask = pg.mask.from_surface(mask_surf)
+        self.image = full_image 
+        self.rect = self.image.get_rect(center=CENTER)
+
     def animate(self):
         if self.app.anim_trigger:
             if self.direction == 'DOWN':
@@ -117,8 +119,15 @@ How are you today?
                     self.frame_index = self.right_ind[ 1 ]
 
             self.image = self.images[self.frame_index]
+            self.update_mask()
 
     def update(self):
+        if self.app.message.active:
+            self.moving = False
+            self.inc = vec2(0)  # Zaustavi kretanje vectorski
+            self.animate()      # Pokreni animaciju stajanja (ovo radi jer smo unutar Player klase!)
+            return
+        
         #super().update()
         self.animate()
         self.control()
