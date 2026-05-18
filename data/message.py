@@ -1,5 +1,5 @@
 
-from settings import *
+from .settings import *
 import textwrap
 from itertools import chain
 
@@ -95,12 +95,6 @@ To contribute to the project contact Cody "CodeMan38" Boisclair."""
             self.draw_border()
             self.draw_message()
             self.app.screen.blit(self.overlay_surface, (self.border, self.y + self.border))
-        else:
-            if 'CREDITS' in ''.join( self.wrapped_text ) and self.shown:
-                if __import__("sys").platform != "emscripten":
-                    print( CREDITS )
-                    pg.quit()
-                    sys.exit()
 
     def handle_input(self):
         if self.text_index < len(self.wrapped_text):

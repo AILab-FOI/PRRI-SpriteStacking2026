@@ -1,15 +1,15 @@
 import sys
 import platform
-from settings import *
-from cache import Cache
-from player import Player
-from scene import Scene, LoadingScene, PauseScene
+from data.settings import *
+from data.cache import Cache
+from data.player import Player
+from data.scene import Scene, LoadingScene, PauseScene
 import asyncio
 from itertools import cycle
-from message import Message
-from farming import plant_mushroom
-from stacked_sprite import StackedSprite
-from entity import Entity
+from data.message import Message
+from data.farming import plant_mushroom
+from data.stacked_sprite import StackedSprite
+from data.entity import Entity
 from random import choice, uniform, random, randint
 import random
 import math
@@ -58,7 +58,7 @@ class App:
             "Find Lesij's shop and buy new mushrooms",
             "Collect 1000 coins",
             "Buy the Moon key from Lesij",
-            "Activate the ancient run",
+            "Activate the ancient rune",
             "Activate rest of the runes (1/3)",
             "Activate rest of the runes (2/3)"
         ]
@@ -92,7 +92,7 @@ class App:
 
     def save_game(self):
         try:
-            from scene import MAP, F1, F2, F3, F4, F5, F6, F7, F8, F9
+            from data.scene import MAP, F1, F2, F3, F4, F5, F6, F7, F8, F9
             farming_fields = [F1, F2, F3, F4, F5, F6, F7, F8, F9]
             
             mushrooms_on_fields = []
@@ -190,7 +190,7 @@ class App:
         sys.exit()
 
     def update(self):
-        from scene import Scene
+        from data.scene import Scene
         if isinstance(self.scene, Scene):
             self.entity_group.update()
             self.main_group.update()
@@ -320,7 +320,7 @@ class App:
             self.screen.blit(star_surf, (0, 0))
 
     def draw_interaction_msg(self):
-        from scene import Scene
+        from data.scene import Scene
         if not isinstance(self.scene, Scene):
             return
         
@@ -448,7 +448,7 @@ class App:
         pg.display.flip()
 
     def check_events(self):
-        from scene import ShopScene, FishingScene, SimonSaysScene, Scene, ControlsScene, BookScene
+        from data.scene import ShopScene, FishingScene, SimonSaysScene, Scene, ControlsScene, BookScene
         
         if isinstance(self.scene, (ShopScene, FishingScene, SimonSaysScene, ControlsScene, BookScene)):
             self.scene.update()
@@ -476,23 +476,23 @@ class App:
                     self.current_input = []
 
                 if e.key == pg.K_f:
-                    from scene import Scene
+                    from data.scene import Scene
                     if isinstance(self.scene, Scene):
                         plant_mushroom(self, self.scene)
 
                 if e.key == pg.K_b:
-                    from scene import Scene, BookScene
+                    from data.scene import Scene, BookScene
                     if isinstance(self.scene, Scene):
                         if self.inventory.get('old_book'):
                             self.scene = BookScene(self, self.scene)
 
                 elif e.key == pg.K_ESCAPE:
-                    from scene import Scene
+                    from data.scene import Scene
                     if isinstance(self.scene, Scene):
                         self.scene = PauseScene(self, self.scene)
 
                 elif e.key == pg.K_e:
-                    from scene import Scene, ShopScene, FishingScene
+                    from data.scene import Scene, ShopScene, FishingScene
                     if isinstance(self.scene, Scene):
                         for sprite in self.entity_group:
                             if sprite.name != 'player':
@@ -515,7 +515,7 @@ class App:
                                 elif sprite.name == 'grand_cristal' and dist < 200:
                                     growing_mush = False
                                     for s in self.main_group:
-                                        from stacked_sprite import StackedSprite
+                                        from data.stacked_sprite import StackedSprite
                                         if isinstance(s, StackedSprite) and 'mush' in s.name:
                                             if s.name.endswith('small'):
                                                 growing_mush = True
@@ -533,7 +533,7 @@ class App:
                                     current_rune = rune_data[sprite.name]
     
                                     if self.inventory.get(current_rune['key']):
-                                        from stacked_sprite import StackedSprite
+                                        from data.stacked_sprite import StackedSprite
                                         StackedSprite(self, name=current_rune['on'], pos=sprite.pos / TILE_SIZE, rot=180)
         
                                         sprite.kill()

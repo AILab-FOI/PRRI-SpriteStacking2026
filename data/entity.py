@@ -1,4 +1,4 @@
-from settings import *
+from .settings import *
 
 class BaseEntity(pg.sprite.Sprite):
     def __init__(self, app, name):

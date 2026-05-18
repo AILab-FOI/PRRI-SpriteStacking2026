@@ -1,8 +1,8 @@
-from stacked_sprite import *
+from .stacked_sprite import *
 from random import randint, uniform
-from entity import Entity
-from cache import Cache
-from player import Player
+from .entity import Entity
+from .cache import Cache
+from .player import Player
 import threading
 import random
 import os

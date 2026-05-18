@@ -1,6 +1,6 @@
-from settings import *
+from .settings import *
 import math
-from entity import BaseEntity
+from .entity import BaseEntity
 from itertools import cycle
 
 

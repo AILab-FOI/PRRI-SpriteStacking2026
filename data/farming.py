@@ -1,8 +1,8 @@
-from settings import *
-from stacked_sprite import StackedSprite
+from .settings import *
+from .stacked_sprite import StackedSprite
 from random import uniform, randint
 import pygame as pg
-from scene import MAP, F1, F2, F3, F4, F5, F6, F7, F8, F9 
+from .scene import MAP, F1, F2, F3, F4, F5, F6, F7, F8, F9 
 
 def plant_mushroom(app, scene):
     rand_rot = lambda: uniform(0, 360)
